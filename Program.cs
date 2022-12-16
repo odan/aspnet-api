@@ -11,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.Sources.Clear();
 
 // Load default settings
-builder.Configuration.AddJsonFile("config/appsettings.json");
+builder.Configuration.AddJsonFile("config/defaults.json");
 
 // Load environment specific settings
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 if (environment == "Development")
 {
-    builder.Configuration.AddJsonFile("config/appsettings.Development.json", optional: true);
+    builder.Configuration.AddJsonFile("config/local.dev.json", optional: true);
 }
 
 // Load sensitive data from .env file
