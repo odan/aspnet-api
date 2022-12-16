@@ -8,26 +8,30 @@ var builder = WebApplication.CreateBuilder(args);
 //
 // Configuration
 //
-builder.Configuration.AddJsonFile("config/appsettings.json");
-var debug = builder.Configuration.GetDebugView();
+builder.Configuration.Sources.Clear();
 
+// Load default settings
+builder.Configuration.AddJsonFile("config/appsettings.json");
+
+// Load environment specific settings
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 if (environment == "Development")
 {
     builder.Configuration.AddJsonFile("config/appsettings.Development.json", optional: true);
 }
 
+// Load sensitive data from .env file
 DotNetEnv.Env.Load();
 
-// Copy all environment variables to the configuration
+// Optional: Copy all environment variables to the configuration
 //builder.Configuration.AddEnvironmentVariables();
 
+// Copy specified settings from environment variables
 builder.Configuration["DB_DSN"] = DotNetEnv.Env.GetString("DB_DSN");
 
 //
 // DI Container
 //
-
 
 // dotnet add package MySql.Data
 builder.Services.AddTransient(provider =>
