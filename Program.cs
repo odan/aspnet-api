@@ -1,13 +1,3 @@
-//using Microsoft.AspNetCore.Http;
-using System.Reflection;
-
-// dotnet add package MySql.Data
-using MySql.Data.MySqlClient;
-
-// dotnet add package SqlKata
-// dotnet add package SqlKata.Execution
-using SqlKata.Execution;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddScoped<Domain.Hello.Service.HelloReader>();
@@ -32,48 +22,41 @@ DotNetEnv.Env.Load();
 // Copy all environment variables to the configuration
 //builder.Configuration.AddEnvironmentVariables();
 
-builder.Configuration["DB_USERNAME"] = DotNetEnv.Env.GetString("DB_USERNAME");
 builder.Configuration["DB_DSN"] = DotNetEnv.Env.GetString("DB_DSN");
 
 //
 // DI Container
 //
+
+
+// dotnet add package MySql.Data
 builder.Services.AddTransient(provider =>
 {
-    //var username = builder.Configuration["DB_USERNAME"];
+    var dsn = builder.Configuration.GetConnectionString("Default");
     //var dsn = builder.Configuration["DB_DSN"];
 
-    var connectionString = builder.Configuration.GetConnectionString("Default");
-
-    return new MySqlConnection(connectionString);
+    return new MySql.Data.MySqlClient.MySqlConnection(dsn);
 });
 
+// dotnet add package SqlKata
+// dotnet add package SqlKata.Execution
 builder.Services.AddTransient(provider =>
 {
-    var connection = provider.GetRequiredService<MySqlConnection>();
+    var connection = provider.GetRequiredService<MySql.Data.MySqlClient.MySqlConnection>();
 
-    return new QueryFactory(connection, new SqlKata.Compilers.MySqlCompiler());
+    return new SqlKata.Execution.QueryFactory(connection, new SqlKata.Compilers.MySqlCompiler());
 });
 
-var assembly = Assembly.GetExecutingAssembly();
-ServiceCollector.AddNamespaces(builder.Services, assembly, "Domain.");
+var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+App.Support.ServiceCollector.AddNamespaces(builder.Services, assembly, "Domain.");
 
 builder.Services.AddControllers().AddControllersAsServices();
 
+//
+// Start
+//
 var app = builder.Build();
 
 app.MapControllers();
-
-/*
-app.MapGet("/", () =>
-{
-    return Results.Ok("OK");
-});
-
-app.MapPost("/users", () =>
-{
-    return Results.Ok("OK2");
-});
-*/
 
 app.Run();

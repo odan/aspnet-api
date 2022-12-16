@@ -1,20 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("/")]
 [ApiController]
 public class IndexController : Controller
 {
     [HttpGet()]
-    public string Get()
-    {
-        return "Hello, World!";
-    }
+    public string Get() => "Hello, World!";
 
     [HttpPost]
-    public IActionResult Post()
-    {
-        return Ok("Hello, POST!");
-    }
+    public IActionResult Post() => this.Ok("Hello, POST!");
 }

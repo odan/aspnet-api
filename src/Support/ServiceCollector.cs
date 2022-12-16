@@ -1,3 +1,4 @@
+namespace App.Support;
 
 using System.Reflection;
 
@@ -6,9 +7,9 @@ public class ServiceCollector
 
     public static void AddNamespaces(IServiceCollection services, Assembly assembly, string ns)
     {
-        foreach (Type type in assembly.GetTypes())
+        foreach (var type in assembly.GetTypes())
         {
-            if (type.Namespace != null && type.Namespace.StartsWith(ns))
+            if (type.Namespace != null && type.Namespace.StartsWith(ns, StringComparison.Ordinal))
             {
                 services.AddScoped(type);
             }
@@ -17,7 +18,7 @@ public class ServiceCollector
 
     public static void AddNamespace(IServiceCollection services, Assembly assembly, string ns)
     {
-        foreach (Type type in assembly.GetTypes())
+        foreach (var type in assembly.GetTypes())
         {
             if (type.Namespace != null && type.Namespace == ns)
             {

@@ -5,16 +5,13 @@ using Domain.Hello.Repository;
 
 public class HelloReader
 {
-    private readonly HelloRepository _repository;
+    private readonly HelloRepository repository;
 
-    public HelloReader(HelloRepository repository)
-    {
-        _repository = repository;
-    }
+    public HelloReader(HelloRepository repository) => this.repository = repository;
 
-    public string readSomething()
+    public string ReadSomething()
     {
-        var users = _repository.findUser();
+        var users = this.repository.FindUser();
         var userString = "";
 
         foreach (var user in users)
@@ -23,7 +20,7 @@ public class HelloReader
         }
 
         return "Hello " + userString + " Time:  " +
-            DateTime.Now.ToString("yyyy-dd-MM HH:mm:ss");
+            DateTime.Now.ToString("yyyy-dd-MM HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
     }
 }
 
