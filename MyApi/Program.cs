@@ -1,24 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddScoped<Domain.Hello.Service.HelloReader>();
-//builder.Services.AddScoped<Domain.Hello.Repository.HelloRepository>();
-//builder.Services.AddTransient<ISettingsService, SettingsService>();
-//builder.Services.AddTransient<MySqlDbContext>();
-
 //
 // Configuration
 //
-builder.Configuration.Sources.Clear();
-
-// Load default settings
-builder.Configuration.AddJsonFile("config/defaults.json");
-
-// Load environment specific settings
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-if (environment == "Development")
-{
-    builder.Configuration.AddJsonFile("config/local.dev.json", optional: true);
-}
 
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
@@ -30,14 +14,12 @@ DotNetEnv.Env.Load();
 builder.Configuration["DB_DSN"] = DotNetEnv.Env.GetString("DB_DSN");
 
 //
-// DI Container
+// Add services to the DI container
 //
-
-// dotnet add package MySql.Data
 builder.Services.AddTransient(provider =>
 {
-    var dsn = builder.Configuration.GetConnectionString("Default");
-    //var dsn = builder.Configuration["DB_DSN"];
+    //var dsn = builder.Configuration.GetConnectionString("Default");
+    var dsn = builder.Configuration["DB_DSN"];
 
     return new MySql.Data.MySqlClient.MySqlConnection(dsn);
 });
@@ -52,14 +34,26 @@ builder.Services.AddTransient(provider =>
 });
 
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-App.Support.ServiceCollector.AddNamespaces(builder.Services, assembly, "Domain.");
+MyApp.Support.ServiceCollector.AddNamespaces(builder.Services, assembly, "MyApi.Domain.");
 
 builder.Services.AddControllers().AddControllersAsServices();
 
-//
-// Start
-//
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
+}
+
+//app.UseHttpsRedirection();
+
+//app.UseAuthorization();
 
 app.MapControllers();
 

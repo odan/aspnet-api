@@ -9,12 +9,12 @@ A minimal ASP.NET Core API
 
 ## Features
 
+* Dependency injection container (with autowiring)
 * Controllers, Services and Repositories
 * Environment specific configuration
 * `.env` configuration loader (for sensitive data)
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
-* Dependency injection container (with autowiring)
 
 ## Installation
 
@@ -27,7 +27,30 @@ cd [my-app-name]/
 
 Replace `[my-app-name]` with the desired name for your project. 
 
-To build and run the application:
+
+Create a new MySQL / MariaDB database.
+
+```sql
+CREATE DATABASE `my_api`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+
+CREATE TABLE `users` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+
+Modify the database name accordingly.
+
+Create a `.env` file in to project root directory:
+
+```env
+DB_DSN=Server=localhost;User ID=root;Password=;Database=my_api
+```
+
+Modify the DSN accordingly.
+
+To build and run the application in debug mode, run:
 
 ```
 dotnet run
@@ -38,6 +61,49 @@ or
 ```
 dotnet watch run
 ```
+
+## Commands
+
+Running a release:
+
+```
+dotnet run --configuration Release
+```
+
+Creating a release build:
+
+```
+dotnet build --configuration Release
+```
+
+**Code styles**
+
+Install the `dotnet-format ` package:
+
+```
+dotnet tool install --global dotnet-format 
+```
+
+Checking code styles:
+
+```
+dotnet format --verify-no-changes
+```
+
+Fixing code styles:
+
+```
+dotnet format
+```
+
+## Testing
+
+To start the test suite, run:
+
+```
+dotnet test
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
