@@ -9,12 +9,25 @@ A minimal ASP.NET Core API
 
 ## Features
 
+* OpenAPI
 * Dependency injection container (with autowiring)
-* Controllers, Services and Repositories
+* Single Action Controllers, Services and Repositories
 * Environment specific configuration
-* `.env` configuration loader (for sensitive data)
+* 12-Factor `.env` configuration loader (for sensitive data)
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
+* Test solution
+
+*Todo*
+
+* Authentication (BasicAuth)
+* HTTP endpoint test examples
+* Database migrations
+* Logging package (Serilog)
+* Input validation (FluentValidation)
+* ValidationException middleware
+* Continuous integration (CI) workflow with GitHub Actions
+
 
 ## Installation
 

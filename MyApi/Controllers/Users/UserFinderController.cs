@@ -16,7 +16,6 @@ public class UserFinderController : Controller
 
     [Route("api/users")]
     [HttpGet()]
-    // api/users/1
     public object FindUsers()
     {
         var users = this.userFinder.FindAllUsers();

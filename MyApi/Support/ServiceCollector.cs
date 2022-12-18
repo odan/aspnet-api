@@ -5,7 +5,8 @@ using System.Reflection;
 public class ServiceCollector
 {
 
-    public static void AddNamespaces(IServiceCollection services, Assembly assembly, string ns)
+    // Register assembly types by namespace (as scoped)
+    public static void RegisterAssemblyTypesAsScoped(IServiceCollection services, Assembly assembly, string ns)
     {
         foreach (var type in assembly.GetTypes())
         {
@@ -19,23 +20,11 @@ public class ServiceCollector
         }
     }
 
-    public static void AddNamespace(IServiceCollection services, Assembly assembly, string ns)
-    {
-        foreach (var type in assembly.GetTypes())
-        {
-            if (
-                type.Namespace != null &&
-                type.Namespace == ns &&
-                IsAutowireable(type))
-            {
-                services.AddScoped(type);
-            }
-        }
-    }
-
     private static bool IsAutowireable(Type type)
     {
-        if (type.BaseType == typeof(Exception))
+        if (
+            type.IsAbstract == true ||
+            type.BaseType == typeof(Exception))
         {
             return false;
         }

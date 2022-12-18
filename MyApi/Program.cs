@@ -7,11 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
 
-// Optional: Copy all environment variables to the configuration
-//builder.Configuration.AddEnvironmentVariables();
-
 // Copy specified settings from environment variables
 builder.Configuration["DB_DSN"] = DotNetEnv.Env.GetString("DB_DSN");
+
+// Optional: Copy all environment variables to the configuration
+//builder.Configuration.AddEnvironmentVariables();
 
 //
 // Add services to the DI container
@@ -24,8 +24,6 @@ builder.Services.AddTransient(provider =>
     return new MySql.Data.MySqlClient.MySqlConnection(dsn);
 });
 
-// dotnet add package SqlKata
-// dotnet add package SqlKata.Execution
 builder.Services.AddTransient(provider =>
 {
     var connection = provider.GetRequiredService<MySql.Data.MySqlClient.MySqlConnection>();
@@ -33,8 +31,10 @@ builder.Services.AddTransient(provider =>
     return new SqlKata.Execution.QueryFactory(connection, new SqlKata.Compilers.MySqlCompiler());
 });
 
+// Register assembly types by namespace (as scoped)
+// Alternatively use: Scrutor or the Q101.ServiceCollectionExtensions
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-MyApp.Support.ServiceCollector.AddNamespaces(builder.Services, assembly, "MyApi.Domain.");
+MyApp.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
 
 builder.Services.AddControllers().AddControllersAsServices();
 

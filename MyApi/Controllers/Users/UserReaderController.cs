@@ -15,7 +15,6 @@ public class UserReaderController : Controller
 
     [Route("api/users/{id}")]
     [HttpGet()]
-    // api/users/1
     public object GetUser(int id)
     {
         var user = this.userReader.ReadUser(id);
