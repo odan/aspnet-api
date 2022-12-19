@@ -55,7 +55,7 @@ CREATE TABLE `users` (
 
 Modify the database name accordingly.
 
-Create a `.env` file in to project root directory:
+Create a `.env` file in the `MyApi` directory:
 
 ```env
 DB_DSN=Server=localhost;User ID=root;Password=;Database=my_api

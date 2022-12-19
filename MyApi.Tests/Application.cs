@@ -20,18 +20,22 @@ internal class Application : WebApplicationFactory<Program>
         // Specify the content root directory
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
-        // Host Configuration : Add environment variables starting with DOTNET_
-        // and add any command line args passed
-        builder.ConfigureHostConfiguration(configurationBuilder => { });
+        Environment.SetEnvironmentVariable("DB_DSN", "Server=localhost;User ID=root;Password=;Database=my_api");
+
+        // Command line args
+        builder.ConfigureHostConfiguration(config =>
+        {
+            //config.AddInMemoryCollection(new Dictionary<string, string?> {
+            //    ["my_command_line_key"] = "my_command_line_value",
+            //});
+        });
 
         // App Configuration
         builder.ConfigureAppConfiguration((hostBuilderContext, config) =>
         {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["DB_DSN"] = "Server=localhost;User ID=root;Password=;Database=my_api",
-            });
-
+            //config.AddInMemoryCollection(new Dictionary<string, string?> {
+            //    ["MyConfigKey"] = "MyConfigValue",
+            //});
         });
 
         // Config logging
@@ -44,7 +48,7 @@ internal class Application : WebApplicationFactory<Program>
         {
             // services.AddTransient<Type>();
             // services.AddHostedService<FileWriterService>();
-            // var dsn = hostBuilderContext.Configuration["DB_DSN"];
+            // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });
 
         //var logger = this.Services.GetRequiredService<Type>();

@@ -7,21 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
 
-// Copy specified settings from environment variables
-builder.Configuration["DB_DSN"] = DotNetEnv.Env.GetString("DB_DSN");
-
-// Optional: Copy all environment variables to the configuration
-//builder.Configuration.AddEnvironmentVariables();
+// Copy senstive settings from environment variables
+builder.Configuration["ConnectionStrings:Default"] = DotNetEnv.Env.GetString("DB_DSN");
 
 //
 // Add services to the DI container
 //
 builder.Services.AddTransient(provider =>
 {
-    //var dsn = builder.Configuration.GetConnectionString("Default");
-    var dsn = builder.Configuration["DB_DSN"];
+    var dsn = builder.Configuration.GetConnectionString("Default");
 
-    //dsn = "localhost;User ID=root;Password=;Database=my_api";
     return new MySql.Data.MySqlClient.MySqlConnection(dsn);
 });
 
