@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:8.0.23
@@ -40,16 +40,16 @@ jobs:
       run: mysql -uroot -proot -e "SHOW VARIABLES LIKE 'version%';"
 
     - name: Create database
-      run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS my_api CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
+      run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
     - name: Create database schema
-      run: mysql -uroot -proot my_api --force < schema.sql
+      run: mysql -uroot -proot test --force < schema.sql
 
     - name: Restore dependencies
       run: dotnet restore
-      
+
     - name: Build
       run: dotnet build --no-restore
-      
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
