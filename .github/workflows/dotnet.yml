@@ -62,5 +62,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
 
-    - name: Codecov
-      uses: codecov/codecov-action@v3
+    #- name: Codecov
+    #  uses: codecov/codecov-action@v3
