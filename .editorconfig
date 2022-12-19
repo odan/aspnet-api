@@ -449,3 +449,7 @@ dotnet_naming_rule.parameters_rule.severity             = warning
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 ##########################################
+
+
+[*.{cs,vb}]
+dotnet_diagnostic.CA1822.severity = none

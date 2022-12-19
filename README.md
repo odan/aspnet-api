@@ -16,18 +16,16 @@ A minimal ASP.NET Core API
 * 12-Factor `.env` configuration loader (for sensitive data)
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
-* Test solution
+* HTTP tests (integration)
+* Input validation (FluentValidation)
+* Continuous integration (CI) workflow with GitHub Actions
 
 *Todo*
 
+* ValidationException middleware
 * Authentication (BasicAuth)
-* HTTP endpoint test examples
 * Database migrations (DbUp)
 * Logging package (Serilog)
-* Input validation (FluentValidation)
-* ValidationException middleware
-* Continuous integration (CI) workflow with GitHub Actions
-
 
 ## Installation
 

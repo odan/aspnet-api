@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SqlKata.Execution;
 
 namespace MyApi.Tests;
 
@@ -13,6 +14,19 @@ internal class Application : WebApplicationFactory<Program>
     {
 
         return CreateDefaultClient();
+    }
+
+    public void ClearTables()
+    {
+        var db = this.Services.GetRequiredService<QueryFactory>();
+        db.Statement("truncate table users");
+    }
+
+    public StringContent CreateJson(object data)
+    {
+        string json = JsonSerializer.Serialize(data);
+
+        return new StringContent(json, Encoding.UTF8, "application/json");
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
