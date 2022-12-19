@@ -21,6 +21,7 @@ builder.Services.AddTransient(provider =>
     //var dsn = builder.Configuration.GetConnectionString("Default");
     var dsn = builder.Configuration["DB_DSN"];
 
+    //dsn = "localhost;User ID=root;Password=;Database=my_api";
     return new MySql.Data.MySqlClient.MySqlConnection(dsn);
 });
 
@@ -58,3 +59,7 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.Run();
+
+
+// This line is needed for the test project to work
+public partial class Program { }
