@@ -22,7 +22,7 @@ A minimal ASP.NET Core API
 
 * Authentication (BasicAuth)
 * HTTP endpoint test examples
-* Database migrations
+* Database migrations (DbUp)
 * Logging package (Serilog)
 * Input validation (FluentValidation)
 * ValidationException middleware
