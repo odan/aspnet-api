@@ -60,4 +60,4 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Test
-      run: dotnet test --verbosity d
+      run: dotnet test --collect:"XPlat Code Coverage" --verbosity minimal
