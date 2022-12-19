@@ -25,7 +25,7 @@ internal class Application : WebApplicationFactory<Program>
             Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
             Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-            Environment.GetEnvironmentVariable("MYSQL_ROOT_PASSWORD") ?? "",
+            Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
             Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "my_api"
         );
 

@@ -35,7 +35,7 @@ jobs:
         echo "MYSQL_HOST=localhost" >> $GITHUB_ENV
         echo "MYSQL_PORT=3306" >> $GITHUB_ENV
         echo "MYSQL_USER=root" >> $GITHUB_ENV
-        echo "MYSQL_ROOT_PASSWORD=root" >> $GITHUB_ENV
+        echo "MYSQL_PASSWORD=root" >> $GITHUB_ENV
         echo "MYSQL_DATABASE=test" >> $GITHUB_ENV
 
     - name: Check MySQL version
@@ -60,4 +60,4 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity detailed
