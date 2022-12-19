@@ -1,2 +1,7 @@
 {
+  "dotnet-test-explorer.testArguments": "--collect:\"XPlat Code Coverage\"",
+  "coverage-gutters.coverageFileNames": ["coverage.cobertura.xml"],
+  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showRulerCoverage": true,
+  "coverage-gutters.showGutterCoverage": true
 }
