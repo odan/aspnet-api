@@ -20,7 +20,16 @@ internal class Application : WebApplicationFactory<Program>
         // Specify the content root directory
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
-        Environment.SetEnvironmentVariable("DB_DSN", "Server=localhost;User ID=root;Password=;Database=my_api");
+        var dsn = String.Format(
+            "Server={0};Port={1};User ID={2};Password={3};Database={4}",
+            Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
+            Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
+            Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
+            Environment.GetEnvironmentVariable("MYSQL_ROOT_PASSWORD") ?? "",
+            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "my_api"
+        );
+
+        Environment.SetEnvironmentVariable("DB_DSN", dsn);
 
         // Command line args
         builder.ConfigureHostConfiguration(config =>
