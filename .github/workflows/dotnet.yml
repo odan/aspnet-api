@@ -30,6 +30,9 @@ jobs:
       with:
         dotnet-version: 7.0.x
 
+    - name: Check environment
+      run: mysql -V
+
     - name: Check MySQL version
       run: mysql -V
 
