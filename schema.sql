@@ -1,0 +1,6 @@
+CREATE TABLE `users` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
