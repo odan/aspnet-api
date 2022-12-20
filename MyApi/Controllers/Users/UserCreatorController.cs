@@ -1,8 +1,10 @@
 namespace MyApi.Controllers.Users;
 
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Domain.User.Service;
-using FluentValidation;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 [ApiController]
 public class UserCreatorController : Controller
@@ -22,22 +24,22 @@ public class UserCreatorController : Controller
 
         //var username = data.RootElement.GetProperty("username").GetString();
 
-        var userId = this.userCreator.CreateUser(user.username);
+        var userId = this.userCreator.CreateUser(user.Username);
 
         return this.Created("", new { user_id = userId });
     }
 
-    private UserCreatorRequest Validate(JsonDocument document)
+    private UserCreatorModel Validate(JsonDocument data)
     {
-        var json = document.RootElement.ToString();
-        var user = JsonSerializer.Deserialize<UserCreatorRequest>(json);
+        var json = data.RootElement.ToString();
+        var user = JsonSerializer.Deserialize<UserCreatorModel>(json);
 
         if (user == null)
         {
             throw new ValidationException("Input required");
         }
 
-        var validator = new UserCreatorRequestValidator();
+        var validator = new UserCreatorValidator();
         var results = validator.Validate(user);
 
         if (!results.IsValid)
@@ -48,18 +50,18 @@ public class UserCreatorController : Controller
         return user;
     }
 
-
     // https://learn.microsoft.com/en-us/answers/questions/1030059/how-to-validate-json-using-c-schema-validation.html
-    public class UserCreatorRequest
+    public class UserCreatorModel
     {
-        public string username { get; set; } = "";
+        [JsonPropertyName("username")]
+        public string Username { get; set; } = "";
     }
 
-    public class UserCreatorRequestValidator : AbstractValidator<UserCreatorRequest>
+    public class UserCreatorValidator : AbstractValidator<UserCreatorModel>
     {
-        public UserCreatorRequestValidator()
+        public UserCreatorValidator()
         {
-            RuleFor(user => user.username)
+            RuleFor(user => user.Username)
                 .NotNull().WithMessage("Required")
                 .NotEmpty().WithMessage("Required")
                 .MaximumLength(45).WithMessage("Too long")

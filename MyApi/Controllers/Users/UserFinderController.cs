@@ -1,7 +1,6 @@
 namespace MyApi.Controllers.Users;
 
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Domain.User.Data;
 using MyApi.Domain.User.Service;
 
 [ApiController]
