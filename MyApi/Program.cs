@@ -1,3 +1,5 @@
+using MyApi.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //
@@ -27,18 +29,25 @@ builder.Services.AddTransient(provider =>
     return new SqlKata.Execution.QueryFactory(connection, new SqlKata.Compilers.MySqlCompiler());
 });
 
-// Register assembly types by namespace (as scoped)
+// Register service types by namespace (as scoped)
 // Alternatively use: Scrutor or the Q101.ServiceCollectionExtensions
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-MyApp.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
+MyApi.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
+MyApi.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
+
+// builder.Services.AddTransient<...>();
 
 builder.Services.AddControllers().AddControllersAsServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+// builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Add error handler middlewares
+app.UseExceptionHandlerMiddleware();
+app.UseValidationExceptionMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

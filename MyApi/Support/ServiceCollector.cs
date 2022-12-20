@@ -1,4 +1,4 @@
-namespace MyApp.Support;
+namespace MyApi.Support;
 
 using System.Reflection;
 

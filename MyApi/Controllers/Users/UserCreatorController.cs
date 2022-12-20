@@ -2,6 +2,7 @@ namespace MyApi.Controllers.Users;
 
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Domain.Exceptions;
 using MyApi.Domain.User.Service;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -41,6 +42,16 @@ public class UserCreatorController : Controller
 
         var validator = new UserCreatorValidator();
         var results = validator.Validate(user);
+
+        if (results.IsValid)
+        {
+            // Check if the username is unique
+            //if (await IsUsernameTaken(model.Username))
+            //{
+            // Throw a ValidationException if the username is not unique
+            //throw new ValidationException("Username is already taken.");
+            //}
+        }
 
         if (!results.IsValid)
         {
