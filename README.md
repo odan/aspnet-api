@@ -26,6 +26,7 @@ A minimal ASP.NET Core API
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
 * Logging package (Serilog)
+* Build script (Ant)
 
 ## Installation
 
