@@ -18,14 +18,15 @@ A minimal ASP.NET Core API
 * SQL QueryBuilder (SqlKata)
 * HTTP tests (integration)
 * Input validation (FluentValidation)
+* ValidationException middleware
 * Continuous integration (CI) workflow with GitHub Actions
 
 *Todo*
 
-* ValidationException middleware
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
 * Logging package (Serilog)
+* Build script (Ant)
 
 ## Installation
 
@@ -45,7 +46,7 @@ Create a new MySQL / MariaDB database.
 CREATE DATABASE `my_api` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 
 CREATE TABLE `users` (
-  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
