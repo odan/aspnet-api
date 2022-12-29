@@ -9,12 +9,14 @@ public class UserReaderControllerTest
         var app = new Application();
         app.ClearTables();
 
+        Chronos.SetTestNow(new DateTime(2023, 1, 1));
+
         var client = app.CreateClient();
 
-        var content = app.CreateJson(new { username = "john" });
+        var content = app.CreateJson(new { username = "john", date_of_birth = "1982-03-28" });
         var response = client.PostAsync("/api/users", content).Result;
 
-        content = app.CreateJson(new { username = "sally" });
+        content = app.CreateJson(new { username = "sally", date_of_birth = "2000-01-31" });
         response = client.PostAsync("/api/users", content).Result;
 
         response = client.GetAsync("/api/users").Result;

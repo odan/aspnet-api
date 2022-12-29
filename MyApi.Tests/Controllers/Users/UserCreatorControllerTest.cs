@@ -1,6 +1,8 @@
 
 namespace MyApi.Tests.Controllers.Users;
 
+using MyApi.Support;
+
 public class UserCreatorControllerTest
 {
     [Fact]
@@ -9,8 +11,10 @@ public class UserCreatorControllerTest
         var app = new Application();
         app.ClearTables();
 
+        Chronos.SetTestNow(new DateTime(2023, 12, 31));
+
         var client = app.CreateClient();
-        var content = app.CreateJson(new { username = "john" });
+        var content = app.CreateJson(new { username = "john", date_of_birth = "1982-03-28" });
         var response = client.PostAsync("/api/users", content).Result;
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -24,7 +28,12 @@ public class UserCreatorControllerTest
         app.ClearTables();
 
         var client = app.CreateClient();
-        var content = app.CreateJson(new { username = "root" });
+        var content = app.CreateJson(new
+        {
+            username = "root",
+            date_of_birth = "1982-03-28"
+        });
+
         var response = client.PostAsync("/api/users", content).Result;
 
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);

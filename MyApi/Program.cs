@@ -45,7 +45,7 @@ builder.Services.AddControllers().AddControllersAsServices();
 
 var app = builder.Build();
 
-// Add error handler middlewares
+// Add error handler middleware
 app.UseExceptionHandlerMiddleware();
 app.UseValidationExceptionMiddleware();
 
@@ -64,6 +64,7 @@ app.MapControllers();
 
 app.Run();
 
-
 // This line is needed for the test project to work
-public partial class Program { }
+public partial class Program
+{
+}

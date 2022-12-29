@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
+// using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+// using Microsoft.Extensions.Logging;
 using SqlKata.Execution;
 
 namespace MyApi.Tests;
@@ -69,8 +69,9 @@ internal class Application : WebApplicationFactory<Program>
 
         builder.ConfigureServices((hostBuilderContext, services) =>
         {
-            // services.AddTransient<Type>();
-            // services.AddHostedService<FileWriterService>();
+            // Replacing an already registered dependency
+            //services.Replace(ServiceDescriptor.Transient<IFoo, FooImplementation>());
+
             // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });
 

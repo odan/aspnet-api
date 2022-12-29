@@ -11,7 +11,6 @@ using System.Text.Json.Serialization;
 public class UserCreatorController : Controller
 {
     private readonly UserCreator userCreator;
-
     public UserCreatorController(UserCreator userCreator)
     {
         this.userCreator = userCreator;
@@ -66,6 +65,9 @@ public class UserCreatorController : Controller
     {
         [JsonPropertyName("username")]
         public string Username { get; set; } = "";
+
+        [JsonPropertyName("date_of_birth")]
+        public string DateOfBirth { get; set; } = "";
     }
 
     public class UserCreatorValidator : AbstractValidator<UserCreatorModel>
@@ -73,10 +75,27 @@ public class UserCreatorController : Controller
         public UserCreatorValidator()
         {
             RuleFor(user => user.Username)
+                .Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Required")
                 .NotEmpty().WithMessage("Required")
                 .MaximumLength(45).WithMessage("Too long")
                 .NotEqual("root").WithMessage("Invalid value");
+
+            RuleFor(user => user.DateOfBirth)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Required")
+                .NotEmpty().WithMessage("Required")
+                .Matches(@"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$").WithMessage("Invalid date format")
+                .Must(value => DateTime.TryParse(value, out _)).WithMessage("Invalid date")
+                .Must(HaveValidAge).WithMessage("Invalid date");
+        }
+
+        protected bool HaveValidAge(string date)
+        {
+            DateTime dateOfBirth = Chronos.ParseIsoDate(date);
+            int age = Chronos.GetAge(dateOfBirth);
+
+            return age >= 18;
         }
     }
 }
