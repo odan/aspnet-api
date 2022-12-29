@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
 
-// Copy senstive settings from environment variables
+// Copy sensitive settings from environment variables
 builder.Configuration["ConnectionStrings:Default"] = DotNetEnv.Env.GetString("DB_DSN");
 
 //
