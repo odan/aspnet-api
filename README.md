@@ -105,7 +105,7 @@ dotnet format --verify-no-changes
 Fixing code styles:
 
 ```
-dotnet format
+dotnet format --verbosity n
 ```
 
 ## Testing

@@ -34,7 +34,7 @@ public class UserRepository
     {
         var userId = this.db.Query("users").InsertGetId<int>(new
         {
-            username = username,
+            username,
         });
 
         return userId;

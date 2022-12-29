@@ -18,7 +18,7 @@ public class ValidationExceptionMiddleware : IMiddleware
             var details = validationException.Errors.Select(error => new
             {
                 message = error.ErrorMessage,
-                field = MyApi.Support.StringUtil.ToSnakeCase(error.PropertyName),
+                field = StringUtil.ToSnakeCase(error.PropertyName),
             });
 
             await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
@@ -26,7 +26,7 @@ public class ValidationExceptionMiddleware : IMiddleware
                 error = new
                 {
                     message = validationException.Message,
-                    details = details,
+                    details,
                 }
             }));
         }

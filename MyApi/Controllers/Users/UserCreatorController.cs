@@ -1,11 +1,10 @@
 namespace MyApi.Controllers.Users;
 
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using MyApi.Domain.Exceptions;
-using MyApi.Domain.User.Service;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using MyApi.Domain.User.Service;
 
 [ApiController]
 public class UserCreatorController : Controller
@@ -74,26 +73,26 @@ public class UserCreatorController : Controller
     {
         public UserCreatorValidator()
         {
-            RuleFor(user => user.Username)
+            this.RuleFor(user => user.Username)
                 .Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Required")
                 .NotEmpty().WithMessage("Required")
                 .MaximumLength(45).WithMessage("Too long")
                 .NotEqual("root").WithMessage("Invalid value");
 
-            RuleFor(user => user.DateOfBirth)
+            this.RuleFor(user => user.DateOfBirth)
                 .Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Required")
                 .NotEmpty().WithMessage("Required")
                 .Matches(@"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$").WithMessage("Invalid date format")
                 .Must(value => DateTime.TryParse(value, out _)).WithMessage("Invalid date")
-                .Must(HaveValidAge).WithMessage("Invalid date");
+                .Must(this.HaveValidAge).WithMessage("Invalid date");
         }
 
         protected bool HaveValidAge(string date)
         {
-            DateTime dateOfBirth = Chronos.ParseIsoDate(date);
-            int age = Chronos.GetAge(dateOfBirth);
+            var dateOfBirth = Chronos.ParseIsoDate(date);
+            var age = Chronos.GetAge(dateOfBirth);
 
             return age >= 18;
         }

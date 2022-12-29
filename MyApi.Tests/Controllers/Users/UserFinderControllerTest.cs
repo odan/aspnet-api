@@ -5,7 +5,7 @@ public class UserFinderControllerTest
     [Fact]
     public void Test()
     {
-        var client = (new Application()).CreateClient();
+        var client = new Application().CreateClient();
         var response = client.GetAsync("/api/users").Result;
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

@@ -23,7 +23,7 @@ public class ServiceCollector
     private static bool IsAutowireable(Type type)
     {
         if (
-            type.IsAbstract == true ||
+            type.IsAbstract ||
             type.BaseType == typeof(Exception))
         {
             return false;

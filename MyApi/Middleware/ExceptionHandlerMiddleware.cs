@@ -9,18 +9,18 @@ public class ExceptionHandlerMiddleware : IMiddleware
             await next.Invoke(context);
         }
         catch (Exception exception)
-         {
-             // Handle exception
-             context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+        {
+            // Handle exception
+            context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
 
-             await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
-             {
-                 error = new
-                 {
-                     message = exception?.Message ?? "Error"
-                 }
-             }));
-         }
+            await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                error = new
+                {
+                    message = exception?.Message ?? "Error"
+                }
+            }));
+        }
     }
 }
 

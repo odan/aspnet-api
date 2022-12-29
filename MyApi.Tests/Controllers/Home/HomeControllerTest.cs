@@ -6,7 +6,7 @@ public class HomeControllerTest
     [Fact]
     public void TestGet()
     {
-        var client = (new Application()).CreateClient();
+        var client = new Application().CreateClient();
         var response = client.GetAsync("/").Result;
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -16,11 +16,11 @@ public class HomeControllerTest
     [Fact]
     public void TestPost()
     {
-        var client = (new Application()).CreateClient();
+        var client = new Application().CreateClient();
 
         var data = new { key = "value" };
-        string json = JsonSerializer.Serialize(data);
-        StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+        var json = JsonSerializer.Serialize(data);
+        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
         var response = client.PostAsync("/", httpContent).Result;
 

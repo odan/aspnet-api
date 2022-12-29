@@ -32,8 +32,8 @@ builder.Services.AddTransient(provider =>
 // Register service types by namespace (as scoped)
 // Alternatively use: Scrutor or the Q101.ServiceCollectionExtensions
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-MyApi.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
-MyApi.Support.ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
+ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
+ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
 
 // builder.Services.AddTransient<...>();
 

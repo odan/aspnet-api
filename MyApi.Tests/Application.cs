@@ -7,13 +7,13 @@ using SqlKata.Execution;
 
 namespace MyApi.Tests;
 
-internal class Application : WebApplicationFactory<Program>
+internal sealed class Application : WebApplicationFactory<Program>
 {
 
     public HttpClient CreateClient()
     {
 
-        return CreateDefaultClient();
+        return this.CreateDefaultClient();
     }
 
     public void ClearTables()
@@ -24,7 +24,7 @@ internal class Application : WebApplicationFactory<Program>
 
     public StringContent CreateJson(object data)
     {
-        string json = JsonSerializer.Serialize(data);
+        var json = JsonSerializer.Serialize(data);
 
         return new StringContent(json, Encoding.UTF8, "application/json");
     }
@@ -34,7 +34,7 @@ internal class Application : WebApplicationFactory<Program>
         // Specify the content root directory
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
-        var dsn = String.Format(
+        var dsn = string.Format(
             "Server={0};Port={1};User ID={2};Password={3};Database={4}",
             Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",

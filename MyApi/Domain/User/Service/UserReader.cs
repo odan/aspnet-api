@@ -13,6 +13,9 @@ public class UserReader
         this.repository = repository;
     }
 
-    public User ReadUser(int id) => this.repository.GetUserById(id);
+    public User ReadUser(int id)
+    {
+        return this.repository.GetUserById(id);
+    }
 }
 

@@ -18,7 +18,7 @@ public class UserCreatorControllerTest
         var response = client.PostAsync("/api/users", content).Result;
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal("{\"user_id\":1}", response.Content.ReadAsStringAsync().Result);
+        Assert.Equal(/*lang=json,strict*/ "{\"user_id\":1}", response.Content.ReadAsStringAsync().Result);
     }
 
     [Fact]

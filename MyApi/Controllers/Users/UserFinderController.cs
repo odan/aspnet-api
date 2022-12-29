@@ -25,8 +25,9 @@ public class UserFinderController : Controller
             // ...
         }
 
-        return new {
-            users = users
+        return new
+        {
+            users
         };
     }
 }

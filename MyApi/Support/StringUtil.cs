@@ -12,7 +12,7 @@ public class StringUtil
         }
 
         return string.Concat(input.Select((c, i) =>
-            char.IsUpper(c) && (i > 0 && char.IsLower(input[i - 1])) ? "_" + c : c.ToString()))
+            char.IsUpper(c) && i > 0 && char.IsLower(input[i - 1]) ? "_" + c : c.ToString()))
             .ToLower(CultureInfo.InvariantCulture)
             .Replace(" ", "_");
     }
