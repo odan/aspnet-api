@@ -13,21 +13,22 @@ public class UserCreatorValidator : AbstractValidator<UserCreatorParameter>
     {
         this.repository = repository;
 
-        // Make formal validation (required, data types, codes,
-        // length, ranges, data / date format, etc.) here.
-        // The contextual validation (consistency,
-        // uniqueness, complex rules, etc.) is then performed
-        // in the application or domain service.
-
         this.RuleFor(user => user.Username)
             .Cascade(CascadeMode.Stop)
             .NotEmpty().WithMessage("Required")
             .MaximumLength(45).WithMessage("Too long")
-            .NotEqual("root").WithMessage("Invalid value");
+            .NotEqual("root").WithMessage("Invalid value")
+            .Must(this.ValidateUsernameNotExists).WithMessage("Username already exists");
+        ;
 
         this.RuleFor(user => user.DateOfBirth)
             .Cascade(CascadeMode.Stop)
             .Must(this.ValidateAge).WithMessage("Invalid age");
+    }
+
+    private bool ValidateUsernameNotExists(string username)
+    {
+        return !this.repository.ExistsUsername(username);
     }
 
     private bool ValidateAge(DateTime dateOfBirth)

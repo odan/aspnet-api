@@ -7,8 +7,9 @@ public class UserCreatorFormValidator : AbstractValidator<UserCreatorForm>
 {
     public UserCreatorFormValidator()
     {
-        // Make formal validation (required, data types, codes,
+        // Do formal validation (required, data types, codes,
         // length, ranges, data / date format, etc.) here.
+        //
         // The contextual validation (consistency,
         // uniqueness, complex rules, etc.) is then performed
         // in the application or domain service.
@@ -17,8 +18,7 @@ public class UserCreatorFormValidator : AbstractValidator<UserCreatorForm>
             .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("Required")
             .NotEmpty().WithMessage("Required")
-            .MaximumLength(45).WithMessage("Too long")
-            .NotEqual("root").WithMessage("Invalid value");
+            .MaximumLength(45).WithMessage("Too long");
 
         this.RuleFor(user => user.DateOfBirth)
             .Cascade(CascadeMode.Stop)

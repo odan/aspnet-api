@@ -25,8 +25,8 @@ public class UserCreatorController : Controller
     [HttpPost]
     public CreatedResult CreateUser([FromBody] JsonDocument document)
     {
-        // https://learn.microsoft.com/en-us/answers/questions/1030059/how-to-validate-json-using-c-schema-validation.html
         // Deserialize JSON payload to object
+        // https://learn.microsoft.com/en-us/answers/questions/1030059/how-to-validate-json-using-c-schema-validation.html
         var form = JsonSerializer.Deserialize<UserCreatorForm>(
             document.RootElement.ToString()
         );
@@ -54,11 +54,6 @@ public class UserCreatorController : Controller
         }
 
         var results = this.validator.Validate(form);
-
-
-        //var errors = new List<FluentValidation.Results.ValidationFailure>();
-        //errors.Add(new FluentValidation.Results.ValidationFailure("field", "message"));
-        //throw new ValidationException("Input validation failed", errors);
 
         if (!results.IsValid)
         {

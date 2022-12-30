@@ -1,6 +1,7 @@
 
 namespace MyApi.Domain.User.Service;
 
+using FluentValidation;
 using MyApi.Domain.User.Data;
 using MyApi.Domain.User.Repository;
 
@@ -20,7 +21,12 @@ public class UserCreator
 
     public int CreateUser(UserCreatorParameter user)
     {
-        this.validator.Validate(user);
+        var result = this.validator.Validate(user);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationException("Input validation failed", result.Errors);
+        }
 
         var userId = this.repository.InsertUser(user.Username);
 
