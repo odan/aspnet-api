@@ -1,20 +1,28 @@
 
 namespace MyApi.Domain.User.Service;
 
+using MyApi.Domain.User.Data;
 using MyApi.Domain.User.Repository;
 
 public class UserCreator
 {
-    private readonly UserRepository repository;
+    private readonly UserCreatorRepository repository;
+    private readonly UserCreatorValidator validator;
 
-    public UserCreator(UserRepository repository)
+    public UserCreator(
+        UserCreatorRepository repository,
+        UserCreatorValidator validator
+    )
     {
         this.repository = repository;
+        this.validator = validator;
     }
 
-    public int CreateUser(string username)
+    public int CreateUser(UserCreatorParameter user)
     {
-        var userId = this.repository.InsertUser(username);
+        this.validator.Validate(user);
+
+        var userId = this.repository.InsertUser(user.Username);
 
         // Logging
         // ...

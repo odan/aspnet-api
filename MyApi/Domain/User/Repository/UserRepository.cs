@@ -29,14 +29,4 @@ public class UserRepository
 
         return user;
     }
-
-    public int InsertUser(string username)
-    {
-        var userId = this.db.Query("users").InsertGetId<int>(new
-        {
-            username,
-        });
-
-        return userId;
-    }
 }

@@ -7,17 +7,17 @@ public class Chronos
 
     private static DateTime? dateTime;
 
-    public static DateTime ParseIsoDate(string input)
+    public static DateTime ParseIsoDate(string? input)
     {
         return Parse(input, @"yyyy-MM-dd");
     }
 
-    public static DateTime ParseIsoDateTime(string input)
+    public static DateTime ParseIsoDateTime(string? input)
     {
         return Parse(input, @"yyyy-MM-dd HH:mm:ss");
     }
 
-    public static DateTime Parse(string input, string format)
+    public static DateTime Parse(string? input, string format)
     {
         if (DateTime.TryParseExact(
             input,
@@ -30,7 +30,7 @@ public class Chronos
             return result;
         };
 
-        throw new Exception("Invalid date");
+        throw new UnexpectedValueException("Invalid date");
     }
 
     public static int GetAge(DateTime birthDate)

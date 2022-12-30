@@ -10,7 +10,7 @@ namespace MyApi.Tests;
 internal sealed class Application : WebApplicationFactory<Program>
 {
 
-    public HttpClient CreateClient()
+    public new HttpClient CreateClient()
     {
 
         return this.CreateDefaultClient();
