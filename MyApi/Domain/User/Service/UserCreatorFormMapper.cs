@@ -1,7 +1,6 @@
-namespace MyApi.Controllers.User.Mappers;
+namespace MyApi.Domain.User.Service;
 
 using FluentValidation;
-using MyApi.Controllers.User.Validators;
 using MyApi.Domain.User.Data;
 
 public class UserCreatorFormMapper

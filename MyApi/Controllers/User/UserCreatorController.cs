@@ -2,7 +2,6 @@ namespace MyApi.Controllers.User;
 
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Controllers.User.Mappers;
 using MyApi.Domain.User.Data;
 using MyApi.Domain.User.Service;
 
