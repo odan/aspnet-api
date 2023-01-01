@@ -26,7 +26,8 @@ public class UserCreatorController : Controller
     public CreatedResult CreateUser([FromBody] JsonDocument document)
     {
         // Deserialize JSON payload to object
-        // https://learn.microsoft.com/en-us/answers/questions/1030059/how-to-validate-json-using-c-schema-validation.html
+        // https://bit.ly/3i2ZPGc
+        // https://bit.ly/3WBAAK5
         var form = JsonSerializer.Deserialize<UserCreatorForm>(
             document.RootElement.ToString()
         );

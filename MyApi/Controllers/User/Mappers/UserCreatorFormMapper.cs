@@ -18,7 +18,7 @@ public class UserCreatorFormMapper
         // Input validation
         form = this.Validate(form);
 
-        // convert json or form data into a domain object
+        // Convert form data into a domain object
         return new UserCreatorParameter()
         {
             Username = form.Username,
