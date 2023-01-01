@@ -15,7 +15,17 @@ builder.Configuration["ConnectionStrings:Default"] = DotNetEnv.Env.GetString("DB
 //
 // Add services to the DI container
 //
-builder.Services.AddTransient(provider =>
+// Lifetimes
+//
+// Transient: Creates a new instance of the service every time you request it.
+//
+// Scoped: creates a new instance for every scope. (Each request is a Scope).
+// Within the scope, it reuses the existing service.
+//
+// Singleton: Creates a new Service only once during the application lifetime,
+// and uses it everywhere.
+
+builder.Services.AddScoped(provider =>
 {
     var dsn = builder.Configuration.GetConnectionString("Default");
 
@@ -34,9 +44,11 @@ builder.Services.AddTransient(provider =>
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
 ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
+ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Controllers");
 
-// builder.Services.AddTransient<...>();
+// builder.Services.AddScoped<...>();
 
+// The controllers using the Transient lifetime
 builder.Services.AddControllers().AddControllersAsServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,6 +1,7 @@
 namespace MyApi.Support;
 
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 public class ServiceCollector
 {
@@ -24,36 +25,12 @@ public class ServiceCollector
     {
         if (
             type.IsAbstract ||
-            type.BaseType == typeof(Exception))
+            type.BaseType == typeof(Exception) ||
+            type.BaseType == typeof(Controller))
         {
             return false;
         }
 
         return true;
-
-        /*
-        var constructors = type.GetConstructors();
-        if (constructors.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (var constructor in constructors)
-        {
-            var parameters = constructor.GetParameters();
-            foreach (var parameter in parameters)
-            {
-                {
-                    if (parameter.GetType() == typeof(string))
-                    {
-                        continue;
-                    }
-                }
-
-            }
-        }
-
-        return true;
-        */
     }
 }

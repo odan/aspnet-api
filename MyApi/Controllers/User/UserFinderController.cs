@@ -1,6 +1,7 @@
-namespace MyApi.Controllers.Users;
+namespace MyApi.Controllers.User;
 
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Controllers.User.ViewModels;
 using MyApi.Domain.User.Service;
 
 [ApiController]
@@ -8,6 +9,7 @@ public class UserFinderController : Controller
 {
     private readonly UserFinder userFinder;
 
+    [ActivatorUtilitiesConstructor]
     public UserFinderController(UserFinder userFinder)
     {
         this.userFinder = userFinder;
@@ -19,16 +21,8 @@ public class UserFinderController : Controller
     {
         var users = this.userFinder.FindAllUsers();
 
-        // Todo: Map domain objects to view data objects
-        foreach (var user in users)
-        {
-            // ...
-        }
-
-        return new
-        {
-            users
-        };
+        // Map domain objects to (strongly typed) view model or
+        // (weakly typed) view data.
+        return UserFinderViewModel.FromUsers(users);
     }
 }
-

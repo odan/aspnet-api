@@ -1,6 +1,7 @@
-namespace MyApi.Controllers.Users;
+namespace MyApi.Controllers.User;
 
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Controllers.User.ViewModels;
 using MyApi.Domain.User.Service;
 
 [ApiController]
@@ -19,14 +20,8 @@ public class UserReaderController : Controller
     {
         var user = this.userReader.ReadUser(id);
 
-        return new
-        {
-            user = new
-            {
-                user_id = user.Id,
-                username = user.Username,
-            }
-        };
+        return UserReaderViewModel.FromUser(user);
+
     }
 }
 

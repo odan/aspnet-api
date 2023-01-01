@@ -1,4 +1,4 @@
-namespace MyApi.Domain.User.Service;
+namespace MyApi.Controllers.User.Validators;
 
 using FluentValidation;
 using MyApi.Domain.User.Data;
