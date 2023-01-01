@@ -5,7 +5,7 @@ using FluentValidation;
 using MyApi.Domain.User.Data;
 using MyApi.Domain.User.Repository;
 
-public class UserCreatorValidator : AbstractValidator<UserCreatorParameter>
+public class UserCreatorValidator : AbstractValidator<UserCreatorFormData>
 {
     private readonly UserCreatorRepository repository;
 
@@ -13,6 +13,7 @@ public class UserCreatorValidator : AbstractValidator<UserCreatorParameter>
     {
         this.repository = repository;
 
+        // https://bit.ly/3jJ8Jcz
         this.RuleFor(user => user.Username)
             .Cascade(CascadeMode.Stop)
             .NotEmpty().WithMessage("Required")
@@ -23,6 +24,8 @@ public class UserCreatorValidator : AbstractValidator<UserCreatorParameter>
 
         this.RuleFor(user => user.DateOfBirth)
             .Cascade(CascadeMode.Stop)
+            .Matches(@"^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$").WithMessage("Invalid date format")
+            .Must(value => DateTime.TryParse(value, out _)).WithMessage("Invalid date")
             .Must(this.ValidateAge).WithMessage("Invalid age");
     }
 
@@ -31,8 +34,8 @@ public class UserCreatorValidator : AbstractValidator<UserCreatorParameter>
         return !this.repository.ExistsUsername(username);
     }
 
-    private bool ValidateAge(DateTime dateOfBirth)
+    private bool ValidateAge(string dateOfBirth)
     {
-        return Chronos.GetAge(dateOfBirth) >= 18;
+        return Chronos.GetAge(DateTime.Parse(dateOfBirth)) >= 18;
     }
 }

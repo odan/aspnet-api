@@ -5,14 +5,14 @@ using MyApi.Domain.User.Data;
 
 public class UserCreatorFormMapper
 {
-    private readonly UserCreatorFormValidator validator;
+    private readonly UserCreatorValidator validator;
 
-    public UserCreatorFormMapper(UserCreatorFormValidator validator)
+    public UserCreatorFormMapper(UserCreatorValidator validator)
     {
         this.validator = validator;
     }
 
-    public UserCreatorParameter Map(UserCreatorForm? form)
+    public UserCreatorParameter Map(UserCreatorFormData? form)
     {
         // Input validation
         form = this.Validate(form);
@@ -25,7 +25,7 @@ public class UserCreatorFormMapper
         };
     }
 
-    private UserCreatorForm Validate(UserCreatorForm? form)
+    private UserCreatorFormData Validate(UserCreatorFormData? form)
     {
         if (form == null)
         {

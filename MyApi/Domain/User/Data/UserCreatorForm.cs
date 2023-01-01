@@ -3,7 +3,7 @@ namespace MyApi.Domain.User.Data;
 
 using System.Text.Json.Serialization;
 
-public class UserCreatorForm
+public class UserCreatorFormData
 {
     [JsonPropertyName("username")]
     public string Username { get; set; } = "";

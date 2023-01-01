@@ -27,7 +27,7 @@ public class UserCreatorController : Controller
         // Deserialize JSON payload to object
         // https://bit.ly/3i2ZPGc
         // https://bit.ly/3WBAAK5
-        var form = JsonSerializer.Deserialize<UserCreatorForm>(
+        var form = JsonSerializer.Deserialize<UserCreatorFormData>(
             document.RootElement.ToString()
         );
 
