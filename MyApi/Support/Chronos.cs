@@ -9,12 +9,12 @@ public class Chronos
 
     public static DateTime ParseIsoDate(string? input)
     {
-        return Parse(input, @"yyyy-MM-dd");
+        return Parse(input, "yyyy-MM-dd");
     }
 
     public static DateTime ParseIsoDateTime(string? input)
     {
-        return Parse(input, @"yyyy-MM-dd HH:mm:ss");
+        return Parse(input, "yyyy-MM-dd HH:mm:ss");
     }
 
     public static DateTime Parse(string? input, string format)
@@ -42,6 +42,7 @@ public class Chronos
         {
             age--;
         }
+
         return age;
     }
 
