@@ -36,6 +36,6 @@ public class UserCreatorValidator : AbstractValidator<UserCreatorFormData>
 
     private bool ValidateAge(string dateOfBirth)
     {
-        return Chronos.GetAge(DateTime.Parse(dateOfBirth)) >= 18;
+        return Chronos.GetAge(Chronos.ParseIsoDate(dateOfBirth)) >= 18;
     }
 }
