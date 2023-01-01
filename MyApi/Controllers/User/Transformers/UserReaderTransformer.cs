@@ -1,10 +1,10 @@
-namespace MyApi.Controllers.User.ViewModels;
+namespace MyApi.Controllers.User.Transformers;
 
 using MyApi.Domain.User.Data;
 
-public class UserReaderViewModel
+public class UserReaderTransformer
 {
-    public static object FromUser(User user)
+    public static object transform(User user)
     {
         return new
         {

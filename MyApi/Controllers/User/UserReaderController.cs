@@ -1,7 +1,7 @@
 namespace MyApi.Controllers.User;
 
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Controllers.User.ViewModels;
+using MyApi.Controllers.User.Transformers;
 using MyApi.Domain.User.Service;
 
 [ApiController]
@@ -20,7 +20,7 @@ public class UserReaderController : Controller
     {
         var user = this.userReader.ReadUser(id);
 
-        return UserReaderViewModel.FromUser(user);
+        return UserReaderTransformer.transform(user);
 
     }
 }

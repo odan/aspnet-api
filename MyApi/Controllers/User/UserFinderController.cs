@@ -1,7 +1,7 @@
 namespace MyApi.Controllers.User;
 
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Controllers.User.ViewModels;
+using MyApi.Controllers.User.Transformers;
 using MyApi.Domain.User.Service;
 
 [ApiController]
@@ -9,7 +9,6 @@ public class UserFinderController : Controller
 {
     private readonly UserFinder userFinder;
 
-    [ActivatorUtilitiesConstructor]
     public UserFinderController(UserFinder userFinder)
     {
         this.userFinder = userFinder;
@@ -23,6 +22,6 @@ public class UserFinderController : Controller
 
         // Map domain objects to (strongly typed) view model or
         // (weakly typed) view data.
-        return UserFinderViewModel.FromUsers(users);
+        return UserFinderTransformer.transform(users);
     }
 }

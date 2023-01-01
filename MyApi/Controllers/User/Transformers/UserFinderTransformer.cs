@@ -1,10 +1,10 @@
-namespace MyApi.Controllers.User.ViewModels;
+namespace MyApi.Controllers.User.Transformers;
 
 using MyApi.Domain.User.Data;
 
-public class UserFinderViewModel
+public class UserFinderTransformer
 {
-    public static object FromUsers(IEnumerable<User> users)
+    public static object transform(IEnumerable<User> users)
     {
         foreach (var user in users)
         {
