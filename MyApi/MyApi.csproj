@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web" DefaultTargets="Build">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -9,12 +9,24 @@
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="I18Next.Net.Gettext" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="MySql.Data" Version="8.0.31" />
+    <PackageReference Include="NGettext" Version="0.6.7" />
     <PackageReference Include="sqlkata" Version="2.4.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <MyResources Include="$(MSBuildProjectDirectory)/Resources/**/*.*" />
   </ItemGroup>
 
+
+  <Target Name="Build">
+    <Csc Sources="@(Compile)" />
+  </Target>
+
+  <Target Name="copyResources" AfterTargets="AfterBuild">
+    <MakeDir Directories="$(TargetDir)/Resources" />
+    <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+  </Target>
 </Project>

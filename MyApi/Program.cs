@@ -1,3 +1,7 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
+using MyApi.Actions;
 using MyApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 //
 // Configuration
 //
+
+// Default language
+var culture = new CultureInfo("en-US");
+Thread.CurrentThread.CurrentCulture = culture;
+Thread.CurrentThread.CurrentUICulture = culture;
 
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
@@ -40,20 +49,25 @@ builder.Services.AddTransient(provider =>
 });
 
 // Register service types by namespace (as scoped)
-// Alternatively use: Scrutor or the Q101.ServiceCollectionExtensions
+// Alternatively use: Scrutor or Q101.ServiceCollectionExtensions
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
 ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
-ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Controllers");
+ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Action");
+
+builder.Services.AddLocalization();
+builder.Services.AddSingleton<LocalizationMiddleware>();
+builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>();
 
 // builder.Services.AddScoped<...>();
 
-// The controllers using the Transient lifetime
-builder.Services.AddControllers().AddControllersAsServices();
+// The MVC controllers using the Transient lifetime
+// builder.Services.AddControllers().AddControllersAsServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
+// Explore the API via Swagger UI http://localhost:<port>/swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -64,15 +78,29 @@ app.UseValidationExceptionMiddleware();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+// Enable request localization in order to determine
+// the users desired language based on the Accept-Language header.
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-US"))
+});
+app.UseMiddleware<LocalizationMiddleware>();
 
+// app.UseHttpsRedirection();
 //app.UseAuthorization();
 
-app.MapControllers();
+// Classic MVC controllers
+// app.MapControllers();
+
+// Minimal API action routes
+app.MapHomeRoutes();
+
+app.MapGroup("/api")
+    .MapApiCustomerRoutes();
 
 app.Run();
 

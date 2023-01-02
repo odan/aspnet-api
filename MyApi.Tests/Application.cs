@@ -1,10 +1,9 @@
+namespace MyApi.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 // using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlKata.Execution;
-
-namespace MyApi.Tests;
 
 internal sealed class Application : WebApplicationFactory<Program>
 {

@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2023-01-02 20:08+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: ;_localizer.GetString\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Domain/Customer/Service/CustomerCreatorFormMapper.cs:38
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:26
+msgid "Input required"
+msgstr "Eingabe erforderlich"
+
+#: Domain/Customer/Service/CustomerCreatorFormMapper.cs:46
+msgid "Input validation failed"
+msgstr "Eingabeüberprüfung fehlgeschlagen"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:27
+msgid "Too long"
+msgstr "Zu lang"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:28
+msgid "Invalid value"
+msgstr "Ungültiger Wert"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:29
+msgid "Username already exists"
+msgstr "Benutzername existiert bereits"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:34
+msgid "Invalid date format"
+msgstr "Ungültiges Datumsformat"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:35
+msgid "Invalid date"
+msgstr "Ungültiges Datum"
+
+#: Domain/Customer/Service/CustomerCreatorValidator.cs:36
+msgid "Invalid age"
+msgstr "Ungültiges Alter"
+
+#, csharp-format
+#~ msgid "The user {0} logged in"
+#~ msgstr "Der Benutzer {0} hat sich eingeloggt"
+
+#~ msgid "Number of customers: %d"
+#~ msgstr "Anzahl der Kunden: %d"
+
+#, csharp-format
+#~ msgid "x is {0}, y is {1}, and s is {2}"
+#~ msgstr "x ist {0}, y ist {1}, und s ist {2}"

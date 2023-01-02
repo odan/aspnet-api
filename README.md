@@ -20,6 +20,7 @@ A minimal ASP.NET Core API
 * Input validation (FluentValidation)
 * ValidationException middleware
 * Continuous integration (CI) workflow with GitHub Actions
+* Localization (I18Next.Net.Gettext)
 
 *Todo*
 
@@ -76,16 +77,40 @@ dotnet watch run
 
 ## Commands
 
+Build a project and its dependencies:
+
+```
+dotnet build
+```
+
+Cleaning the bin and obj directories:
+
+```
+dotnet clean
+```
+
+Clean and build:
+
+```
+dotnet rebuild
+```
+
 Running a release:
 
 ```
 dotnet run --configuration Release
 ```
 
-Creating a release build:
+Building a project and its dependencies using Release configuration:
 
 ```
 dotnet build --configuration Release
+```
+
+Publish:
+
+```
+dotnet publish
 ```
 
 **Code styles**
@@ -107,6 +132,76 @@ Fixing code styles:
 ```
 dotnet format --verbosity n
 ```
+
+## Translations
+
+Declare the `IStringLocalizer<T>` interface 
+where you need to translate messages.
+
+**Example**
+
+```csharp
+public class Example
+{
+    private readonly IStringLocalizer<Example> _localizer;
+
+    public Example(IStringLocalizer<Example> localizer)
+    {
+        _localizer = localizer;
+    }
+
+    // ...
+}
+```
+
+### Translation Usage
+
+The default language is english.
+
+Translating a simple message:
+
+```cs
+string text = _localizer.GetString("Hello, World!");
+
+// Output: Hallo, Welt!
+```
+
+Translating a message with placeholder(s):
+
+```cs
+string text2 = _localizer.GetString("The user {0} logged in", "sally");
+
+// Output: Der Benutzer sally hat sich eingeloggt
+```
+
+### Creating a new translation file
+
+* Open Poedit and create a new PO translation file in the project `Resources` directory.
+* The filename must be the same as the culture name, e.g. `de-DE.po`.
+* Open the menu `Translations` > `Settings`
+* Change the PO language, e.g. `German`
+* Add `_localizer.GetString` as sources keyword.
+* Add the source paths with your project CS files.
+* Save the file and click `Update from source` to parse for new translations.
+* Translate the messages and save the file to generate the MO file, e.g. `de-DE.mo`.
+
+### Changing the language
+
+You can change the language during the request by setting the CurrentCulture
+as follows:
+
+```csharp
+using using System.Globalization;
+// ...
+
+var culture = new CultureInfo("de-DE");
+Thread.CurrentThread.CurrentCulture = culture;
+Thread.CurrentThread.CurrentUICulture = culture;
+```
+
+The `LocalizationMiddleware` detects the user language using the HTTP request
+`Accept-Language` header value. If this header contains a valid code, the 
+CurrentCulture will be switched automatically.
 
 ## Testing
 
