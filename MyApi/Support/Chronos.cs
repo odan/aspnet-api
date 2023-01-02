@@ -36,8 +36,8 @@ public class Chronos
     public static int GetAge(DateTime birthDate)
     {
         var today = Now;
-
         var age = today.Year - birthDate.Year;
+
         if (birthDate.AddYears(age) > today)
         {
             age--;

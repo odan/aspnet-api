@@ -60,7 +60,7 @@ public class MoStringLocalizer : IStringLocalizer
     {
         var cultureName = Thread.CurrentThread.CurrentCulture.Name;
 
-        // Check of catalog for this language is already loaded
+        // Check if catalog for the current language is already loaded
         if (cultureName == this.cultureName)
         {
             return;
