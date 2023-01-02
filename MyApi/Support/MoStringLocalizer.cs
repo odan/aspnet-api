@@ -11,11 +11,11 @@ public class MoStringLocalizer : IStringLocalizer
     private string cultureName = "en-US";
 
     // Separator used between the actual key and the plural suffix.
-    public string PluralSeparator { get; set; } = "_";
+    private string PluralSeparator { get; set; } = "_";
 
     // Whether to use simple plural suffixes ('plural' for plural and nothing for singular).
     // If set to false all translations would be suffixed with the corresponding plural number.
-    public bool UseSimplePluralSuffix { get; set; } = true;
+    private bool UseSimplePluralSuffix { get; set; } = true;
 
     public LocalizedString this[string name]
     {

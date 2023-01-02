@@ -56,10 +56,7 @@ ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyAp
 ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Action");
 
 builder.Services.AddLocalization();
-builder.Services.AddSingleton<LocalizationMiddleware>();
 builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>();
-
-// builder.Services.AddScoped<...>();
 
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();
@@ -71,7 +68,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Add error handler middleware
+//
+// Middleware
+//
 app.UseExceptionHandlerMiddleware();
 app.UseValidationExceptionMiddleware();
 

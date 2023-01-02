@@ -1,4 +1,4 @@
-namespace MyApi.Support;
+namespace MyApi.Middleware;
 
 using System.Globalization;
 
