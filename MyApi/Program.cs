@@ -90,7 +90,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 app.UseMiddleware<LocalizationMiddleware>();
 
 // app.UseHttpsRedirection();
-//app.UseAuthorization();
+// app.UseAuthorization();
 
 // Classic MVC controllers
 // app.MapControllers();

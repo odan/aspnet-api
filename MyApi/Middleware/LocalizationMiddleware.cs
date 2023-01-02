@@ -6,11 +6,9 @@ public class LocalizationMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var cultureKey = context.Request.Headers["Accept-Language"];
+        var cultureKey = AsString(context.Request.Headers["Accept-Language"]);
 
-        // cultureKey = "de-DE";
-
-        if (!string.IsNullOrEmpty(cultureKey) && this.DoesCultureExist(cultureKey))
+        if (this.DoesCultureExist(cultureKey))
         {
             var culture = new CultureInfo(cultureKey);
             Thread.CurrentThread.CurrentCulture = culture;
@@ -19,6 +17,12 @@ public class LocalizationMiddleware : IMiddleware
 
         await next(context);
     }
+
+    private string AsString(string? variable)
+    {
+        return string.IsNullOrEmpty(variable) ? "" : variable;
+    }
+
     private bool DoesCultureExist(string cultureName)
     {
         return CultureInfo.GetCultures(CultureTypes.AllCultures)

@@ -20,7 +20,7 @@ A minimal ASP.NET Core API
 * Input validation (FluentValidation)
 * ValidationException middleware
 * Continuous integration (CI) workflow with GitHub Actions
-* Localization (I18Next.Net.Gettext)
+* Localization (NGettext)
 
 *Todo*
 

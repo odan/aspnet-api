@@ -15,6 +15,7 @@ public class MoStringLocalizer : IStringLocalizer
         get
         {
             var value = this.GetString(name);
+
             return new LocalizedString(name, value ?? name, value == null);
         }
     }
@@ -23,8 +24,12 @@ public class MoStringLocalizer : IStringLocalizer
         get
         {
             var actualValue = this[name];
+
             return !actualValue.ResourceNotFound
-                ? new LocalizedString(name, string.Format(actualValue.Value, arguments), false)
+                ? new LocalizedString(
+                    name,
+                    string.Format(CultureInfo.CurrentCulture, actualValue.Value, arguments),
+                    false)
                 : actualValue;
         }
     }
