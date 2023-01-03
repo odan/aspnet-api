@@ -156,7 +156,7 @@ public class Example
 
 ### Translation Usage
 
-The default language is english.
+The default and source language is english.
 
 Translating a simple message:
 
