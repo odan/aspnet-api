@@ -4,17 +4,17 @@ using System.Globalization;
 using Microsoft.Extensions.Localization;
 using NGettext;
 
-public class MoStringLocalizer : IStringLocalizer
+public sealed class MoStringLocalizer : IStringLocalizer
 {
-    private Catalog catalog = new();
+    private Catalog _catalog = new();
 
-    private string cultureName = "en-US";
+    private string _cultureName = "en-US";
 
     public LocalizedString this[string name]
     {
         get
         {
-            var value = this.GetString(name);
+            var value = GetString(name);
 
             return new LocalizedString(name, value ?? name, value == null);
         }
@@ -36,14 +36,14 @@ public class MoStringLocalizer : IStringLocalizer
 
     public IEnumerable<LocalizedString> GetAllStrings()
     {
-        return this.GetAllStrings(true);
+        return GetAllStrings(true);
     }
 
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {
-        this.LoadCatalog();
+        LoadCatalog();
 
-        foreach (var translation in this.catalog.Translations)
+        foreach (var translation in _catalog.Translations)
         {
             for (var i = 0; i < translation.Value.Length; i++)
             {
@@ -56,9 +56,9 @@ public class MoStringLocalizer : IStringLocalizer
     }
     private string GetString(string key)
     {
-        this.LoadCatalog();
+        LoadCatalog();
 
-        return this.catalog.GetString(key);
+        return _catalog.GetString(key);
     }
 
     private void LoadCatalog()
@@ -66,25 +66,25 @@ public class MoStringLocalizer : IStringLocalizer
         var cultureName = Thread.CurrentThread.CurrentCulture.Name;
 
         // Check if catalog for the current language is already loaded
-        if (cultureName == this.cultureName)
+        if (cultureName == _cultureName)
         {
             return;
         }
 
-        this.cultureName = cultureName;
+        _cultureName = cultureName;
 
         var moFile = $"Resources/{cultureName}.mo";
 
         if (!File.Exists(moFile))
         {
-            this.catalog = new Catalog();
+            _catalog = new Catalog();
 
             return;
         }
 
         using (Stream moFileStream = File.OpenRead(moFile))
         {
-            this.catalog = new Catalog(
+            _catalog = new Catalog(
                 moFileStream,
                 CultureInfo.GetCultureInfo(cultureName)
             );

@@ -4,18 +4,18 @@ namespace MyApi.Domain.Customer.Service;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
 
-public class CustomerCreator
+public sealed class CustomerCreator
 {
-    private readonly CustomerCreatorRepository repository;
+    private readonly CustomerCreatorRepository _repository;
 
     public CustomerCreator(CustomerCreatorRepository repository)
     {
-        this.repository = repository;
+        _repository = repository;
     }
 
     public int CreateUser(CustomerCreatorParameter user)
     {
-        var userId = this.repository.InsertUser(user.Username);
+        var userId = _repository.InsertUser(user.Username);
 
         // Logging
         // ...

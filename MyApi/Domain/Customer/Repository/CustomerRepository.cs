@@ -4,23 +4,23 @@ using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Exceptions;
 using SqlKata.Execution;
 
-public class CustomerRepository
+public sealed class CustomerRepository
 {
-    private readonly QueryFactory db;
+    private readonly QueryFactory _db;
 
     public CustomerRepository(QueryFactory db)
     {
-        this.db = db;
+        _db = db;
     }
 
     public IEnumerable<Customer> FindCustomers()
     {
-        return this.db.Query("users").Get<Customer>();
+        return _db.Query("users").Get<Customer>();
     }
 
     public Customer GetUserById(int id)
     {
-        var user = this.db.Query("users").Where("id", id).FirstOrDefault<Customer>();
+        var user = _db.Query("users").Where("id", id).FirstOrDefault<Customer>();
 
         if (user == null)
         {

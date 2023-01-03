@@ -130,7 +130,7 @@ dotnet format --verify-no-changes
 Fixing code styles:
 
 ```
-dotnet format --verbosity n
+dotnet format -v d
 ```
 
 ## Translations

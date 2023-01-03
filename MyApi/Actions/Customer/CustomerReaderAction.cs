@@ -3,20 +3,20 @@ namespace MyApi.Actions.Customer;
 using MyApi.Actions.Customer.Transformers;
 using MyApi.Domain.Customer.Service;
 
-public class CustomerReaderAction
+public sealed class CustomerReaderAction
 {
-    private readonly CustomerReader userReader;
+    private readonly CustomerReader _userReader;
 
     public CustomerReaderAction(CustomerReader userReader)
     {
-        this.userReader = userReader;
+        _userReader = userReader;
     }
 
     public object GetUser(int id)
     {
-        var user = this.userReader.ReadUser(id);
+        var user = _userReader.ReadUser(id);
 
-        return Results.Ok(UserReaderTransformer.transform(user));
+        return Results.Ok(UserReaderTransformer.Transform(user));
 
     }
 }

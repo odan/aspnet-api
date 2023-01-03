@@ -51,10 +51,11 @@ builder.Services.AddTransient(provider =>
 // Register service types by namespace (as scoped)
 // Alternatively use: Scrutor or Q101.ServiceCollectionExtensions
 var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Domain");
-ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Middleware");
-ServiceCollector.RegisterAssemblyTypesAsScoped(builder.Services, assembly, "MyApi.Action");
+builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Domain));
+builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Middleware));
+builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Actions));
 
+// Localization
 builder.Services.AddLocalization();
 builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>();
 

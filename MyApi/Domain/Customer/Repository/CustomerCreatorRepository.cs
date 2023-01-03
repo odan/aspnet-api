@@ -2,18 +2,18 @@ namespace MyApi.Domain.Customer.Repository;
 
 using SqlKata.Execution;
 
-public class CustomerCreatorRepository
+public sealed class CustomerCreatorRepository
 {
-    private readonly QueryFactory db;
+    private readonly QueryFactory _db;
 
     public CustomerCreatorRepository(QueryFactory db)
     {
-        this.db = db;
+        _db = db;
     }
 
     public bool ExistsUsername(string username)
     {
-        var row = this.db.Query("users")
+        var row = _db.Query("users")
             .Where("username", username)
             .FirstOrDefault();
 
@@ -22,7 +22,7 @@ public class CustomerCreatorRepository
 
     public int InsertUser(string username)
     {
-        var userId = this.db.Query("users").InsertGetId<int>(new
+        var userId = _db.Query("users").InsertGetId<int>(new
         {
             username,
         });

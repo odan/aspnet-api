@@ -4,9 +4,9 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using MyApi.Domain.Customer.Data;
 
-public class CustomerCreatorFormMapper
+public sealed class CustomerCreatorFormMapper
 {
-    private readonly CustomerCreatorValidator validator;
+    private readonly CustomerCreatorValidator _validator;
     private readonly IStringLocalizer<CustomerCreatorFormMapper> _localizer;
 
     public CustomerCreatorFormMapper(
@@ -14,14 +14,14 @@ public class CustomerCreatorFormMapper
         IStringLocalizer<CustomerCreatorFormMapper> localizer
     )
     {
-        this.validator = validator;
-        this._localizer = localizer;
+        _validator = validator;
+        _localizer = localizer;
     }
 
     public CustomerCreatorParameter Map(CustomerCreatorFormData? form)
     {
         // Input validation
-        form = this.Validate(form);
+        form = Validate(form);
 
         // Convert form data into a domain object
         return new CustomerCreatorParameter()
@@ -38,7 +38,7 @@ public class CustomerCreatorFormMapper
             throw new ValidationException(_localizer.GetString("Input required"));
         }
 
-        var results = this.validator.Validate(form);
+        var results = _validator.Validate(form);
 
         if (!results.IsValid)
         {

@@ -2,10 +2,10 @@ namespace MyApi.Support;
 
 using System;
 
-public class Chronos
+public sealed class Chronos
 {
 
-    private static DateTime? dateTime;
+    private static DateTime? _dateTime;
 
     public static DateTime ParseIsoDate(string? input)
     {
@@ -49,8 +49,8 @@ public class Chronos
 
     public static void SetTestNow(DateTime dateTime)
     {
-        Chronos.dateTime = dateTime;
+        _dateTime = dateTime;
     }
 
-    public static DateTime Now => dateTime ?? DateTime.Now;
+    public static DateTime Now => _dateTime ?? DateTime.Now;
 }

@@ -4,18 +4,18 @@ namespace MyApi.Domain.Customer.Service;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
 
-public class CustomerFinder
+public sealed class CustomerFinder
 {
-    private readonly CustomerRepository repository;
+    private readonly CustomerRepository _repository;
 
     public CustomerFinder(CustomerRepository repository)
     {
-        this.repository = repository;
+        _repository = repository;
     }
 
     public IEnumerable<Customer> FindAllUsers()
     {
-        var customers = this.repository.FindCustomers();
+        var customers = _repository.FindCustomers();
 
         // Custom logic...
 

@@ -132,16 +132,14 @@ csharp_style_var_for_built_in_types = true:warning
 csharp_style_var_when_type_is_apparent = true:warning
 csharp_style_var_elsewhere = true:warning
 # Expression-bodied members
-# IDE0022
-csharp_style_expression_bodied_methods = false
-# Disabled
-csharp_style_expression_bodied_constructors = false
+csharp_style_expression_bodied_methods = true:warning
+csharp_style_expression_bodied_constructors = true:warning
 csharp_style_expression_bodied_operators = true:warning
 csharp_style_expression_bodied_properties = true:warning
 csharp_style_expression_bodied_indexers = true:warning
 csharp_style_expression_bodied_accessors = true:warning
-csharp_style_expression_bodied_lambdas = false
-csharp_style_expression_bodied_local_functions = false
+csharp_style_expression_bodied_lambdas = true:warning
+csharp_style_expression_bodied_local_functions = true:warning
 # Pattern matching preferences
 csharp_style_pattern_matching_over_is_with_cast_check = true:warning
 csharp_style_pattern_matching_over_as_with_null_check = true:warning
@@ -451,6 +449,38 @@ dotnet_naming_rule.parameters_rule.severity             = warning
 # OTHER DEALINGS IN THE SOFTWARE.
 ##########################################
 
+#
+# Custome rules
+#
+[*.{cs,csx,cake}]
 
-[*.{cs,vb}]
+# Mark members as static
 dotnet_diagnostic.CA1822.severity = none
+
+# Specify IFormatProvider for string.Format
+dotnet_diagnostic.CA1305.severity = none
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = false
+csharp_style_expression_bodied_constructors = false
+csharp_style_expression_bodied_lambdas = false
+csharp_style_expression_bodied_local_functions = false
+
+# Define what we will treat as private fields.
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+# Define rule that something must begin with an underscore and be in camel case.
+dotnet_naming_style.require_underscore_prefix_and_camel_case.required_prefix = _
+dotnet_naming_style.require_underscore_prefix_and_camel_case.capitalization = camel_case
+
+# Appy our rule to private fields.
+dotnet_naming_rule.private_fields_must_begin_with_underscore_and_be_in_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_must_begin_with_underscore_and_be_in_camel_case.style = require_underscore_prefix_and_camel_case
+dotnet_naming_rule.private_fields_must_begin_with_underscore_and_be_in_camel_case.severity = warning
+
+# "this." qualifiers
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_event = false

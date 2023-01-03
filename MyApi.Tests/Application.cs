@@ -10,15 +10,14 @@ internal sealed class Application : WebApplicationFactory<Program>
 
     public new HttpClient CreateClient()
     {
-
-        return this.CreateDefaultClient();
+        return CreateDefaultClient();
     }
 
     public void ClearTables()
     {
-        // var db = this.Services.GetRequiredService<QueryFactory>();
+        // var db = Services.GetRequiredService<QueryFactory>();
 
-        using var scope = this.Services.CreateScope();
+        using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
 
         db.Statement("truncate table users");

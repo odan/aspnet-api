@@ -1,7 +1,7 @@
 
 namespace MyApi.Domain.Exceptions;
 
-public class UnexpectedValueException : Exception
+public sealed class UnexpectedValueException : Exception
 {
     public UnexpectedValueException(string message) : base(message) { }
 }

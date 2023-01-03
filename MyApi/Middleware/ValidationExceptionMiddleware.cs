@@ -2,7 +2,7 @@ namespace MyApi.Middleware;
 
 using FluentValidation;
 
-public class ValidationExceptionMiddleware : IMiddleware
+public sealed class ValidationExceptionMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

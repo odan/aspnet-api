@@ -2,9 +2,9 @@ namespace MyApi.Actions.Customer.Transformers;
 
 using MyApi.Domain.Customer.Data;
 
-public class UserReaderTransformer
+public sealed class UserReaderTransformer
 {
-    public static object transform(Customer user)
+    public static object Transform(Customer user)
     {
         return new
         {

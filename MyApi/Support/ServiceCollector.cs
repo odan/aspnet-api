@@ -3,11 +3,11 @@ namespace MyApi.Support;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
-public class ServiceCollector
+public static class ServiceCollector
 {
 
     // Register assembly types by namespace (as scoped)
-    public static void RegisterAssemblyTypesAsScoped(IServiceCollection services, Assembly assembly, string ns)
+    public static void AddAssemblyScoped(this IServiceCollection services, Assembly assembly, string ns)
     {
         foreach (var type in assembly.GetTypes())
         {

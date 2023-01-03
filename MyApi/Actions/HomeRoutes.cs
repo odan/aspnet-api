@@ -1,6 +1,5 @@
 namespace MyApi.Actions;
 
-using Microsoft.AspNetCore.Mvc;
 using MyApi.Actions.Home;
 
 // Extension

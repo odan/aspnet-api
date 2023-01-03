@@ -3,25 +3,25 @@ namespace MyApi.Actions.Customer;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Service;
 
-public class CustomerCreatorAction
+public sealed class CustomerCreatorAction
 {
-    private readonly CustomerCreator userCreator;
-    private readonly CustomerCreatorFormMapper mapper;
+    private readonly CustomerCreator _userCreator;
+    private readonly CustomerCreatorFormMapper _mapper;
 
     public CustomerCreatorAction(
         CustomerCreator userCreator,
         CustomerCreatorFormMapper mapper
     )
     {
-        this.userCreator = userCreator;
-        this.mapper = mapper;
+        _userCreator = userCreator;
+        _mapper = mapper;
     }
 
     public IResult CreateUser(CustomerCreatorFormData form)
     {
-        var parameter = this.mapper.Map(form);
+        var parameter = _mapper.Map(form);
 
-        var userId = this.userCreator.CreateUser(parameter);
+        var userId = _userCreator.CreateUser(parameter);
 
         return Results.Created("-", new { customer_id = userId });
     }

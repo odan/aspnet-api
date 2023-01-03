@@ -2,7 +2,7 @@ namespace MyApi.Support;
 
 using Microsoft.Extensions.Localization;
 
-public class MoStringLocalizerFactory : IStringLocalizerFactory
+public sealed class MoStringLocalizerFactory : IStringLocalizerFactory
 {
     public IStringLocalizer Create(Type resourceSource)
     {
