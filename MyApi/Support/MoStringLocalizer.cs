@@ -34,11 +34,6 @@ public sealed class MoStringLocalizer : IStringLocalizer
         }
     }
 
-    public IEnumerable<LocalizedString> GetAllStrings()
-    {
-        return GetAllStrings(true);
-    }
-
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {
         LoadCatalog();
