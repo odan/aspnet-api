@@ -34,8 +34,8 @@ A minimal ASP.NET Core API
 Run the following command to create a new project:
 
 ```
-git clone https://github.com/odan/aspnet-api.git --depth 1 {my-app-name}/
-cd [my-app-name]/
+git clone https://github.com/odan/aspnet-api.git --depth 1 {my-app-name}
+cd {my-app-name}
 ```
 
 Replace `{my-app-name}` with the desired name for your project. 
