@@ -34,11 +34,11 @@ A minimal ASP.NET Core API
 Run the following command to create a new project:
 
 ```
-git clone https://github.com/odan/aspnet-api.git --depth 1 [my-app-name]/
+git clone https://github.com/odan/aspnet-api.git --depth 1 {my-app-name}/
 cd [my-app-name]/
 ```
 
-Replace `[my-app-name]` with the desired name for your project. 
+Replace `{my-app-name}` with the desired name for your project. 
 
 
 Create a new MySQL / MariaDB database.
@@ -63,6 +63,8 @@ DB_DSN=Server=localhost;User ID=root;Password=;Database=my_api
 
 Modify the DSN accordingly.
 
+## Commands
+
 To build and run the application in debug mode, run:
 
 ```
@@ -75,12 +77,22 @@ or
 dotnet watch run
 ```
 
-## Commands
+Running a release build:
+
+```
+dotnet run --configuration Release
+```
 
 Build a project and its dependencies:
 
 ```
 dotnet build
+```
+
+Building a project and its dependencies using Release configuration:
+
+```
+dotnet build --configuration Release
 ```
 
 Cleaning the bin and obj directories:
@@ -93,18 +105,6 @@ Clean and build:
 
 ```
 dotnet rebuild
-```
-
-Running a release:
-
-```
-dotnet run --configuration Release
-```
-
-Building a project and its dependencies using Release configuration:
-
-```
-dotnet build --configuration Release
 ```
 
 Publish:
