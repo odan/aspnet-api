@@ -3,7 +3,7 @@ namespace MyApi.Support;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
-public static class ServiceCollector
+public static class ServiceCollectorExtension
 {
 
     // Register assembly types by namespace (as scoped)
