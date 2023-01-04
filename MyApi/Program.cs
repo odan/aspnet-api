@@ -10,6 +10,8 @@ using SqlKata.Execution;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var isDevelopment = builder.Environment.IsDevelopment();
+
 //
 // Configuration
 //
@@ -64,7 +66,24 @@ builder.Services.AddLocalization();
 builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>();
 
 // Logging
-builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
+builder.Logging.ClearProviders();
+if (isDevelopment)
+{
+    builder.Logging.AddConsole();
+}
+
+builder.Services.Add(ServiceDescriptor.Transient(typeof(ILogger<>), typeof(Logger<>)));
+
+//builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
+builder.Services.AddTransient(typeof(ILoggerFactory), (provider) =>
+{
+    var factory = new LoggerFactory();
+
+    // Serilog provider configuration
+    factory.AddSerilog(new LoggerConfiguration().CreateLogger());
+
+    return factory;
+});
 
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();
@@ -105,6 +124,8 @@ app.UseMiddleware<LocalizationMiddleware>();
 // app.MapControllers();
 
 // Minimal API action routes
+app.Logger.LogInformation("Adding Routes");
+
 app.MapHomeRoutes();
 
 app.MapGroup("/api")

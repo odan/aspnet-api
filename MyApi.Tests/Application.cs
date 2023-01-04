@@ -79,14 +79,17 @@ internal sealed class Application : WebApplicationFactory<Program>
 
         builder.ConfigureServices((hostBuilderContext, services) =>
         {
-            // Replacing an already registered dependency
-            //services.Replace(ServiceDescriptor.Transient<IFoo, FooImplementation>());
+            // Add or replace dependencies for testing only
+            //services.Remove(ServiceDescriptor.Transient<typeof(ILoggerFactory)>);
+            //services.Replace(ServiceDescriptor.Transient<ILoggerFactory, FooImplementation>());
+
+            // Create new logger sink for each test.
+            // This object contains all log events within a test case.
+            _inMemorySink = new InMemorySink();
 
             // Replace logger factory for testing
             services.AddTransient<ILoggerFactory>((provider) =>
             {
-                _inMemorySink = new InMemorySink();
-
                 var configuration = new LoggerConfiguration()
                     .WriteTo.Sink(_inMemorySink);
 
@@ -94,6 +97,9 @@ internal sealed class Application : WebApplicationFactory<Program>
                     configuration.CreateLogger()
                 );
 
+                // This factory wrapper ensures then the DI container 
+                // uses this configuration and not the actual programm
+                // configuration.
                 return new TestLoggerFactory(factory);
             }
             );
