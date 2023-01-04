@@ -22,6 +22,7 @@ A minimal ASP.NET Core API
 * Continuous integration (CI) workflow with GitHub Actions
 * Localization (NGettext)
 * Context specific logging (Serilog)
+* Error logging
 
 *Todo*
 
