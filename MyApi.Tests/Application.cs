@@ -1,16 +1,25 @@
 namespace MyApi.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
-// using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Sinks.InMemory;
 using SqlKata.Execution;
 
 internal sealed class Application : WebApplicationFactory<Program>
 {
 
+    private static InMemorySink _inMemorySink = new();
+
     public new HttpClient CreateClient()
     {
         return CreateDefaultClient();
+    }
+
+    public InMemorySink GetLoggerEvents()
+    {
+        return _inMemorySink;
     }
 
     public void ClearTables()
@@ -72,6 +81,22 @@ internal sealed class Application : WebApplicationFactory<Program>
         {
             // Replacing an already registered dependency
             //services.Replace(ServiceDescriptor.Transient<IFoo, FooImplementation>());
+
+            // Replace logger factory for testing
+            services.AddTransient<ILoggerFactory>((provider) =>
+            {
+                _inMemorySink = new InMemorySink();
+
+                var configuration = new LoggerConfiguration()
+                    .WriteTo.Sink(_inMemorySink);
+
+                var factory = new LoggerFactory().AddSerilog(
+                    configuration.CreateLogger()
+                );
+
+                return new TestLoggerFactory(factory);
+            }
+            );
 
             // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });

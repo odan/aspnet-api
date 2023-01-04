@@ -21,12 +21,12 @@ A minimal ASP.NET Core API
 * ValidationException middleware
 * Continuous integration (CI) workflow with GitHub Actions
 * Localization (NGettext)
+* Context specific logging (Serilog)
 
 *Todo*
 
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
-* Logging package (Serilog)
 * Build script (Ant)
 
 ## Installation

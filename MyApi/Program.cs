@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using MyApi.Actions;
 using MyApi.Middleware;
+using MySql.Data.MySqlClient;
+using Serilog;
+using SqlKata.Compilers;
+using SqlKata.Execution;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,14 +42,14 @@ builder.Services.AddScoped(provider =>
 {
     var dsn = builder.Configuration.GetConnectionString("Default");
 
-    return new MySql.Data.MySqlClient.MySqlConnection(dsn);
+    return new MySqlConnection(dsn);
 });
 
 builder.Services.AddTransient(provider =>
 {
-    var connection = provider.GetRequiredService<MySql.Data.MySqlClient.MySqlConnection>();
+    var connection = provider.GetRequiredService<MySqlConnection>();
 
-    return new SqlKata.Execution.QueryFactory(connection, new SqlKata.Compilers.MySqlCompiler());
+    return new QueryFactory(connection, new MySqlCompiler());
 });
 
 // Register service types by namespace (as scoped)
@@ -59,6 +63,9 @@ builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.
 builder.Services.AddLocalization();
 builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>();
 
+// Logging
+builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
+
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();
 
@@ -68,6 +75,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 
 //
 // Middleware
