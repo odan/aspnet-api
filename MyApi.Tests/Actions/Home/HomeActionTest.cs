@@ -2,17 +2,9 @@
 namespace MyApi.Tests.Actions.Home;
 
 using Serilog.Sinks.InMemory.Assertions;
-using Xunit.Abstractions;
 
 public class HomeActionTest
 {
-    private readonly ITestOutputHelper _output;
-
-    public HomeActionTest(ITestOutputHelper output)
-    {
-        _output = output;
-    }
-
     [Fact]
     public void TestGet()
     {

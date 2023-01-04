@@ -463,6 +463,9 @@ dotnet_diagnostic.CA1305.severity = none
 # For improved performance, use the LoggerMessage delegates
 dotnet_diagnostic.CA1848.severity = none
 
+# The logging message template should not vary between calls
+dotnet_diagnostic.CA2254.severity = none
+
 # IDE0022: Use expression body for methods
 csharp_style_expression_bodied_methods = false
 csharp_style_expression_bodied_constructors = false

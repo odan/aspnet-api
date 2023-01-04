@@ -23,6 +23,7 @@ A minimal ASP.NET Core API
 * Localization (NGettext)
 * Context specific logging (Serilog)
 * Error logging
+* Fluent assertions
 
 *Todo*
 

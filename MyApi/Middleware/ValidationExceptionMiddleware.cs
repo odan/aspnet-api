@@ -9,11 +9,11 @@ public sealed class ValidationExceptionMiddleware : IMiddleware
 
     public ValidationExceptionMiddleware(ILoggerFactory factory)
     {
-         _logger = factory.AddSerilog(
-            new LoggerConfiguration()
-            .WriteToFile("validation_exception")
-            .CreateLogger()
-        ).CreateLogger<ValidationExceptionMiddleware>();
+        _logger = factory.AddSerilog(
+           new LoggerConfiguration()
+           .WriteToFile("validation_exception")
+           .CreateLogger()
+       ).CreateLogger<ValidationExceptionMiddleware>();
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)

@@ -20,7 +20,7 @@ public sealed class CustomerCreatorRepository
         return row != null;
     }
 
-    public int InsertUser(string username)
+    public int InsertCustomer(string username)
     {
         var userId = _db.Query("users").InsertGetId<int>(new
         {

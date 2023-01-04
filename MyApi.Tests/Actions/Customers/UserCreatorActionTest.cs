@@ -1,12 +1,13 @@
 
 namespace MyApi.Tests.Actions.Customers;
 
+using Serilog.Sinks.InMemory.Assertions;
 using MyApi.Support;
 
 public class UserCreatorActionTest
 {
     [Fact]
-    public void TestCreateUser()
+    public void TestCreateCustomer()
     {
         var app = new Application();
         app.ClearTables();
@@ -18,7 +19,12 @@ public class UserCreatorActionTest
         var response = client.PostAsync("/api/customers", content).Result;
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal(/*lang=json,strict*/ "{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
+        Assert.Equal("{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
+
+        app.GetLoggerEvents()
+            .Should()
+            .HaveMessage("Customer created. Customer-ID: 1")
+            .Appearing().Once();
     }
 
     [Fact]

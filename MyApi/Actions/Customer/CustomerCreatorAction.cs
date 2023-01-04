@@ -21,7 +21,7 @@ public sealed class CustomerCreatorAction
     {
         var parameter = _mapper.Map(form);
 
-        var userId = _userCreator.CreateUser(parameter);
+        var userId = _userCreator.CreateCustomer(parameter);
 
         return Results.Created("-", new { customer_id = userId });
     }
