@@ -1,8 +1,6 @@
 
 namespace MyApi.Tests.Actions.Home;
 
-using Serilog.Sinks.InMemory.Assertions;
-
 public class HomeActionTest
 {
     [Fact]

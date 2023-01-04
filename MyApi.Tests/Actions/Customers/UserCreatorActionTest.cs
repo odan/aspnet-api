@@ -1,9 +1,6 @@
 
 namespace MyApi.Tests.Actions.Customers;
 
-using Serilog.Sinks.InMemory.Assertions;
-using MyApi.Support;
-
 public class UserCreatorActionTest
 {
     [Fact]
