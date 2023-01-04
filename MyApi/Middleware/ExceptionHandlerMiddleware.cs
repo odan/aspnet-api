@@ -1,7 +1,20 @@
 namespace MyApi.Middleware;
 
+using Serilog;
+
 public sealed class ExceptionHandlerMiddleware : IMiddleware
 {
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+
+    public ExceptionHandlerMiddleware(ILoggerFactory factory)
+    {
+         _logger = factory.AddSerilog(
+            new LoggerConfiguration()
+            .WriteToFile("error")
+            .CreateLogger()
+        ).CreateLogger<ExceptionHandlerMiddleware>();
+    }
+
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -10,6 +23,8 @@ public sealed class ExceptionHandlerMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
+            _logger.LogError(0, exception, "General error");
+
             // Handle exception
             context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
 
