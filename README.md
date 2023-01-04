@@ -27,6 +27,7 @@ A minimal ASP.NET Core API
 
 *Todo*
 
+* Database transactions
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
 * Build script (Ant)
