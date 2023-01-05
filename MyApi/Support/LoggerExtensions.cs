@@ -1,20 +1,23 @@
 namespace MyApi.Support;
 
 using Serilog;
+using Serilog.Extensions.Logging;
 
 public static class LoggerExtensions
 {
-    public static LoggerConfiguration WriteToFile(
-        this LoggerConfiguration logger,
-        string name)
+    public static ILoggerFactory WriteToFile(
+            this ILoggerFactory factory,
+            string name
+    )
     {
         var filename = Path.Combine(
             AppContext.BaseDirectory,
             "LogFiles",
-            $"{name}.txt"
+            $"{name}_.txt"
         );
 
-        logger.WriteTo.File(
+        var logger = new LoggerConfiguration()
+            .WriteTo.File(
             filename,
             rollingInterval: RollingInterval.Day,
             fileSizeLimitBytes: 10 * 1024 * 1024,
@@ -22,9 +25,11 @@ public static class LoggerExtensions
             rollOnFileSizeLimit: true,
             shared: true,
             flushToDiskInterval: TimeSpan.FromSeconds(1)
-        );
+        ).CreateLogger();
 
-        return logger;
+        factory.AddProvider(new SerilogLoggerProvider(logger));
+
+        return factory;
     }
 }
 

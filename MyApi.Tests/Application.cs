@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Extensions.Logging;
 using Serilog.Sinks.InMemory;
 using SqlKata.Execution;
 
@@ -93,12 +94,13 @@ internal sealed class Application : WebApplicationFactory<Program>
                 var configuration = new LoggerConfiguration()
                     .WriteTo.Sink(_inMemorySink);
 
-                var factory = new LoggerFactory().AddSerilog(
+                var factory = new LoggerFactory();
+                factory.AddProvider(new SerilogLoggerProvider(
                     configuration.CreateLogger()
-                );
+                ));
 
-                // This factory wrapper ensures then the DI container 
-                // uses this configuration and not the actual programm
+                // This factory wrapper ensures then the DI container
+                // uses this configuration and not the actual program
                 // configuration.
                 return new TestLoggerFactory(factory);
             }

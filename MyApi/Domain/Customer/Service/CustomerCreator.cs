@@ -4,7 +4,6 @@ namespace MyApi.Domain.Customer.Service;
 using MyApi.Database;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
-using Serilog;
 
 public sealed class CustomerCreator
 {
@@ -20,11 +19,9 @@ public sealed class CustomerCreator
     {
         _repository = repository;
         _transaction = transaction;
-        _logger = factory.AddSerilog(
-            new LoggerConfiguration()
+        _logger = factory
             .WriteToFile("customer_creator")
-            .CreateLogger()
-        ).CreateLogger<CustomerCreator>();
+            .CreateLogger<CustomerCreator>();
     }
 
     public int CreateCustomer(CustomerCreatorParameter customer)

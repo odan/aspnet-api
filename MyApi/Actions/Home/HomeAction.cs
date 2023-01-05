@@ -1,18 +1,13 @@
 namespace MyApi.Actions.Home;
-
-using Serilog;
-
 public class HomeAction
 {
     private readonly ILogger<HomeAction> _logger;
 
     public HomeAction(ILoggerFactory factory)
     {
-        _logger = factory.AddSerilog(
-            new LoggerConfiguration()
+        _logger = factory
             .WriteToFile("home_action")
-            .CreateLogger()
-        ).CreateLogger<HomeAction>();
+            .CreateLogger<HomeAction>();
     }
 
     public string Get()
