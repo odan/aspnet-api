@@ -115,9 +115,6 @@ internal sealed class Application : WebApplicationFactory<Program>
             }
             );
 
-            // var list2 = services.BuildServiceProvider().GetServices<ILoggerFactory>().ToList();
-            // var count2 = list2.Count;
-
             // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });
 

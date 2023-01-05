@@ -81,11 +81,6 @@ if (isDevelopment)
 builder.Services.Add(ServiceDescriptor.Transient(typeof(ILogger<>), typeof(Logger<>)));
 builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
 
-//builder.Services.AddTransient(typeof(ILoggerFactory), (provider) =>
-//{
-//    return new LoggerFactory();
-//});
-
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();
 
