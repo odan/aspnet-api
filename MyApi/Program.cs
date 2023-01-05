@@ -2,6 +2,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using MyApi.Actions;
+using MyApi.Database;
 using MyApi.Middleware;
 using MySql.Data.MySqlClient;
 using Serilog;
@@ -44,7 +45,10 @@ builder.Services.AddScoped(provider =>
 {
     var dsn = builder.Configuration.GetConnectionString("Default");
 
-    return new MySqlConnection(dsn);
+    var connection = new MySqlConnection(dsn);
+    connection.Open();
+
+    return connection;
 });
 
 builder.Services.AddTransient(provider =>
@@ -53,6 +57,9 @@ builder.Services.AddTransient(provider =>
 
     return new QueryFactory(connection, new MySqlCompiler());
 });
+
+builder.Services.AddScoped<ITransaction, Transaction>();
+
 
 // Register service types by namespace (as scoped)
 // Alternatively use: Scrutor or Q101.ServiceCollectionExtensions

@@ -1,6 +1,7 @@
 
 namespace MyApi.Domain.Customer.Service;
 
+using MyApi.Database;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
 using Serilog;
@@ -8,14 +9,17 @@ using Serilog;
 public sealed class CustomerCreator
 {
     private readonly CustomerCreatorRepository _repository;
+    private readonly ITransaction _transaction;
     private readonly ILogger<CustomerCreator> _logger;
 
     public CustomerCreator(
         CustomerCreatorRepository repository,
+        ITransaction transaction,
         ILoggerFactory factory
     )
     {
         _repository = repository;
+        _transaction = transaction;
         _logger = factory.AddSerilog(
             new LoggerConfiguration()
             .WriteToFile("customer_creator")
@@ -25,12 +29,29 @@ public sealed class CustomerCreator
 
     public int CreateCustomer(CustomerCreatorParameter customer)
     {
-        var customerId = _repository.InsertCustomer(customer.Username);
+        _logger.LogInformation("Create new customer", customer);
 
-        // Logging
-        _logger.LogInformation($"Customer created. Customer-ID: {customerId}");
+        _transaction.Begin();
 
-        return customerId;
+        try
+        {
+            var customerId = _repository.InsertCustomer(customer.Username);
+
+            _transaction.Commit();
+
+            // Logging
+            _logger.LogInformation($"Customer created. Customer-ID: {customerId}");
+
+            return customerId;
+        }
+        catch (Exception exception)
+        {
+            _transaction.Rollback();
+
+            _logger.LogError(exception.Message);
+
+            throw;
+        }
     }
 }
 

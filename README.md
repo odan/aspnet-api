@@ -16,6 +16,7 @@ A minimal ASP.NET Core API
 * 12-Factor `.env` configuration loader (for sensitive data)
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
+* Database transaction handling
 * HTTP tests (integration)
 * Input validation (FluentValidation)
 * ValidationException middleware
@@ -27,7 +28,7 @@ A minimal ASP.NET Core API
 
 *Todo*
 
-* Database transactions
+* Fluent assertions for database tests 
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
 * Build script (Ant)

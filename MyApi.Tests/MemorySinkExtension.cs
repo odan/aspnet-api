@@ -20,5 +20,6 @@ public class TestLoggerFactory : ILoggerFactory
 
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
     }
 }
