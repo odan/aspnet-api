@@ -33,10 +33,7 @@ public sealed class CustomerCreatorFormMapper
 
     private CustomerCreatorFormData Validate(CustomerCreatorFormData? form)
     {
-        if (form == null)
-        {
-            throw new ValidationException(_localizer.GetString("Input required"));
-        }
+        ArgumentNullException.ThrowIfNull(form);
 
         var results = _validator.Validate(form);
 
