@@ -1,6 +1,7 @@
 namespace MyApi.Tests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -81,30 +82,41 @@ internal sealed class Application : WebApplicationFactory<Program>
         builder.ConfigureServices((hostBuilderContext, services) =>
         {
             // Add or replace dependencies for testing only
-            //services.Remove(ServiceDescriptor.Transient<typeof(ILoggerFactory)>);
-            //services.Replace(ServiceDescriptor.Transient<ILoggerFactory, FooImplementation>());
+
+            // Optional: Clear all logs
+            Log.CloseAndFlush();
 
             // Create new logger sink for each test.
             // This object contains all log events within a test case.
             _inMemorySink = new InMemorySink();
 
-            // Replace logger factory for testing
+            // Remove service desriptors.
+            // This method does not remove all the instances.
+            services.RemoveAll(typeof(ILoggerFactory));
+
             services.AddTransient<ILoggerFactory>((provider) =>
             {
                 var configuration = new LoggerConfiguration()
                     .WriteTo.Sink(_inMemorySink);
 
                 var factory = new LoggerFactory();
+
+                // The SerilogLoggerProvider is not designed for DI because it
+                // it will be bounded to the global state in Log.CloseAndFlush
+                // to expose the loggers.
                 factory.AddProvider(new SerilogLoggerProvider(
                     configuration.CreateLogger()
                 ));
 
-                // This factory wrapper ensures then the DI container
-                // uses this configuration and not the actual program
-                // configuration.
+                // This factory wrapper converts the Serilog logger
+                // to an instance of Microsoft.Extensions.Logging.ILogger
+                // and ensures that only this InMemory logger will be used.
                 return new TestLoggerFactory(factory);
             }
             );
+
+            // var list2 = services.BuildServiceProvider().GetServices<ILoggerFactory>().ToList();
+            // var count2 = list2.Count;
 
             // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });
