@@ -17,21 +17,25 @@ A minimal ASP.NET Core API
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
 * Database transaction handling
-* HTTP tests (integration)
 * Input validation (FluentValidation)
 * ValidationException middleware
-* Continuous integration (CI) workflow with GitHub Actions
 * Localization (NGettext)
 * Context specific logging (Serilog)
-* Error logging
-* Fluent assertions
+* File based error logging
+* Continuous integration (CI) workflow with GitHub Actions
+
+**Testing**
+
+* XUnit tests
+* HTTP endpoint tests (using a test database)
+* Fluent assertions for log messages
 
 *Todo*
 
 * Fluent assertions for database tests 
 * Authentication (BasicAuth)
 * Database migrations (DbUp)
-* Build script (Ant)
+* Build script (Cake or Ant)
 
 ## Installation
 
