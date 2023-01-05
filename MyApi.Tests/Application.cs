@@ -84,7 +84,7 @@ internal sealed class Application : WebApplicationFactory<Program>
             // Add or replace dependencies for testing only
 
             // Optional: Clear all logs
-            Log.CloseAndFlush();
+            // Log.CloseAndFlush();
 
             // Create new logger sink for each test.
             // This object contains all log events within a test case.
@@ -105,15 +105,17 @@ internal sealed class Application : WebApplicationFactory<Program>
                 // it will be bounded to the global state in Log.CloseAndFlush
                 // to expose the loggers.
                 factory.AddProvider(new SerilogLoggerProvider(
-                    configuration.CreateLogger()
+                    configuration.CreateLogger(),
+                    // If true, the logger will be disposed/closed
+                    // when the provider is disposed.
+                    true
                 ));
 
                 // This factory wrapper converts the Serilog logger
                 // to an instance of Microsoft.Extensions.Logging.ILogger
                 // and ensures that only this InMemory logger will be used.
                 return new TestLoggerFactory(factory);
-            }
-            );
+            });
 
             // var dsn = hostBuilderContext.Configuration["ConnectionStrings:Default"];
         });
