@@ -1,7 +1,6 @@
 
 namespace MyApi.Domain.Customer.Service;
 
-using MyApi.Database;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
 

@@ -1,5 +1,5 @@
 
-namespace MyApi.Database;
+namespace MyApi.Support;
 
 using MySql.Data.MySqlClient;
 

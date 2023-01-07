@@ -2,7 +2,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using MyApi.Actions;
-using MyApi.Database;
 using MyApi.Middleware;
 using MySql.Data.MySqlClient;
 using SqlKata.Compilers;
