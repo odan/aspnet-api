@@ -51,7 +51,7 @@ jobs:
       run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
     - name: Create database schema
-      run: mysql -uroot -proot test --force < schema.sql
+      run: mysql -uroot -proot test --force < MyApi/Resources/schema.sql
 
     - name: Restore dependencies
       run: dotnet restore
