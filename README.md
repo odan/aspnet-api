@@ -213,6 +213,12 @@ CurrentCulture will be switched automatically.
 
 ## Testing
 
+Create a local test database:
+
+```sql
+ CREATE DATABASE `my_api_test`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+```
+
 To start the test suite, run:
 
 ```
