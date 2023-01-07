@@ -32,9 +32,9 @@ A minimal ASP.NET Core API
 
 *Todo*
 
+* Database migrations (DbUp)
 * Fluent assertions for database tests 
 * Authentication (BasicAuth)
-* Database migrations (DbUp)
 * Build script (Cake or Ant)
 
 ## Installation
@@ -52,14 +52,10 @@ Replace `{my-app-name}` with the desired name for your project.
 Create a new MySQL / MariaDB database.
 
 ```sql
-CREATE DATABASE `my_api` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
-
-CREATE TABLE `customers` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+ CREATE DATABASE `my_api`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 ```
+
+Import the [schema.sql](MyApi/Resources/schema.sql) file.
 
 Modify the database name accordingly.
 
