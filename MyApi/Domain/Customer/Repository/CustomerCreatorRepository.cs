@@ -13,7 +13,7 @@ public sealed class CustomerCreatorRepository
 
     public bool ExistsUsername(string username)
     {
-        var row = _db.Query("users")
+        var row = _db.Query("customers")
             .Where("username", username)
             .FirstOrDefault();
 
@@ -22,7 +22,7 @@ public sealed class CustomerCreatorRepository
 
     public int InsertCustomer(string username)
     {
-        var userId = _db.Query("users").InsertGetId<int>(new
+        var userId = _db.Query("customers").InsertGetId<int>(new
         {
             username,
         });

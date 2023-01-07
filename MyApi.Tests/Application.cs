@@ -14,6 +14,8 @@ internal sealed class Application : WebApplicationFactory<Program>
 
     private static InMemorySink _inMemorySink = new();
 
+    private static bool DatabaseSetup = false;
+
     public new HttpClient CreateClient()
     {
         return CreateDefaultClient();
@@ -26,12 +28,50 @@ internal sealed class Application : WebApplicationFactory<Program>
 
     public void ClearTables()
     {
+        InitDatabaseSchema();
         // var db = Services.GetRequiredService<QueryFactory>();
 
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
 
-        db.Statement("truncate table users");
+        db.Statement("truncate table customers");
+    }
+
+    private void InitDatabaseSchema()
+    {
+        if (DatabaseSetup == true)
+        {
+            return;
+        }
+
+        using var scope = Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
+
+        db.Statement("SET unique_checks=0; SET foreign_key_checks=0;");
+
+        dynamic tables = db.Query("information_schema.tables")
+            .Select("TABLE_NAME")
+            .WhereRaw("table_schema = database()")
+            .Get<object>();
+
+
+        StringBuilder dropStatements = new StringBuilder();
+        foreach (var table in tables)
+        {
+            dropStatements.AppendFormat("DROP TABLE `{0}`;", table.TABLE_NAME);
+        }
+        if (dropStatements.Length > 0)
+        {
+            db.Statement(dropStatements.ToString());
+
+        }
+
+        string sql = File.ReadAllText(Path.Combine("Resources", "schema.sql"));
+        db.Statement(sql);
+
+        db.Statement("SET unique_checks=1; SET foreign_key_checks=1;");
+
+        DatabaseSetup = true;
     }
 
     public StringContent CreateJson(object data)
@@ -52,7 +92,7 @@ internal sealed class Application : WebApplicationFactory<Program>
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
             Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
             Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
-            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "my_api"
+            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "my_api_test"
         );
 
         Environment.SetEnvironmentVariable("DB_DSN", dsn);

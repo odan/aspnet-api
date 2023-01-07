@@ -15,12 +15,12 @@ public sealed class CustomerRepository
 
     public IEnumerable<Customer> FindCustomers()
     {
-        return _db.Query("users").Get<Customer>();
+        return _db.Query("customers").Get<Customer>();
     }
 
     public Customer GetUserById(int id)
     {
-        var user = _db.Query("users").Where("id", id).FirstOrDefault<Customer>();
+        var user = _db.Query("customers").Where("id", id).FirstOrDefault<Customer>();
 
         if (user == null)
         {

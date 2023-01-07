@@ -23,6 +23,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <MyResources Include="../MyApi/Resources/**/*.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,5 +33,10 @@
   <ItemGroup>
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <Target Name="copyResources" AfterTargets="AfterBuild">
+    <MakeDir Directories="$(TargetDir)/Resources" />
+    <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+  </Target>
 
 </Project>

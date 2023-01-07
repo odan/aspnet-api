@@ -54,7 +54,7 @@ Create a new MySQL / MariaDB database.
 ```sql
 CREATE DATABASE `my_api` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 
-CREATE TABLE `users` (
+CREATE TABLE `customers` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
