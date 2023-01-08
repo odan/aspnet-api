@@ -18,7 +18,7 @@
 
 
   <Target Name="copyResources" AfterTargets="AfterBuild">
-    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
+    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" Condition="Exists('@(EnvFile)')" />
     <Copy SourceFiles="@(SchemaFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
     <MakeDir Directories="$(TargetDir)/Scripts" />
     <Copy SourceFiles="@(ScriptsFiles)" OverwriteReadOnlyFiles="true"

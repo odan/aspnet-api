@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <Target Name="copyResources" AfterTargets="AfterBuild">
-    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
+    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" Condition="Exists('@(EnvFile)')" />
     <MakeDir Directories="$(TargetDir)/Resources" />
     <Copy SourceFiles="@(SchemaSqlFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
   </Target>

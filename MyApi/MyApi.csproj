@@ -30,13 +30,10 @@
   </Target>
 
   <Target Name="copyResources" AfterTargets="AfterBuild">
-    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
+    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" Condition="Exists('@(EnvFile)')" />
     <MakeDir Directories="$(TargetDir)/Resources" />
     <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true"
       DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
   </Target>
 
-  <Target Name="AAA">
-    <Exec Command="npm run build" />
-  </Target>
 </Project>
