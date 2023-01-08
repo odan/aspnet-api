@@ -52,7 +52,7 @@ Replace `{my-app-name}` with the desired name for your project.
 Create a new MySQL / MariaDB database.
 
 ```sql
-CREATE DATABASE `my_api`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE `my_api` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 ```
 
 Modify the database name accordingly.
@@ -223,7 +223,7 @@ CurrentCulture will be switched automatically.
 Create a local **test** database for xUnit.
 
 ```sql
-CREATE DATABASE `my_api_test`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE `my_api_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 ```
 
 Create a `.env` file in the `MyApi.Tests` directory:
