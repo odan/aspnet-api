@@ -2,6 +2,7 @@
 #pragma warning disable CA1852
 
 using System.Data;
+using System.Text.RegularExpressions;
 using DbUp;
 using MySql.Data.MySqlClient;
 
@@ -134,7 +135,7 @@ if (command == "export")
 
             reader.Read();
             var tableSql = reader.GetString("Create Table") + ";";
-            tableSql = MyRegex().Replace(tableSql, "");
+            tableSql = Regex.Replace(tableSql, "AUTO_INCREMENT=\\d+", "");
 
             sqlList.Add(tableSql);
             reader.Close();
