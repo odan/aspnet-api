@@ -24,7 +24,16 @@ Thread.CurrentThread.CurrentUICulture = culture;
 DotNetEnv.Env.Load();
 
 // Copy sensitive settings from environment variables
-builder.Configuration["ConnectionStrings:Default"] = DotNetEnv.Env.GetString("DB_DSN");
+var dsn = string.Format(
+    "Server={0};Port={1};User ID={2};Password={3};Database={4}",
+    Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
+    Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
+    Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
+    Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
+    Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
+);
+
+builder.Configuration["ConnectionStrings:Default"] = dsn;
 
 //
 // Add services to the DI container

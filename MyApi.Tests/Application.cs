@@ -1,4 +1,5 @@
 namespace MyApi.Tests;
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -14,7 +15,7 @@ internal sealed class Application : WebApplicationFactory<Program>
 
     private static InMemorySink _inMemorySink = new();
 
-    private static bool DatabaseSetup = false;
+    private static bool _databaseSetup;
 
     public new HttpClient CreateClient()
     {
@@ -39,7 +40,7 @@ internal sealed class Application : WebApplicationFactory<Program>
 
     private void InitDatabaseSchema()
     {
-        if (DatabaseSetup == true)
+        if (_databaseSetup)
         {
             return;
         }
@@ -55,7 +56,7 @@ internal sealed class Application : WebApplicationFactory<Program>
             .Get<object>();
 
 
-        StringBuilder dropStatements = new StringBuilder();
+        var dropStatements = new StringBuilder();
         foreach (var table in tables)
         {
             dropStatements.AppendFormat("DROP TABLE `{0}`;", table.TABLE_NAME);
@@ -66,12 +67,12 @@ internal sealed class Application : WebApplicationFactory<Program>
 
         }
 
-        string sql = File.ReadAllText(Path.Combine("Resources", "schema.sql"));
+        var sql = File.ReadAllText(Path.Combine("Resources", "schema.sql"));
         db.Statement(sql);
 
         db.Statement("SET unique_checks=1; SET foreign_key_checks=1;");
 
-        DatabaseSetup = true;
+        _databaseSetup = true;
     }
 
     public StringContent CreateJson(object data)
@@ -86,16 +87,19 @@ internal sealed class Application : WebApplicationFactory<Program>
         // Specify the content root directory
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
+        var dir = Directory.GetCurrentDirectory();
+
+        // Load .env file within the test project
+        DotNetEnv.Env.Load();
+
         var dsn = string.Format(
             "Server={0};Port={1};User ID={2};Password={3};Database={4}",
             Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
             Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
             Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
-            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "my_api_test"
+            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
         );
-
-        Environment.SetEnvironmentVariable("DB_DSN", dsn);
 
         // Command line args
         builder.ConfigureHostConfiguration(config =>

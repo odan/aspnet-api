@@ -23,6 +23,7 @@ A minimal ASP.NET Core API
 * Context specific logging (Serilog)
 * File based error logging
 * Continuous integration (CI) workflow with GitHub Actions
+* Database migrations (DbUp)
 
 **Testing**
 
@@ -32,10 +33,9 @@ A minimal ASP.NET Core API
 
 *Todo*
 
-* Database migrations (DbUp)
 * Fluent assertions for database tests 
 * Authentication (BasicAuth)
-* Build script (Cake or Ant)
+* Build script
 
 ## Installation
 
@@ -52,20 +52,31 @@ Replace `{my-app-name}` with the desired name for your project.
 Create a new MySQL / MariaDB database.
 
 ```sql
- CREATE DATABASE `my_api`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE `my_api`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 ```
-
-Import the [schema.sql](MyApi/Resources/schema.sql) file.
 
 Modify the database name accordingly.
 
 Create a `.env` file in the `MyApi` directory:
 
 ```env
-DB_DSN=Server=localhost;User ID=root;Password=;Database=my_api
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=my_api
 ```
 
-Modify the DSN accordingly.
+Modify the database and credentials accordingly.
+
+Import the [schema.sql](Schema/schema.sql) file manually or 
+run the following command:
+
+```
+npm run migration:migrate
+```
+
+**Note:** This command requires [NPM](https://nodejs.org/en/download/).
 
 ## Commands
 
@@ -209,11 +220,23 @@ CurrentCulture will be switched automatically.
 
 ## Testing
 
-Create a local test database:
+Create a local **test** database for xUnit.
 
 ```sql
- CREATE DATABASE `my_api_test`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE `my_api_test`CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
 ```
+
+Create a `.env` file in the `MyApi.Tests` directory:
+
+```env
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=my_api_test
+```
+
+Modify the database and credentials accordingly.
 
 To start the test suite, run:
 

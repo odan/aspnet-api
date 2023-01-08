@@ -20,7 +20,8 @@
     <PackageReference Include="sqlkata" Version="2.4.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <MyResources Include="$(MSBuildProjectDirectory)/Resources/**/*.*" />
+    <EnvFile Include="$(ProjectDir)/.env" />
+    <MyResources Include="$(ProjectDir)/Resources/**/*.*" />
   </ItemGroup>
 
 
@@ -29,7 +30,13 @@
   </Target>
 
   <Target Name="copyResources" AfterTargets="AfterBuild">
+    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
     <MakeDir Directories="$(TargetDir)/Resources" />
-    <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+    <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true"
+      DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+  </Target>
+
+  <Target Name="AAA">
+    <Exec Command="npm run build" />
   </Target>
 </Project>

@@ -23,11 +23,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <MyResources Include="../MyApi/Resources/**/*.*" />
+    <EnvFile Include="$(ProjectDir)/.env" />
+    <SchemaSqlFile Include="$(ProjectDir)/../Schema/schema.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyApi\MyApi.csproj" />
+    <ProjectReference Include="$(ProjectDir)/../MyApi/MyApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,8 +36,9 @@
   </ItemGroup>
 
   <Target Name="copyResources" AfterTargets="AfterBuild">
+    <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
     <MakeDir Directories="$(TargetDir)/Resources" />
-    <Copy SourceFiles="@(MyResources)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+    <Copy SourceFiles="@(SchemaSqlFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
   </Target>
 
 </Project>

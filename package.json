@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "migration:create": "dotnet run --project=Schema/Schema.csproj -- create",
+    "migration:migrate": "dotnet run --project=Schema/Schema.csproj -- migrate",
+    "migration:export": "dotnet run --project=Schema/Schema.csproj -- export"
+  }
+}
