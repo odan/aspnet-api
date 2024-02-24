@@ -1,17 +1,14 @@
 namespace MyApi.Middleware;
 
 using FluentValidation;
+using System.Text.Json;
+using System.Net;
 
-public sealed class ValidationExceptionMiddleware : IMiddleware
+public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMiddleware
 {
-    private readonly ILogger<ValidationExceptionMiddleware> _logger;
-
-    public ValidationExceptionMiddleware(ILoggerFactory factory)
-    {
-        _logger = factory
+    private readonly ILogger<ValidationExceptionMiddleware> _logger = factory
             .WriteToFile("validation_exception")
             .CreateLogger<ValidationExceptionMiddleware>();
-    }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -23,7 +20,7 @@ public sealed class ValidationExceptionMiddleware : IMiddleware
         {
             _logger.LogError(0, validationException, "Validation error");
 
-            context.Response.StatusCode = (int)System.Net.HttpStatusCode.UnprocessableEntity;
+            context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
 
             // create list of dynamic objects from a list of objects
             var details = validationException.Errors.Select(error => new
@@ -32,7 +29,7 @@ public sealed class ValidationExceptionMiddleware : IMiddleware
                 field = error.PropertyName.ToSnakeCase(),
             });
 
-            await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
                 error = new
                 {

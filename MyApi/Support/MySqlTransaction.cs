@@ -3,14 +3,9 @@ namespace MyApi.Support;
 
 using MySql.Data.MySqlClient;
 
-public sealed class Transaction : ITransaction
+public sealed class Transaction(MySqlConnection connection) : ITransaction
 {
-    private readonly MySqlConnection _connection;
-
-    public Transaction(MySqlConnection connection)
-    {
-        _connection = connection;
-    }
+    private readonly MySqlConnection _connection = connection;
 
     public void Begin()
     {

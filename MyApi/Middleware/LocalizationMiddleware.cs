@@ -6,7 +6,7 @@ public sealed class LocalizationMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var cultureKey = AsString(context.Request.Headers["Accept-Language"]);
+        var cultureKey = AsString(context.Request.Headers.AcceptLanguage);
 
         if (DoesCultureExist(cultureKey))
         {

@@ -4,28 +4,21 @@ namespace MyApi.Domain.Customer.Service;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Repository;
 
-public sealed class CustomerCreator
+public sealed class CustomerCreator(
+    CustomerCreatorRepository repository,
+    ITransaction transaction,
+    ILoggerFactory factory
+)
 {
-    private readonly CustomerCreatorRepository _repository;
-    private readonly ITransaction _transaction;
-    private readonly ILogger<CustomerCreator> _logger;
-
-    public CustomerCreator(
-        CustomerCreatorRepository repository,
-        ITransaction transaction,
-        ILoggerFactory factory
-    )
-    {
-        _repository = repository;
-        _transaction = transaction;
-        _logger = factory
+    private readonly CustomerCreatorRepository _repository = repository;
+    private readonly ITransaction _transaction = transaction;
+    private readonly ILogger<CustomerCreator> _logger = factory
             .WriteToFile("customer_creator")
             .CreateLogger<CustomerCreator>();
-    }
 
     public int CreateCustomer(CustomerCreatorParameter customer)
     {
-        _logger.LogInformation("Create new customer", customer);
+        _logger.LogInformation("Create new customer {Customer}", customer);
 
         _transaction.Begin();
 

@@ -1,14 +1,9 @@
 namespace MyApi.Actions.Home;
-public class HomeAction
+public class HomeAction(ILoggerFactory factory)
 {
-    private readonly ILogger<HomeAction> _logger;
-
-    public HomeAction(ILoggerFactory factory)
-    {
-        _logger = factory
+    private readonly ILogger<HomeAction> _logger = factory
             .WriteToFile("home_action")
             .CreateLogger<HomeAction>();
-    }
 
     public string Get()
     {

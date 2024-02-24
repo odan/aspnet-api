@@ -2,14 +2,9 @@ namespace MyApi.Domain.Customer.Repository;
 
 using SqlKata.Execution;
 
-public sealed class CustomerCreatorRepository
+public sealed class CustomerCreatorRepository(QueryFactory db)
 {
-    private readonly QueryFactory _db;
-
-    public CustomerCreatorRepository(QueryFactory db)
-    {
-        _db = db;
-    }
+    private readonly QueryFactory _db = db;
 
     public bool ExistsUsername(string username)
     {

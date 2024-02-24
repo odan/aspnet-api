@@ -16,7 +16,9 @@ public class UserCreatorActionTest
         var response = client.PostAsync("/api/customers", content).Result;
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal(/*lang=json,strict*/ "{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
+        Assert.Equal("{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
+
+        var events = app.GetLoggerEvents();
 
         app.GetLoggerEvents()
             .Should()

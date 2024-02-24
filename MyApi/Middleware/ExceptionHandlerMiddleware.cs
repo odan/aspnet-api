@@ -1,15 +1,10 @@
 namespace MyApi.Middleware;
 
-public sealed class ExceptionHandlerMiddleware : IMiddleware
+public sealed class ExceptionHandlerMiddleware(ILoggerFactory factory) : IMiddleware
 {
-    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
-
-    public ExceptionHandlerMiddleware(ILoggerFactory factory)
-    {
-        _logger = factory
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger = factory
             .WriteToFile("error")
             .CreateLogger<ExceptionHandlerMiddleware>();
-    }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

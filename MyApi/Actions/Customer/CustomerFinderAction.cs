@@ -3,14 +3,9 @@ namespace MyApi.Actions.Customer;
 using MyApi.Actions.Customer.Transformers;
 using MyApi.Domain.Customer.Service;
 
-public sealed class CustomerFinderAction
+public sealed class CustomerFinderAction(CustomerFinder userFinder)
 {
-    private readonly CustomerFinder _userFinder;
-
-    public CustomerFinderAction(CustomerFinder userFinder)
-    {
-        _userFinder = userFinder;
-    }
+    private readonly CustomerFinder _userFinder = userFinder;
 
     public object FindUsers()
     {

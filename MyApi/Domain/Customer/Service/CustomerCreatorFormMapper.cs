@@ -4,19 +4,13 @@ using FluentValidation;
 using Microsoft.Extensions.Localization;
 using MyApi.Domain.Customer.Data;
 
-public sealed class CustomerCreatorFormMapper
+public sealed class CustomerCreatorFormMapper(
+    CustomerCreatorValidator validator,
+    IStringLocalizer<CustomerCreatorFormMapper> localizer
+)
 {
-    private readonly CustomerCreatorValidator _validator;
-    private readonly IStringLocalizer<CustomerCreatorFormMapper> _localizer;
-
-    public CustomerCreatorFormMapper(
-        CustomerCreatorValidator validator,
-        IStringLocalizer<CustomerCreatorFormMapper> localizer
-    )
-    {
-        _validator = validator;
-        _localizer = localizer;
-    }
+    private readonly CustomerCreatorValidator _validator = validator;
+    private readonly IStringLocalizer<CustomerCreatorFormMapper> _localizer = localizer;
 
     public CustomerCreatorParameter Map(CustomerCreatorFormData? form)
     {

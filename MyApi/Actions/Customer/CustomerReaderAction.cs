@@ -3,14 +3,9 @@ namespace MyApi.Actions.Customer;
 using MyApi.Actions.Customer.Transformers;
 using MyApi.Domain.Customer.Service;
 
-public sealed class CustomerReaderAction
+public sealed class CustomerReaderAction(CustomerReader userReader)
 {
-    private readonly CustomerReader _userReader;
-
-    public CustomerReaderAction(CustomerReader userReader)
-    {
-        _userReader = userReader;
-    }
+    private readonly CustomerReader _userReader = userReader;
 
     public object GetUser(int id)
     {
