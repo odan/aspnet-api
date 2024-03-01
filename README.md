@@ -4,7 +4,7 @@ A minimal ASP.NET Core API
 
 ## Requirements
 
-* [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+* [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * A MySQL database
 
 ## Features
