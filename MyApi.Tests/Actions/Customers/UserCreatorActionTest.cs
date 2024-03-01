@@ -16,7 +16,7 @@ public class UserCreatorActionTest
         var response = client.PostAsync("/api/customers", content).Result;
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        Assert.Equal("{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
+        Assert.Equal(/*lang=json,strict*/ "{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
 
         var events = app.GetLoggerEvents();
 
@@ -43,20 +43,16 @@ public class UserCreatorActionTest
 
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
         var json = response.Content.ReadAsStringAsync().Result;
-        Assert.Contains("Input validation failed", json);
+        Assert.Contains("One or more validation errors occurred.", json);
 
         var expected = JsonSerializer.Serialize(new
         {
-            error = new
+            type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            title = "One or more validation errors occurred.",
+            status = 422,
+            errors = new Dictionary<string, string[]>()
             {
-                message = "Input validation failed",
-                details = new List<object> {
-                    new
-                    {
-                        message = "Invalid value",
-                        field = "username"
-                    }
-                }
+                ["username"] = ["Invalid value"]
             }
         });
 

@@ -1,8 +1,8 @@
 namespace MyApi.Middleware;
 
-using FluentValidation;
-using System.Text.Json;
 using System.Net;
+using System.Text.Json;
+using FluentValidation;
 
 public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMiddleware
 {
@@ -18,24 +18,26 @@ public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMid
         }
         catch (ValidationException validationException)
         {
-            _logger.LogError(0, validationException, "Validation error");
+            _logger.LogError(422, validationException, "Validation error");
 
+            context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
 
             // create list of dynamic objects from a list of objects
-            var details = validationException.Errors.Select(error => new
+            var errors = new Dictionary<string, string[]>();
+            foreach (var error in validationException.Errors)
             {
-                message = error.ErrorMessage,
-                field = error.PropertyName.ToSnakeCase(),
-            });
+                errors.Add(error.PropertyName.ToSnakeCase(), [error.ErrorMessage]);
+            }
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
-                error = new
-                {
-                    message = validationException.Message,
-                    details,
-                }
+                type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                title = string.IsNullOrEmpty(validationException.Message) ?
+                    "One or more validation errors occurred." :
+                    validationException.Message,
+                status = context.Response.StatusCode,
+                errors
             }));
         }
     }
