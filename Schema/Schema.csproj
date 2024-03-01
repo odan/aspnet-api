@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -21,8 +21,7 @@
     <Copy SourceFiles="@(EnvFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" Condition="Exists('@(EnvFile)')" />
     <Copy SourceFiles="@(SchemaFile)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)" />
     <MakeDir Directories="$(TargetDir)/Scripts" />
-    <Copy SourceFiles="@(ScriptsFiles)" OverwriteReadOnlyFiles="true"
-      DestinationFolder="$(TargetDir)/Scripts" />
+    <Copy SourceFiles="@(ScriptsFiles)" OverwriteReadOnlyFiles="true" DestinationFolder="$(TargetDir)/Scripts" />
   </Target>
 
 </Project>
