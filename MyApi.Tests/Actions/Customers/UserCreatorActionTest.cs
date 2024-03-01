@@ -41,12 +41,12 @@ public class UserCreatorActionTest
 
         Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
         var json = response.Content.ReadAsStringAsync().Result;
-        Assert.Contains("One or more validation errors occurred.", json);
+        Assert.Contains("Input validation failed", json);
 
         var expected = JsonSerializer.Serialize(new
         {
             type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-            title = "One or more validation errors occurred.",
+            title = "Input validation failed",
             status = 422,
             errors = new Dictionary<string, string[]>()
             {
