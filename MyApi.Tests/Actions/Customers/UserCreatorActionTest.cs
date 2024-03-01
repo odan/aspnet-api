@@ -18,8 +18,6 @@ public class UserCreatorActionTest
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal(/*lang=json,strict*/ "{\"customer_id\":1}", response.Content.ReadAsStringAsync().Result);
 
-        var events = app.GetLoggerEvents();
-
         app.GetLoggerEvents()
             .Should()
             .HaveMessage("Customer created. Customer-ID: 1")

@@ -1,14 +1,10 @@
 namespace MyApi.Tests;
 using Microsoft.Extensions.Logging;
 
-public class TestLoggerFactory : ILoggerFactory
+public class TestLoggerFactory(ILoggerFactory factory) : ILoggerFactory
 {
-    private readonly ILoggerFactory _factory;
+    private readonly ILoggerFactory _factory = factory;
 
-    public TestLoggerFactory(ILoggerFactory factory)
-    {
-        _factory = factory;
-    }
     public void AddProvider(ILoggerProvider provider)
     {
     }
