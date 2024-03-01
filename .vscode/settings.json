@@ -1,8 +1,7 @@
 {
   "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
-  "dotnet-test-explorer.testArguments": "--collect:\"XPlat Code Coverage\"",
-  "coverage-gutters.coverageFileNames": ["coverage.cobertura.xml"],
+  "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info",
   "coverage-gutters.showLineCoverage": true,
   "coverage-gutters.showRulerCoverage": true,
-  "coverage-gutters.showGutterCoverage": true
+  "coverage-gutters.showGutterCoverage": true,
 }
