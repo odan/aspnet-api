@@ -70,7 +70,7 @@ public class ApplicationFactory<TProgram>
                 var dsn = configuration.GetConnectionString("Default");
 
                 // Detect github actions
-                if (!string.IsNullOrEmpty(dsn))
+                if (string.IsNullOrEmpty(dsn))
                 {
                     // Copy sensitive settings from environment variables
                     // Use caching_sha2_password
