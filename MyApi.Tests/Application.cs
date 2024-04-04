@@ -1,6 +1,7 @@
 namespace MyApi.Tests;
 
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -47,7 +48,6 @@ internal sealed class Application : WebApplicationFactory<Program>
 
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
-
         db.Statement("SET unique_checks=0; SET foreign_key_checks=0;");
 
         dynamic tables = db.Query("information_schema.tables")
@@ -75,6 +75,13 @@ internal sealed class Application : WebApplicationFactory<Program>
         _databaseSetup = true;
     }
 
+    public void InsertFixture(string table, object data)
+    {
+        using var scope = Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
+        db.Query(table).Insert(data);
+    }
+
     public StringContent CreateJson(object data)
     {
         var json = JsonSerializer.Serialize(data);
@@ -88,18 +95,6 @@ internal sealed class Application : WebApplicationFactory<Program>
         builder.UseContentRoot(Directory.GetCurrentDirectory());
 
         var dir = Directory.GetCurrentDirectory();
-
-        // Load .env file within the test project
-        DotNetEnv.Env.Load();
-
-        var dsn = string.Format(
-            "Server={0};Port={1};User ID={2};Password={3};Database={4}",
-            Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
-            Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
-            Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-            Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
-            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
-        );
 
         // Command line args
         builder.ConfigureHostConfiguration(config =>

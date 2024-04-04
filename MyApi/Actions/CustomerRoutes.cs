@@ -1,25 +1,17 @@
 namespace MyApi.Actions;
 
-using Microsoft.AspNetCore.Mvc;
 using MyApi.Actions.Customer;
-using MyApi.Domain.Customer.Data;
 
 // Extension
 public static class CustomerRoutes
 {
     public static IEndpointRouteBuilder MapApiCustomerRoutes(this IEndpointRouteBuilder route)
     {
-        route.MapGet("/customers", (CustomerFinderAction action)
-            => action.FindUsers());
+        route.MapGet("/customers", CustomerFinderAction.FindUsers);
 
-        route.MapGet("/customers/{id}", (CustomerReaderAction action, int id)
-            => action.GetUser(id));
+        route.MapGet("/customers/{id}", CustomerReaderAction.GetUser);
 
-        route.MapPost("/customers", (
-           CustomerCreatorAction action,
-           [FromBody] CustomerCreatorFormData data)
-           => action.CreateUser(data)
-        );
+        route.MapPost("/customers", CustomerCreatorAction.CreateUser);
 
         return route;
     }

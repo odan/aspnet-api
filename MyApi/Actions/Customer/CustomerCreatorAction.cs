@@ -1,21 +1,20 @@
 namespace MyApi.Actions.Customer;
 
+using Microsoft.AspNetCore.Mvc;
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Customer.Service;
 
-public sealed class CustomerCreatorAction(
-    CustomerCreator userCreator,
-    CustomerCreatorFormMapper mapper
-)
+public static class CustomerCreatorAction
 {
-    private readonly CustomerCreator _userCreator = userCreator;
-    private readonly CustomerCreatorFormMapper _mapper = mapper;
-
-    public IResult CreateUser(CustomerCreatorFormData form)
+    public static IResult CreateUser(
+        CustomerCreator userCreator,
+        CustomerCreatorFormMapper mapper,
+        [FromBody] CustomerCreatorFormData form
+    )
     {
-        var parameter = _mapper.Map(form);
+        var parameter = mapper.Map(form);
 
-        var userId = _userCreator.CreateCustomer(parameter);
+        var userId = userCreator.CreateCustomer(parameter);
 
         return Results.Created("#", new { customer_id = userId });
     }

@@ -142,7 +142,7 @@ if (command == "export")
         }
 
         Console.WriteLine("Save to file: " + schemaSqlFile);
-        File.WriteAllText(schemaSqlFile, string.Join("\n\n", sqlList.ToArray()));
+        File.WriteAllText(schemaSqlFile, string.Join("\n\n", [.. sqlList]));
     }
     catch (Exception ex)
     {

@@ -7,7 +7,7 @@ public static class HomeRoutes
 {
     public static IEndpointRouteBuilder MapHomeRoutes(this IEndpointRouteBuilder route)
     {
-        route.MapGet("/", (HomeAction action) => action.Get());
+        route.MapGet("/", HomeAction.Get);
 
         return route;
     }

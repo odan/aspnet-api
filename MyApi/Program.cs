@@ -23,18 +23,6 @@ Thread.CurrentThread.CurrentUICulture = culture;
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
 
-// Copy sensitive settings from environment variables
-var dsn = string.Format(
-    "Server={0};Port={1};User ID={2};Password={3};Database={4}",
-    Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
-    Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
-    Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-    Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
-    Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
-);
-
-builder.Configuration["ConnectionStrings:Default"] = dsn;
-
 //
 // Add services to the DI container
 //
@@ -51,6 +39,19 @@ builder.Configuration["ConnectionStrings:Default"] = dsn;
 builder.Services.AddScoped(provider =>
 {
     var dsn = builder.Configuration.GetConnectionString("Default");
+
+    if (dsn == "")
+    {
+        // Copy sensitive settings from environment variables
+        dsn = string.Format(
+            "Server={0};Port={1};User ID={2};Password={3};Database={4}",
+            Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
+            Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
+            Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
+            Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
+            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
+        );
+    }
 
     var connection = new MySqlConnection(dsn);
     connection.Open();

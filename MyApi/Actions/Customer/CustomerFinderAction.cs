@@ -3,13 +3,11 @@ namespace MyApi.Actions.Customer;
 using MyApi.Actions.Customer.Transformers;
 using MyApi.Domain.Customer.Service;
 
-public sealed class CustomerFinderAction(CustomerFinder userFinder)
+public static class CustomerFinderAction
 {
-    private readonly CustomerFinder _userFinder = userFinder;
-
-    public object FindUsers()
+    public static object FindUsers(CustomerFinder userFinder)
     {
-        var users = _userFinder.FindAllUsers();
+        var users = userFinder.FindAllUsers();
 
         // Map domain objects to (strongly typed) view model or
         // (weakly typed) view data.

@@ -3,13 +3,11 @@ namespace MyApi.Actions.Customer;
 using MyApi.Actions.Customer.Transformers;
 using MyApi.Domain.Customer.Service;
 
-public sealed class CustomerReaderAction(CustomerReader userReader)
+public static class CustomerReaderAction
 {
-    private readonly CustomerReader _userReader = userReader;
-
-    public object GetUser(int id)
+    public static object GetUser(CustomerReader userReader, int id)
     {
-        var user = _userReader.ReadUser(id);
+        var user = userReader.ReadUser(id);
 
         return Results.Ok(UserReaderTransformer.Transform(user));
 

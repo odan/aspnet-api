@@ -4,26 +4,19 @@ namespace MyApi.Tests.Actions.Customers;
 public class UserReaderActionTest
 {
     [Fact]
-    public void TestFindUsers()
+    public void TestReadUser()
     {
         var app = new Application();
         app.ClearTables();
 
         Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
-        var client = app.CreateClient();
+        app.InsertFixture("customers", new { username = "max", email = "max@example.com" });
 
-        var content = app.CreateJson(new { username = "john", date_of_birth = "1982-03-28" });
-        var response = client.PostAsync("/api/customers", content).Result;
-
-        content = app.CreateJson(new { username = "sally", date_of_birth = "2000-01-31" });
-        response = client.PostAsync("/api/customers", content).Result;
-
-        response = client.GetAsync("/api/customers").Result;
+        var response = app.CreateClient().GetAsync("/api/customers/1").Result;
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var result = response.Content.ReadAsStringAsync().Result;
-        Assert.Contains("john", result);
-        Assert.Contains("sally", result);
+        Assert.Contains("max", result);
     }
 }
