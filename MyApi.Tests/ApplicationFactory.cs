@@ -69,8 +69,10 @@ public class ApplicationFactory<TProgram>
                 // Get database connection string for test environment
                 var dsn = configuration.GetConnectionString("Default");
 
+                var isGitHubAction = Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true";
+
                 // Detect github actions
-                if (string.IsNullOrEmpty(dsn))
+                if (isGitHubAction)
                 {
                     // Copy sensitive settings from environment variables
                     // Use caching_sha2_password
@@ -84,9 +86,9 @@ public class ApplicationFactory<TProgram>
                     );
                 }
 
-               // if (string.IsNullOrEmpty(dsn))
-               // {
-                 //   dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;Charset=utf8mb4";
+                // if (string.IsNullOrEmpty(dsn))
+                // {
+                //   dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;Charset=utf8mb4";
                 // }
 
                 // Change DSN to test database
