@@ -43,8 +43,9 @@ builder.Services.AddScoped(provider =>
     if (dsn == "")
     {
         // Copy sensitive settings from environment variables
+        // Use caching_sha2_password
         dsn = string.Format(
-            "server={0};port={1};uid={2};pwd={3};database={4}",
+            "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;",
             Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
             Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
