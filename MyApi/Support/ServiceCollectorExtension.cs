@@ -1,7 +1,7 @@
 namespace MyApi.Support;
 
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 public static class ServiceCollectorExtension
 {

@@ -3,20 +3,31 @@ namespace MyApi.Tests.Actions.Customers;
 
 public class UserReaderActionTest
 {
-    [Fact]
-    public void TestReadUser()
+    private ApplicationFactory _factory { get; set; }
+    private TestDatabase _database { get; set; }
+
+    public UserReaderActionTest(
+        ApplicationFactory factory,
+        TestDatabase database
+    )
     {
-        var app = new Application();
-        app.ClearTables();
+        _factory = factory;
+        _database = database;
+    }
+
+    [Fact]
+    public async void TestReadUser()
+    {
+        _database.ClearTables();
 
         Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
-        app.InsertFixture("customers", new { username = "max", email = "max@example.com" });
+        _database.InsertFixture("customers", new { username = "max", email = "max@example.com" });
 
-        var response = app.CreateClient().GetAsync("/api/customers/1").Result;
+        var response = await _factory.CreateClient().GetAsync("/api/customers/1");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = response.Content.ReadAsStringAsync().Result;
+        var result = await response.Content.ReadAsStringAsync();
         Assert.Contains("max", result);
     }
 }

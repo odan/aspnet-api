@@ -2,37 +2,48 @@ namespace MyApi.Tests.Actions.Customers;
 
 public class UserFinderActionTest
 {
-    [Fact]
-    public void Test()
+    private ApplicationFactory _factory { get; set; }
+    private TestDatabase _database { get; set; }
+
+    public UserFinderActionTest(
+        ApplicationFactory factory,
+        TestDatabase database
+    )
     {
-        var client = new Application().CreateClient();
-        var response = client.GetAsync("/api/customers").Result;
+        _factory = factory;
+        _database = database;
+    }
+
+    [Fact]
+    public async void Test()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/api/customers");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = response.Content.ReadAsStringAsync().Result;
+        var result = await response.Content.ReadAsStringAsync();
         Assert.Contains("customers", result);
     }
 
     [Fact]
-    public void TestFindUsers()
+    public async void TestFindUsers()
     {
-        var app = new Application();
-        app.ClearTables();
+        _database.ClearTables();
 
         Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
-        var client = app.CreateClient();
+        var client = _factory.CreateClient();
 
-        var content = app.CreateJson(new { username = "john", date_of_birth = "1982-03-28" });
-        var response = client.PostAsync("/api/customers", content).Result;
+        var content = _factory.CreateJson(new { username = "john", date_of_birth = "1982-03-28" });
+        var response = await client.PostAsync("/api/customers", content);
 
-        content = app.CreateJson(new { username = "sally", date_of_birth = "2000-01-31" });
-        response = client.PostAsync("/api/customers", content).Result;
+        content = _factory.CreateJson(new { username = "sally", date_of_birth = "2000-01-31" });
+        response = await client.PostAsync("/api/customers", content);
 
-        response = client.GetAsync("/api/customers").Result;
+        response = await client.GetAsync("/api/customers");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = response.Content.ReadAsStringAsync().Result;
+        var result = await response.Content.ReadAsStringAsync();
         Assert.Contains("john", result);
         Assert.Contains("sally", result);
     }

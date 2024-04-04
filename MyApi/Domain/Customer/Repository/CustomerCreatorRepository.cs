@@ -15,9 +15,9 @@ public sealed class CustomerCreatorRepository(QueryFactory db)
         return row != null;
     }
 
-    public int InsertCustomer(string username)
+    public async Task<int> InsertCustomer(string username)
     {
-        var userId = _db.Query("customers").InsertGetId<int>(new
+        var userId = await _db.Query("customers").InsertGetIdAsync<int>(new
         {
             username,
         });

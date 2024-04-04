@@ -16,7 +16,7 @@ public sealed class CustomerCreator(
             .WriteToFile("customer_creator")
             .CreateLogger<CustomerCreator>();
 
-    public int CreateCustomer(CustomerCreatorParameter customer)
+    public async Task<int> CreateCustomer(CustomerCreatorParameter customer)
     {
         _logger.LogInformation("Create new customer {Customer}", customer);
 
@@ -24,7 +24,7 @@ public sealed class CustomerCreator(
 
         try
         {
-            var customerId = _repository.InsertCustomer(customer.Username);
+            var customerId = await _repository.InsertCustomer(customer.Username);
 
             _transaction.Commit();
 
@@ -43,4 +43,3 @@ public sealed class CustomerCreator(
         }
     }
 }
-

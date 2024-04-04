@@ -1,10 +1,10 @@
 // CA1852 Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
 #pragma warning disable CA1852
 
-using System.Data;
-using System.Text.RegularExpressions;
 using DbUp;
 using MySql.Data.MySqlClient;
+using System.Data;
+using System.Text.RegularExpressions;
 
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine("*** Database Schema Tool ***");

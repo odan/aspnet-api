@@ -1,8 +1,8 @@
 namespace MyApi.Middleware;
 
+using FluentValidation;
 using System.Net;
 using System.Text.Json;
-using FluentValidation;
 
 public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMiddleware
 {

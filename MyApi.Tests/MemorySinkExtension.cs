@@ -1,4 +1,5 @@
 namespace MyApi.Tests;
+
 using Microsoft.Extensions.Logging;
 
 public class TestLoggerFactory(ILoggerFactory factory) : ILoggerFactory

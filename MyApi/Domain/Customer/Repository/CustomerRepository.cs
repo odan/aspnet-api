@@ -2,6 +2,7 @@ namespace MyApi.Domain.Customer.Repository;
 
 using MyApi.Domain.Customer.Data;
 using MyApi.Domain.Exceptions;
+
 using SqlKata.Execution;
 
 public sealed class CustomerRepository(QueryFactory db)

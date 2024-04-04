@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using MyApi.Actions;
@@ -6,6 +5,7 @@ using MyApi.Middleware;
 using MySql.Data.MySqlClient;
 using SqlKata.Compilers;
 using SqlKata.Execution;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -138,7 +138,10 @@ app.MapGroup("/api")
 
 app.Run();
 
-// This line is needed for the test project to work
-public partial class Program
+namespace MyApi
 {
+    // This line is needed for the test project to work
+    public partial class Program
+    {
+    }
 }

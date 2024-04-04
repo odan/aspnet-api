@@ -1,7 +1,9 @@
 namespace MyApi.Domain.Customer.Service;
 
 using FluentValidation;
+
 using Microsoft.Extensions.Localization;
+
 using MyApi.Domain.Customer.Data;
 
 public sealed class CustomerCreatorFormMapper(

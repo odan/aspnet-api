@@ -3,18 +3,23 @@ namespace MyApi.Tests.Actions.Home;
 
 public class HomeActionTest
 {
-    [Fact]
-    public void TestGet()
-    {
-        var app = new Application();
+    private ApplicationFactory _factory { get; set; }
 
-        var client = app.CreateClient();
-        var response = client.GetAsync("/").Result;
+    public HomeActionTest(ApplicationFactory factory)
+    {
+        _factory = factory;
+    }
+
+    [Fact]
+    public async void TestGet()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Equal("Hello, World!", response.Content.ReadAsStringAsync().Result);
+        Assert.Equal("Hello, World!", await response.Content.ReadAsStringAsync());
 
-        app.GetLoggerEvents()
+        _factory.GetLoggerEvents()
             .Should()
             .HaveMessage("Home action")
             .Appearing().Once();

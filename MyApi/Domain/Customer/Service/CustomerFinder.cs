@@ -17,4 +17,3 @@ public sealed class CustomerFinder(CustomerRepository repository)
         return customers;
     }
 }
-

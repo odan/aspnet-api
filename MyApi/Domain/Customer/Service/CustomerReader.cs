@@ -13,4 +13,3 @@ public sealed class CustomerReader(CustomerRepository repository)
         return _repository.GetUserById(id);
     }
 }
-

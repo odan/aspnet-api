@@ -1,8 +1,8 @@
 namespace MyApi.Support;
 
-using System.Globalization;
 using Microsoft.Extensions.Localization;
 using NGettext;
+using System.Globalization;
 
 public sealed class MoStringLocalizer : IStringLocalizer
 {
@@ -86,5 +86,3 @@ public sealed class MoStringLocalizer : IStringLocalizer
         }
     }
 }
-
-
