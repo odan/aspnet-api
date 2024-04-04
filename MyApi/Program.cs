@@ -49,8 +49,8 @@ builder.Services.AddScoped(provider =>
             Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
             Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
             Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-            Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
-            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
+            Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "root",
+            Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "test"
         );
     }
 
