@@ -40,7 +40,8 @@ builder.Services.AddScoped(provider =>
 {
     var dsn = builder.Configuration.GetConnectionString("Default");
 
-    if (dsn == "")
+    // Detect github actions
+    if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_USER")))
     {
         // Copy sensitive settings from environment variables
         // Use caching_sha2_password
