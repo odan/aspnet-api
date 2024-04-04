@@ -40,10 +40,10 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_USER")))
     );
 }
 
-if (string.IsNullOrEmpty(dsn))
-{
-    dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;";
-}
+//if (string.IsNullOrEmpty(dsn))
+//{
+dsn = "server=localhost2;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;";
+//}
 
 //
 // Add services to the DI container
