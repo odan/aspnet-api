@@ -86,7 +86,7 @@ public class ApplicationFactory<TProgram>
 
                // if (string.IsNullOrEmpty(dsn))
                // {
-                    dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;Charset=utf8mb4";
+                 //   dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;Charset=utf8mb4";
                 // }
 
                 // Change DSN to test database
