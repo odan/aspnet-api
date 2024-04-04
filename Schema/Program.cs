@@ -51,11 +51,11 @@ if (File.Exists(envFile))
 var connectionString =
     args.ElementAtOrDefault(1)
     ?? string.Format(
-    "Server={0};Port={1};User ID={2};Password={3};Database={4}",
+    "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
     Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
     Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
     Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-    Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "",
+    Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "root",
     Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? ""
 );
 
