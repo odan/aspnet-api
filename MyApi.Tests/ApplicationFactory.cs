@@ -69,6 +69,8 @@ public class ApplicationFactory<TProgram>
                 // Get database connection string for test environment
                 var dsn = configuration.GetConnectionString("Default");
 
+                dsn = "server=localhost2;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;";
+
                 // Change DSN to test database
                 var connection = new MySqlConnection(dsn);
                 connection.Open();

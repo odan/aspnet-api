@@ -31,7 +31,7 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_USER")))
     // Copy sensitive settings from environment variables
     // Use caching_sha2_password
     dsn = string.Format(
-        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;",
+        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
         Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
         Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
         Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
@@ -42,7 +42,7 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_USER")))
 
 //if (string.IsNullOrEmpty(dsn))
 //{
-dsn = "server=localhost2;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;";
+//dsn = "server=localhost2;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;";
 //}
 
 //
