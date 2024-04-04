@@ -48,8 +48,11 @@ jobs:
     - name: Start MySQL
       run: sudo systemctl start mysql
 
-    - name: Check MySQL variables
+    - name: Check MySQL version
       run: mysql -uroot -proot -e "SHOW VARIABLES LIKE 'version%';"
+
+    - name: Check MySQL authentication
+      run: mysql -uroot -proot -e "SHOW VARIABLES LIKE 'default_authentication_plugin';"
 
     - name: Create database
       run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
