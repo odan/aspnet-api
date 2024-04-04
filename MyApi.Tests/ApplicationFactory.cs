@@ -75,7 +75,7 @@ public class ApplicationFactory<TProgram>
                     // Copy sensitive settings from environment variables
                     // Use caching_sha2_password
                     dsn = string.Format(
-                        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SSL Mode=Required;Charset=utf8mb4",
+                        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
                         Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
                         Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
                         Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
@@ -86,7 +86,7 @@ public class ApplicationFactory<TProgram>
 
                // if (string.IsNullOrEmpty(dsn))
                // {
-                    dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SSL Mode=Required;Charset=utf8mb4";
+                    dsn = "server=localhost;port=3306;uid=root;pwd=root;database=test;AllowUserVariables=True;SslMode=Required;Charset=utf8mb4";
                 // }
 
                 // Change DSN to test database
