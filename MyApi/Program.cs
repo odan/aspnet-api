@@ -32,8 +32,8 @@ var dsn = builder.Configuration.GetConnectionString("Default");
 //
 // Transient: Creates a new instance of the service every time you request it.
 //
-// Scoped: creates a new instance for every scope. (Each request is a Scope).
-// Within the scope, it reuses the existing service.
+// Scoped: Creates a new instance for every scope. Each request is a Scope.
+// Within the scope, it reuses the existing instance.
 //
 // Singleton: Creates a new Service only once during the application lifetime,
 // and uses it everywhere.
@@ -69,10 +69,6 @@ builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>
 
 // Logging
 builder.Logging.ClearProviders();
-if (isDevelopment)
-{
-    builder.Logging.AddConsole();
-}
 
 builder.Services.Add(ServiceDescriptor.Transient(typeof(ILogger<>), typeof(Logger<>)));
 builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
@@ -86,7 +82,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 
 //
 // Middleware
