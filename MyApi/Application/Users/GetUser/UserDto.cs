@@ -1,6 +1,6 @@
-namespace MyApi.Application.Users.Data;
+namespace MyApi.Application.Users.GetUser;
 
-public class User
+public class UserDto
 {
     public int Id { get; set; }
 

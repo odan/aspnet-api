@@ -1,6 +1,5 @@
 namespace MyApi.Application.Users.FindUser;
 
-using MyApi.Application.Users.Data;
 using MyApi.Application.Users.GetUser;
 
 public sealed class UserFinder(UserFinderRepository repository)

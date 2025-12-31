@@ -8,14 +8,10 @@ public static class CreateUserController
 {
     public static async Task<IResult> Handle(
         UserCreator userCreator,
-        UserRequestAdapter mapper,
-        [FromBody] CreateUserRequest form
+        [FromBody] CreateUserRequest request
     )
     {
-        // Todo: Move validation to application service
-        var parameter = mapper.Map(form);
-
-        var userId = await userCreator.CreateUser(parameter);
+        var userId = await userCreator.CreateUser(request);
 
         return Results.CreatedAtRoute(
             "GetUserById",

@@ -90,7 +90,6 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserCreator>();
 builder.Services.AddScoped<UserCreatorRepository>();
 builder.Services.AddScoped<UserCreatorValidator>();
-builder.Services.AddScoped<UserRequestAdapter>();
 
 var app = builder.Build();
 
