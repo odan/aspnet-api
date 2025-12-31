@@ -13,17 +13,10 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Sinks.InMemory;
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 // https://github.com/dotnet/AspNetCore.Docs.Samples/blob/main/test/integration-tests/8.x/IntegrationTestsSample/tests/RazorPagesProject.Tests/CustomWebApplicationFactory.cs
 
-public class ApplicationFactory : ApplicationFactory<MyApi.Program> { }
+public class ApplicationFactory : ApplicationFactory<Program> { }
 
 public class ApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class

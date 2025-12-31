@@ -1,6 +1,7 @@
 namespace MyApi.Middleware;
 
 using FluentValidation;
+using MyApi.Shared.Extensions;
 using System.Net;
 using System.Text.Json;
 
@@ -18,10 +19,10 @@ public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMid
         }
         catch (ValidationException validationException)
         {
-            _logger.LogError(422, validationException, "Validation error");
+            _logger.LogError(400, validationException, "Validation error");
 
             context.Response.ContentType = "application/problem+json";
-            context.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
             // create list of dynamic objects from a list of objects
             var errors = new Dictionary<string, string[]>();

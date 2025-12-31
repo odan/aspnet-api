@@ -1,4 +1,4 @@
-global using MyApi.Support;
+global using MyApi.Shared.Support;
 global using Serilog.Sinks.InMemory.Assertions;
 global using System.Net;
 global using System.Text;

@@ -1,3 +1,5 @@
+using MyApi.Shared.Extensions;
+
 namespace MyApi.Middleware;
 
 public sealed class ExceptionHandlerMiddleware(ILoggerFactory factory) : IMiddleware

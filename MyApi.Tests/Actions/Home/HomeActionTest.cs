@@ -1,14 +1,8 @@
-
 namespace MyApi.Tests.Actions.Home;
 
-public class HomeActionTest
+public class HomeActionTest(ApplicationFactory factory)
 {
-    private ApplicationFactory _factory { get; set; }
-
-    public HomeActionTest(ApplicationFactory factory)
-    {
-        _factory = factory;
-    }
+    private readonly ApplicationFactory _factory = factory;
 
     [Fact]
     public async void TestGet()

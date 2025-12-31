@@ -1,11 +1,5 @@
-﻿using FluentAssertions.Common;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SqlKata.Execution;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyApi.Tests;
 
@@ -21,7 +15,7 @@ public class TestDatabase : IDisposable
 
         // You can also add common setup logic here that applies to all tests,
         // such as database seeding, client initialization, etc.
-        this.InitDatabase();
+        InitDatabase();
     }
 
     public void ClearTables()
@@ -30,7 +24,7 @@ public class TestDatabase : IDisposable
 
         var db = _factory.Services.GetRequiredService<QueryFactory>();
 
-        db.Statement("truncate table customers");
+        db.Statement("truncate table users");
     }
 
     private void InitDatabase()

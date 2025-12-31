@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
-using MyApi.Actions;
+using MyApi.Application.Users.CreateUser;
+using MyApi.Application.Users.FindUser;
+using MyApi.Application.Users.GetUser;
 using MyApi.Middleware;
+using MyApi.Routes;
 using MySql.Data.MySqlClient;
 using SqlKata.Compilers;
 using SqlKata.Execution;
@@ -38,6 +41,12 @@ var dsn = builder.Configuration.GetConnectionString("Default");
 // Singleton: Creates a new Service only once during the application lifetime,
 // and uses it everywhere.
 
+// Middleware
+builder.Services.AddScoped<ExceptionHandlerMiddleware>();
+builder.Services.AddScoped<ValidationExceptionMiddleware>();
+builder.Services.AddScoped<LocalizationMiddleware>();
+
+// Database
 builder.Services.AddScoped(provider =>
 {
     var connection = new MySqlConnection(dsn);
@@ -54,14 +63,6 @@ builder.Services.AddTransient(provider =>
 });
 
 builder.Services.AddScoped<ITransaction, Transaction>();
-
-
-// Register service types by namespace (as scoped)
-// Alternatively use: Scrutor or Q101.ServiceCollectionExtensions
-var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Domain));
-builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Middleware));
-builder.Services.AddAssemblyScoped(assembly, nameof(MyApi) + "." + nameof(MyApi.Actions));
 
 // Localization
 builder.Services.AddLocalization();
@@ -80,6 +81,16 @@ builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
 // Explore the API via Swagger UI http://localhost:<port>/swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Application Services
+builder.Services.AddScoped<UserFinder>();
+builder.Services.AddScoped<UserFinderRepository>();
+builder.Services.AddScoped<UserReader>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserCreator>();
+builder.Services.AddScoped<UserCreatorRepository>();
+builder.Services.AddScoped<UserCreatorValidator>();
+builder.Services.AddScoped<UserRequestAdapter>();
 
 var app = builder.Build();
 
@@ -115,8 +126,8 @@ app.UseMiddleware<LocalizationMiddleware>();
 
 app.MapHomeRoutes();
 
-app.MapGroup("/api")
-    .MapApiCustomerRoutes();
+//app.MapGroup("/api").MapApiUserRoutes();
+app.MapApiUserRoutes();
 
 app.Run();
 
