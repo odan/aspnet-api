@@ -1,14 +1,20 @@
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using MyApi.Application.Users.CreateUser;
 using MyApi.Application.Users.FindUser;
 using MyApi.Application.Users.GetUser;
 using MyApi.Middleware;
 using MyApi.Routes;
+using MyApi.Shared.Extensions;
 using MySql.Data.MySqlClient;
+using Serilog;
+using Serilog.Extensions.Logging;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 using System.Globalization;
+using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +31,9 @@ Thread.CurrentThread.CurrentUICulture = culture;
 
 // Load sensitive data from .env file
 DotNetEnv.Env.Load();
+
+// Enable global JsonPropertyName mapping for FluentValidation
+builder.Services.AddFluentValidationJsonPropertyNames();
 
 var dsn = builder.Configuration.GetConnectionString("Default");
 
@@ -72,7 +81,17 @@ builder.Services.AddSingleton<IStringLocalizerFactory, MoStringLocalizerFactory>
 builder.Logging.ClearProviders();
 
 builder.Services.Add(ServiceDescriptor.Transient(typeof(ILogger<>), typeof(Logger<>)));
-builder.Services.AddTransient<ILoggerFactory, LoggerFactory>();
+builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
+
+// Serilog configuration
+builder.Services.AddLogging(logging =>
+{
+    logging.AddSerilog(new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .CreateLogger());
+});
+
+
 
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();

@@ -2,7 +2,6 @@ namespace MyApi.Controllers.Users.CreateUser;
 
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Application.Users.CreateUser;
-using MyApi.Application.Users.GetUser;
 
 public static class CreateUserController
 {

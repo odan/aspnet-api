@@ -13,7 +13,7 @@ public class HomeActionTest(ApplicationFactory factory)
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal("Hello, World!", await response.Content.ReadAsStringAsync());
 
-        _factory.GetLoggerEvents()
+        _factory.LoggerEvents
             .Should()
             .HaveMessage("Home action")
             .Appearing().Once();

@@ -1,10 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using MyApi.Application.Users.GetUser;
 using MyApi.Controllers.Users.CreateUser;
 using MyApi.Shared.Extensions;
-using MyApi.Shared.Support;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace MyApi.Application.Users.CreateUser;
 
@@ -24,22 +21,20 @@ public sealed class UserCreator(
 
     private readonly ITransaction _transaction = transaction;
 
-    private readonly ILogger<UserCreator> _logger = factory
-            .WriteToFile("user_creator")
-            .CreateLogger<UserCreator>();
+    private readonly ILogger<UserCreator> _logger = factory.CreateLogger<UserCreator>();
 
     public async Task<int> CreateUser(CreateUserRequest request)
     {
         _logger.LogInformation("Create new user {request}", request);
 
         // Input validation
-        var parameters = Validate(request);
+        Validate(request);
 
         _transaction.Begin();
 
         try
         {
-            var userId = await _repository.InsertUser(parameters.Username);
+            var userId = await _repository.InsertUser(request.Username);
 
             _transaction.Commit();
 
@@ -58,10 +53,8 @@ public sealed class UserCreator(
         }
     }
 
-    private UserCreateParameter Validate(CreateUserRequest request)
+    private void Validate(CreateUserRequest request)
     {
-        ArgumentNullException.ThrowIfNull(request);
-
         var results = _validator.Validate(request);
 
         if (!results.IsValid)
@@ -70,12 +63,5 @@ public sealed class UserCreator(
                 _localizer.GetString("Input validation failed"), results.Errors
             );
         }
-
-        // Convert form data into a domain object
-        return new UserCreateParameter()
-        {
-            Username = request.Username,
-            DateOfBirth = Chronos.ParseIsoDate(request.DateOfBirth),
-        };
     }
 }

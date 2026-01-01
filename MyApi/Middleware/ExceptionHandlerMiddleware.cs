@@ -1,12 +1,8 @@
-using MyApi.Shared.Extensions;
-
 namespace MyApi.Middleware;
 
 public sealed class ExceptionHandlerMiddleware(ILoggerFactory factory) : IMiddleware
 {
-    private readonly ILogger<ExceptionHandlerMiddleware> _logger = factory
-            .WriteToFile("error")
-            .CreateLogger<ExceptionHandlerMiddleware>();
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger = factory.CreateLogger<ExceptionHandlerMiddleware>();
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

@@ -1,15 +1,12 @@
 namespace MyApi.Middleware;
 
 using FluentValidation;
-using MyApi.Shared.Extensions;
 using System.Net;
 using System.Text.Json;
 
 public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMiddleware
 {
-    private readonly ILogger<ValidationExceptionMiddleware> _logger = factory
-            .WriteToFile("validation_exception")
-            .CreateLogger<ValidationExceptionMiddleware>();
+    private readonly ILogger<ValidationExceptionMiddleware> _logger = factory.CreateLogger<ValidationExceptionMiddleware>();
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -28,7 +25,7 @@ public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMid
             var errors = new Dictionary<string, string[]>();
             foreach (var error in validationException.Errors)
             {
-                errors.Add(error.PropertyName.ToSnakeCase(), [error.ErrorMessage]);
+                errors.Add(error.PropertyName, [error.ErrorMessage]);
             }
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(new

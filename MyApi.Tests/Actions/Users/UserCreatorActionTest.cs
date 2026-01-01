@@ -1,5 +1,3 @@
-using MyApi.Shared.Support;
-
 namespace MyApi.Tests.Actions.Users;
 
 public class UserCreatorActionTest(
@@ -24,9 +22,9 @@ public class UserCreatorActionTest(
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal("{\"userId\":1}", await response.Content.ReadAsStringAsync());
 
-        _factory.GetLoggerEvents()
+        _factory.LoggerEvents
             .Should()
-            .HaveMessage("User created. User-ID: 1")
+            .HaveMessage("User created. User-ID: {userId}")
             .Appearing().Once();
     }
 
@@ -38,7 +36,7 @@ public class UserCreatorActionTest(
         var client = _factory.CreateClient();
         var content = _factory.CreateJson(new
         {
-            username = "root",
+            username = "admin",
             dateOfBirth = "1982-03-28"
         });
 
