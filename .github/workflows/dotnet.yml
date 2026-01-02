@@ -36,6 +36,16 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Export connection string (only when available)
+      shell: bash
+      run: |
+        if [ -n "${{ secrets.CONNECTIONSTRINGS__DEFAULT }}" ]; then
+          echo "CONNECTIONSTRINGS__DEFAULT=${{ secrets.CONNECTIONSTRINGS__DEFAULT }}" >> "$GITHUB_ENV"
+        else
+          echo "Secret not available in this run; using local mysql."
+          echo "CONNECTIONSTRINGS__DEFAULT=Server=127.0.0.1;Port=33306;Database=test;User=root;Password=root;" >> "$GITHUB_ENV"
+        fi
+
     - name: Show env vars
       run: |
         echo "CONNECTIONSTRINGS__DEFAULT is set: ${CONNECTIONSTRINGS__DEFAULT:+YES}"
