@@ -1,4 +1,3 @@
-using FluentAssertions;
 using MyApi.Controllers.Users.SearchUsers;
 using MyApi.Shared.Support;
 using System.Net.Http.Json;

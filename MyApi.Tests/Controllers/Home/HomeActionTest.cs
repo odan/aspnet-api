@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace MyApi.Tests.Controllers.Home;
 
 public class HomeActionTest(ApplicationFactory factory)

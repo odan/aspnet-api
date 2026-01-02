@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Controllers.Users.CreateUser;
 using System.Net.Http.Json;

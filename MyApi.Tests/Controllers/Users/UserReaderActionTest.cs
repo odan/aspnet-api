@@ -1,4 +1,3 @@
-using FluentAssertions;
 using MyApi.Controllers.Users.GetUser;
 using System.Net.Http.Json;
 
