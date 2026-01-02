@@ -64,6 +64,8 @@ jobs:
         printenv | sort
       env:
         CONNECTIONSTRINGS__DEFAULT: ${{ secrets.DSN }}
+        CONNECTIONSTRINGS__DEFAULT2: $env:DSN
+        CONNECTIONSTRINGS__DEFAULT3: ${{ env.DSN }}
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
