@@ -57,10 +57,19 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+    - name: Display all environment variables
+      shell: bash
+      run: |
+        echo "===== ENV ====="
+        printenv | sort
+      env:
+        XXX_DSN: "test ${{ env.DSN }}"
+
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
         CONNECTIONSTRINGS__DEFAULT: "test ${{ env.DSN }}"
+
 
     #- name: Codecov
     #  uses: codecov/codecov-action@v3
