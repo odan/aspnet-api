@@ -85,8 +85,6 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
                     throw new InvalidOperationException("Missing connection string 'Default'.");
                 }
 
-                Console.WriteLine($"Using MySQL DSN: {dsn}");
-
                 var connection = new MySqlConnection(dsn);
                 connection.Open();
 
