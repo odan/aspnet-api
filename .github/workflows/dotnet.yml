@@ -33,15 +33,14 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Configure MySQL environment variables
-      run:  |
-        echo "MYSQL_HOST=localhost" >> $GITHUB_ENV
-        echo "MYSQL_PORT=3306" >> $GITHUB_ENV
-        echo "MYSQL_USER=root" >> $GITHUB_ENV
-        echo "MYSQL_PASSWORD=root" >> $GITHUB_ENV
-        echo "MYSQL_DATABASE=test" >> $GITHUB_ENV
-        echo "TEST123=test1" >> $GITHUB_ENV
-        echo "CONNECTIONSTRINGS__DEFAULT=${{ env.CONNECTIONSTRINGS__DEFAULT }}" >> $GITHUB_ENV
+    - name: Use variables
+      run: |
+        echo "repository variable : $CONNECTIONSTRINGS__DEFAULT"
+        echo "organization variable : ${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+      env:
+        MYSQL_HOST: ${{ vars.MYSQL_HOST }}
+        CONNECTIONSTRINGS__DEFAULT: ${{ vars.CONNECTIONSTRINGS__DEFAULT }}
+        TEST123: 12345
 
     - name: Check MySQL version
       run: mysql -V
