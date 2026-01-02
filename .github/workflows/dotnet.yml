@@ -40,7 +40,8 @@ jobs:
         echo "MYSQL_USER=root" >> $GITHUB_ENV
         echo "MYSQL_PASSWORD=root" >> $GITHUB_ENV
         echo "MYSQL_DATABASE=test" >> $GITHUB_ENV
-        echo "ConnectionStrings__Default=${{ vars.CONNECTIONSTRINGS__DEFAULT }}" >> $GITHUB_ENV
+        echo "TEST123=test1" >> $GITHUB_ENV
+        echo "CONNECTIONSTRINGS__DEFAULT=${{ env.CONNECTIONSTRINGS__DEFAULT }}" >> $GITHUB_ENV
 
     - name: Check MySQL version
       run: mysql -V
