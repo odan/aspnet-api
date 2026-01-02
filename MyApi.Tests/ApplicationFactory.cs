@@ -26,6 +26,8 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        DotNetEnv.Env.TraversePath().Load();
+
         var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Test";
 
         if (environmentName == "Test" || environmentName == "CI")
@@ -52,7 +54,7 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false)
                 .AddEnvironmentVariables()
-                .AddDotNetEnv($"{environmentName}.env", LoadOptions.TraversePath());
+                .AddDotNetEnv(".env", LoadOptions.TraversePath());
         });
 
         builder.ConfigureLogging(logging =>
@@ -69,34 +71,34 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
         builder.ConfigureServices(services =>
         {
             // Replace MySqlConnection
-            services.RemoveAll<MySqlConnection>();
+            /*  services.RemoveAll<MySqlConnection>();
 
-            // Add new SqlConnection
-            services.AddScoped(provider =>
-            {
-                var configuration = provider.GetRequiredService<IConfiguration>();
+              // Add new SqlConnection
+              services.AddScoped(provider =>
+              {
+                  var configuration = provider.GetRequiredService<IConfiguration>();
 
-                var dsn = configuration.GetConnectionString("Default")
-                          ?? throw new InvalidOperationException("Missing connection string 'Default'.");
+                  var dsn = configuration.GetConnectionString("Default")
+                            ?? throw new InvalidOperationException("Missing connection string 'Default'.");
 
-                var gitHubActions = configuration.GetValue("GITHUB_ACTIONS", "");
-                if (gitHubActions == "true")
-                {
-                    dsn = string.Format(
-                        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
-                        configuration.GetValue("MYSQL_HOST", "localhost"),
-                        configuration.GetValue("MYSQL_PORT", "3306"),
-                        configuration.GetValue("MYSQL_USER", "root"),
-                        configuration.GetValue("MYSQL_PASSWORD", "root"),
-                        configuration.GetValue("MYSQL_DATABASE", "test")
-                    );
-                }
+                  var gitHubActions = configuration.GetValue("GITHUB_ACTIONS", "");
+                  if (gitHubActions == "true")
+                  {
+                      dsn = string.Format(
+                          "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
+                          configuration.GetValue("MYSQL_HOST", "localhost"),
+                          configuration.GetValue("MYSQL_PORT", "3306"),
+                          configuration.GetValue("MYSQL_USER", "root"),
+                          configuration.GetValue("MYSQL_PASSWORD", "root"),
+                          configuration.GetValue("MYSQL_DATABASE", "test")
+                      );
+                  }
 
-                var connection = new MySqlConnection(dsn);
-                connection.Open();
+                  var connection = new MySqlConnection(dsn);
+                  connection.Open();
 
-                return connection;
-            });
+                  return connection;
+              });*/
 
         });
     }

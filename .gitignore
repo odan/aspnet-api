@@ -6,7 +6,6 @@
 ## Custom
 
 *.log
-*.env
 
 #
 # dotnet new gitignore

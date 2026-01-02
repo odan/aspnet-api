@@ -90,8 +90,6 @@ builder.Services.AddLogging(logging =>
         .CreateLogger());
 });
 
-
-
 // The MVC controllers using the Transient lifetime
 // builder.Services.AddControllers().AddControllersAsServices();
 
