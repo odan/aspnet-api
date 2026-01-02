@@ -1,11 +1,12 @@
-using MyApi.Shared.Support;
+using FluentAssertions;
+using MyApi.Controllers.Users.GetUser;
+using System.Net.Http.Json;
 
-namespace MyApi.Tests.Actions.Users;
+namespace MyApi.Tests.Controllers.Users;
 
 public class UserReaderActionTest(
     ApplicationFactory factory,
-    TestDatabase database
-    )
+    TestDatabase database)
 {
     private readonly ApplicationFactory _factory = factory;
 
@@ -21,9 +22,13 @@ public class UserReaderActionTest(
         _database.InsertFixture("users", new { username = "max", email = "max@example.com" });
 
         var response = await _factory.CreateClient().GetAsync("/users/1");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadAsStringAsync();
-        Assert.Contains("max", result);
+        var actual = await response.Content.ReadFromJsonAsync<GetUserResponse>();
+        actual.Should().BeEquivalentTo(new GetUserResponse
+        {
+            UserId = 1,
+            UserName = "max",
+        });
     }
 }

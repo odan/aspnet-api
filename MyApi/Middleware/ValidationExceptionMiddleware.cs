@@ -1,6 +1,7 @@
 namespace MyApi.Middleware;
 
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
@@ -23,20 +24,24 @@ public sealed class ValidationExceptionMiddleware(ILoggerFactory factory) : IMid
 
             // create list of dynamic objects from a list of objects
             var errors = new Dictionary<string, string[]>();
+
             foreach (var error in validationException.Errors)
             {
                 errors.Add(error.PropertyName, [error.ErrorMessage]);
             }
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(new
+            var problem = new ValidationProblemDetails(errors)
             {
-                type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-                title = string.IsNullOrEmpty(validationException.Message) ?
-                    "One or more validation errors occurred." :
-                    validationException.Message,
-                status = context.Response.StatusCode,
-                errors
-            }));
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                Title = string.IsNullOrEmpty(validationException.Message)
+                    ? "One or more validation errors occurred."
+                    : validationException.Message,
+                Status = context.Response.StatusCode
+            };
+
+            await context.Response.WriteAsync(
+                JsonSerializer.Serialize(problem)
+            );
         }
     }
 }

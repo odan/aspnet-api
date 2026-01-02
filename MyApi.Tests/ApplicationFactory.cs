@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Serilog;
@@ -89,14 +87,6 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
             });
 
         });
-    }
-
-    public StringContent CreateJson(object data, JsonSerializerOptions? options = null)
-    {
-        options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        var json = JsonSerializer.Serialize(data, options);
-
-        return new StringContent(json, Encoding.UTF8, "application/json");
     }
 
 }

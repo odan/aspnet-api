@@ -1,4 +1,6 @@
-namespace MyApi.Tests.Actions.Home;
+using FluentAssertions;
+
+namespace MyApi.Tests.Controllers.Home;
 
 public class HomeActionTest(ApplicationFactory factory)
 {
@@ -9,9 +11,10 @@ public class HomeActionTest(ApplicationFactory factory)
     {
         var client = _factory.CreateClient();
         var response = await client.GetAsync("/");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Equal("Hello, World!", await response.Content.ReadAsStringAsync());
+        var actual = await response.Content.ReadAsStringAsync();
+        actual.Should().Be("Hello, World!");
 
         _factory.LoggerEvents
             .Should()

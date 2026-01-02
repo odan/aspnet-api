@@ -9,6 +9,5 @@ public class Startup
         services.AddTransient<ApplicationFactory<Program>, ApplicationFactory<Program>>();
         services.AddTransient<ApplicationFactory, ApplicationFactory>();
         services.AddTransient<TestDatabase, TestDatabase>();
-        //services.AddTransient<ClientAuth, ClientAuth>();
     }
 }

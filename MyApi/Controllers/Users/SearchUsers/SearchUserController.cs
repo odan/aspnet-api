@@ -9,6 +9,14 @@ public static class SearchUserController
         var users = await userFinder.FindAllUsers();
 
         // Map domain objects to (strongly typed) view model
-        return UserFinderTransformer.Transform(users);
+        return new SearchUsersResponse
+        {
+            Users = users.Select(user => new SearchUsersResponseUser
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+            }).ToList()
+        };
     }
 }
