@@ -11,7 +11,7 @@ on:
 
 env:
   # Setting an environment variable with the value of a configuration variable
-  CONNECTIONSTRINGS__DEFAULT2: "Server=localhost;Port=3306;User ID=root;Password=root;Database=test"
+  CONNECTIONSTRINGS__DEFAULT: "Server=localhost;Port=3306;User ID=root;Password=root;Database=test"
 
 jobs:
   build:
@@ -64,6 +64,9 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      env:
+        CONNECTIONSTRINGS__DEFAULT: "test"
+        TEST456: "Hello"
 
     #- name: Codecov
     #  uses: codecov/codecov-action@v3
