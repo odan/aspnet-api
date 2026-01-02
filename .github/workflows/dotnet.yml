@@ -10,8 +10,9 @@ on:
     branches: [ "master" ]
 
 env:
-    # Setting an environment variable with the value of a configuration variable
-    CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+  # Setting an environment variable with the value of a configuration variable
+  CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+  TEST123: "Hello World 2"
 
 jobs:
   build:
@@ -28,18 +29,20 @@ jobs:
           - 33306:3306
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.x
+  
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
 
-    - name: Use variables
+    - name: "Setup env vars"
+      id: envvars
       run: |
-        echo "connection string : ${{ env.CONNECTIONSTRINGS__DEFAULT }}"
+        echo "TEST_VAR=$TEST_VAR" >> $GITHUB_OUTPUT
+        echo "CONNECTIONSTRINGS__DEFAULT=CONNECTIONSTRINGS__DEFAULT" >> $GITHUB_OUTPUT
+      env:
+        TEST_VAR: "Hello World"
+        CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
 
     - name: Check MySQL version
       run: mysql -V
