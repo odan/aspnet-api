@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using MySql.Data.MySqlClient;
 using Serilog;
 using Serilog.Extensions.Logging;
@@ -78,8 +79,17 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
 
-                var dsn = configuration.GetConnectionString("Default")
-                          ?? throw new InvalidOperationException("Missing connection string 'Default'.");
+                var dsn = configuration.GetConnectionString("Default");
+
+                if (dsn is null)
+                {
+                    dsn = configuration.GetValue("CONNECTIONSTRINGS__DEFAULT", "");
+                }
+
+                if (string.IsNullOrEmpty(dsn))
+                {
+                    throw new InvalidOperationException("Missing connection string 'Default'.");
+                }
 
                 var gitHubActions = configuration.GetValue("GITHUB_ACTIONS", "");
                 if (gitHubActions == "true")
