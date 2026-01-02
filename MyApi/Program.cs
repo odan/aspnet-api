@@ -1,7 +1,7 @@
-using Google.Protobuf.WellKnownTypes;
+using DotNetEnv;
+using DotNetEnv.Configuration;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using MyApi.Application.Users.CreateUser;
 using MyApi.Application.Users.FindUser;
 using MyApi.Application.Users.GetUser;
@@ -10,32 +10,30 @@ using MyApi.Routes;
 using MyApi.Shared.Extensions;
 using MySql.Data.MySqlClient;
 using Serilog;
-using Serilog.Extensions.Logging;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 using System.Globalization;
-using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var isDevelopment = builder.Environment.IsDevelopment();
 
 //
 // Configuration
 //
+builder.Configuration.AddEnvironmentVariables();
+var isDevelopment = builder.Environment.IsDevelopment();
+
+if (isDevelopment)
+{
+    builder.Configuration.AddDotNetEnv(".env", LoadOptions.TraversePath());
+}
 
 // Default language
 var culture = new CultureInfo("en-US");
 Thread.CurrentThread.CurrentCulture = culture;
 Thread.CurrentThread.CurrentUICulture = culture;
 
-// Load sensitive data from .env file
-DotNetEnv.Env.Load();
-
 // Enable global JsonPropertyName mapping for FluentValidation
 builder.Services.AddFluentValidationJsonPropertyNames();
-
-var dsn = builder.Configuration.GetConnectionString("Default");
 
 //
 // Add services to the DI container
@@ -56,6 +54,7 @@ builder.Services.AddScoped<ValidationExceptionMiddleware>();
 builder.Services.AddScoped<LocalizationMiddleware>();
 
 // Database
+var dsn = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddScoped(provider =>
 {
     var connection = new MySqlConnection(dsn);

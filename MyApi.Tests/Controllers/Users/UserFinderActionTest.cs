@@ -16,6 +16,8 @@ public class UserFinderActionTest(
     [Fact]
     public async void TestEmptyResult()
     {
+        _database.ClearTables();
+
         var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/users");

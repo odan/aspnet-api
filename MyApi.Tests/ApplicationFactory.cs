@@ -1,5 +1,7 @@
 namespace MyApi.Tests;
 
+using DotNetEnv;
+using DotNetEnv.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -24,14 +26,22 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // Set the environment to Test
-        builder.UseEnvironment("Test");
-        // Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
+        var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Test";
 
-        builder.ConfigureAppConfiguration((ctx, config) =>
+        if (environmentName == "Test" || environmentName == "CI")
         {
-            if (!string.Equals(ctx.HostingEnvironment.EnvironmentName, "Test", StringComparison.Ordinal))
-                throw new InvalidOperationException("Invalid Test environment");
+            // Set the environment to Test
+            builder.UseEnvironment(environmentName);
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environmentName);
+        }
+        else
+        {
+            throw new Exception("Invalid Test environment");
+        }
+
+        builder.ConfigureAppConfiguration((hostingContext, config) =>
+        {
+            string environmentName = hostingContext.HostingEnvironment.EnvironmentName;
 
             // This will clear all previously registered configuration sources.
             config.Sources.Clear();
@@ -40,8 +50,9 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
             // Load Test settings from appsettings.Test.json
             config
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-                .AddJsonFile($"appsettings.Test.json", optional: false, reloadOnChange: false)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false)
+                .AddEnvironmentVariables()
+                .AddDotNetEnv($"{environmentName}.env", LoadOptions.TraversePath());
         });
 
         builder.ConfigureLogging(logging =>
@@ -68,15 +79,16 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
                 var dsn = configuration.GetConnectionString("Default")
                           ?? throw new InvalidOperationException("Missing connection string 'Default'.");
 
-                if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")
+                var gitHubActions = configuration.GetValue("GITHUB_ACTIONS", "");
+                if (gitHubActions == "true")
                 {
                     dsn = string.Format(
                         "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
-                        Environment.GetEnvironmentVariable("MYSQL_HOST") ?? "localhost",
-                        Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306",
-                        Environment.GetEnvironmentVariable("MYSQL_USER") ?? "root",
-                        Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "root",
-                        Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "test"
+                        configuration.GetValue("MYSQL_HOST", "localhost"),
+                        configuration.GetValue("MYSQL_PORT", "3306"),
+                        configuration.GetValue("MYSQL_USER", "root"),
+                        configuration.GetValue("MYSQL_PASSWORD", "root"),
+                        configuration.GetValue("MYSQL_DATABASE", "test")
                     );
                 }
 
