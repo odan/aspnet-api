@@ -11,7 +11,7 @@ on:
 
 env:
   # Setting an environment variable with the value of a configuration variable
-  CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+  CONNECTIONSTRINGS__DEFAULT: "test ${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
   TEST123: "Hello World 2"
 
 jobs:
@@ -35,14 +35,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: "Setup env vars"
+    - name: "Show env vars"
       id: envvars
       run: |
-        echo "TEST_VAR=$TEST_VAR" >> $GITHUB_OUTPUT
-        echo "CONNECTIONSTRINGS__DEFAULT=CONNECTIONSTRINGS__DEFAULT" >> $GITHUB_OUTPUT
-      env:
-        TEST_VAR: "Hello World"
-        CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+        echo "TEST_VAR = $TEST_VAR" >> $GITHUB_OUTPUT
+        echo "CONNECTIONSTRINGS__DEFAULT = $CONNECTIONSTRINGS__DEFAULT" >> $GITHUB_OUTPUT
 
     - name: Check MySQL version
       run: mysql -V
