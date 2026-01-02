@@ -63,13 +63,13 @@ jobs:
         echo "===== ENV ====="
         printenv | sort
       env:
-        XXX_DSN: "test ${{ env.DSN }}"
-        CONNECTIONSTRINGS__DEFAULT: "${{ env.DSN }} /  ${{ vars.DSN }}"
+        CONNECTIONSTRINGS__DEFAULT: $DSN
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
-        CONNECTIONSTRINGS__DEFAULT: "${{ env.DSN }} /  ${{ vars.DSN }}"
+        CONNECTIONSTRINGS__DEFAULT2: "$DSN"
+        CONNECTIONSTRINGS__DEFAULT: $DSN
 
 
     #- name: Codecov
