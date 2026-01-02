@@ -13,7 +13,7 @@ env:
   # Setting an environment variable with the value of a configuration variable
   CONNECTIONSTRINGS__DEFAULT: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
   CONNECTIONSTRINGS__DEFAULT2: ${{ vars.CONNECTIONSTRINGS__DEFAULT }}
-  TEST123: "Hello World 2"
+  TEST123: "Hello World ${{ vars.ASPNETCORE_ENVIRONMENT }}"
 
 jobs:
   build:
