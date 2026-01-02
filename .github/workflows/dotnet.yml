@@ -60,7 +60,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
-        CONNECTIONSTRINGS__DEFAULT: ${{ env.DSN }}
+        CONNECTIONSTRINGS__DEFAULT: "test ${{ env.DSN }}"
 
     #- name: Codecov
     #  uses: codecov/codecov-action@v3
