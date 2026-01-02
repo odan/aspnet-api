@@ -70,27 +70,7 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
 
         builder.ConfigureServices(services =>
         {
-            // Replace MySqlConnection
-            services.RemoveAll<MySqlConnection>();
-
-            // Add new SqlConnection
-            services.AddScoped(provider =>
-            {
-                var configuration = provider.GetRequiredService<IConfiguration>();
-
-                var dsn = configuration.GetConnectionString("Default");
-
-                if (string.IsNullOrEmpty(dsn))
-                {
-                    throw new InvalidOperationException("Missing connection string 'Default'.");
-                }
-
-                var connection = new MySqlConnection(dsn);
-                connection.Open();
-
-                return connection;
-            });
-
+            // you can override services here if needed
         });
     }
 
