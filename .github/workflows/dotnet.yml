@@ -68,8 +68,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
-        CONNECTIONSTRINGS__DEFAULT2: "$DSN"
-        CONNECTIONSTRINGS__DEFAULT: $DSN
+        CONNECTIONSTRINGS__DEFAULT: ${{ secrets.DSN }}
 
 
     #- name: Codecov
