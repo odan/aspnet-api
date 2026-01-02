@@ -11,7 +11,7 @@ on:
 
 env:
     # Setting an environment variable with the value of a configuration variable
-    CONNECTIONSTRINGS__DEFAULT: "${{ env.CONNECTIONSTRINGS__DEFAULT }}"
+    CONNECTIONSTRINGS__DEFAULT: "${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
 
 jobs:
   build:
