@@ -57,6 +57,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+    - name: Register env var to GITHUB_OUTPUT
+      run: |
+        echo "DSN=${{ vars.DSN }}" >> $GITHUB_OUTPUT
+        echo "CONNECTIONSTRINGS__DEFAULT=${{ vars.DSN }}" >> $GITHUB_OUTPUT
+
     - name: Display all environment variables
       shell: bash
       run: |
@@ -66,6 +71,7 @@ jobs:
         CONNECTIONSTRINGS__DEFAULT: ${{ secrets.DSN }}
         CONNECTIONSTRINGS__DEFAULT2: $env:DSN
         CONNECTIONSTRINGS__DEFAULT3: ${{ env.DSN }}
+        CONNECTIONSTRINGS__DEFAULT4: ${{ vars.DSN }}
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
