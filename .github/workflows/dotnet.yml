@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+    # Setting an environment variable with the value of a configuration variable
+    CONNECTIONSTRINGS__DEFAULT: ${{ env.CONNECTIONSTRINGS__DEFAULT }}
+    CONNECTIONSTRINGS2: ${{ vars.CONNECTIONSTRINGS__DEFAULT }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,12 +40,7 @@ jobs:
 
     - name: Use variables
       run: |
-        echo "repository variable : $CONNECTIONSTRINGS__DEFAULT"
-        echo "organization variable : ${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
-      env:
-        MYSQL_HOST: ${{ vars.MYSQL_HOST }}
-        CONNECTIONSTRINGS__DEFAULT: ${{ vars.CONNECTIONSTRINGS__DEFAULT }}
-        TEST123: 12345
+        echo "connection string : ${{ env.CONNECTIONSTRINGS__DEFAULT }}"
 
     - name: Check MySQL version
       run: mysql -V
