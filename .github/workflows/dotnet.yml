@@ -11,9 +11,7 @@ on:
 
 env:
   # Setting an environment variable with the value of a configuration variable
-  CONNECTIONSTRINGS__DEFAULT: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
-  CONNECTIONSTRINGS__DEFAULT2: ${{ vars.CONNECTIONSTRINGS__DEFAULT }}
-  TEST123: "Hello World ${{ vars.ASPNETCORE_ENVIRONMENT }}"
+  CONNECTIONSTRINGS__DEFAULT2: "Server=localhost;Port=3306;User ID=root;Password=root;Database=test"
 
 jobs:
   build:
@@ -36,18 +34,36 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Export connection string (only when available)
-      shell: bash
-      run: |
-        if [ -n "${{ secrets.CONNECTIONSTRINGS__DEFAULT }}" ]; then
-          echo "CONNECTIONSTRINGS__DEFAULT=${{ secrets.CONNECTIONSTRINGS__DEFAULT }}" >> "$GITHUB_ENV"
-        else
-          echo "Secret not available in this run; using local mysql."
-          echo "CONNECTIONSTRINGS__DEFAULT=Server=127.0.0.1;Port=33306;Database=test;User=root;Password=root;" >> "$GITHUB_ENV"
-        fi
-
     - name: Show env vars
       run: |
         echo "CONNECTIONSTRINGS__DEFAULT is set: ${CONNECTIONSTRINGS__DEFAULT:+YES}"
 
-   
+    - name: Check MySQL version
+      run: mysql -V
+
+    - name: Start MySQL
+      run: sudo systemctl start mysql
+
+    - name: Check MySQL version
+      run: mysql -uroot -proot -e "SHOW VARIABLES LIKE 'version%';"
+
+    - name: Check MySQL authentication
+      run: mysql -uroot -proot -e "SHOW VARIABLES LIKE 'default_authentication_plugin';"
+
+    - name: Create database
+      run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
+
+    - name: Create database tables
+      run: mysql -uroot -proot test --force < Schema/schema.sql
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+
+    #- name: Codecov
+    #  uses: codecov/codecov-action@v3
