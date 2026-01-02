@@ -79,23 +79,7 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
 
-                foreach (System.Collections.DictionaryEntry env in
-                 Environment.GetEnvironmentVariables())
-                {
-                    Console.WriteLine($"Environment: {env.Key} = {env.Value}");
-                }
-
                 var dsn = configuration.GetConnectionString("Default");
-
-                if (dsn is null)
-                {
-                    dsn = configuration.GetValue("CONNECTIONSTRINGS__DEFAULT", "");
-                }
-
-                if (dsn is null)
-                {
-                    dsn = Environment.GetEnvironmentVariable("CONNECTIONSTRINGS__DEFAULT");
-                }
 
                 if (string.IsNullOrEmpty(dsn))
                 {
