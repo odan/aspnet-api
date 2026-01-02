@@ -63,7 +63,7 @@ jobs:
         echo "===== ENV ====="
         printenv | sort
       env:
-        CONNECTIONSTRINGS__DEFAULT: $DSN
+        CONNECTIONSTRINGS__DEFAULT: ${{ secrets.DSN }}
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
