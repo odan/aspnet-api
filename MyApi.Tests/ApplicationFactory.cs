@@ -86,18 +86,7 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
                     throw new InvalidOperationException("Missing connection string 'Default'.");
                 }
 
-                var gitHubActions = configuration.GetValue("GITHUB_ACTIONS", "");
-                if (gitHubActions == "true")
-                {
-                    dsn = string.Format(
-                        "server={0};port={1};uid={2};pwd={3};database={4};AllowUserVariables=True;SslMode=Required;Charset=utf8mb4",
-                        configuration.GetValue("MYSQL_HOST", "localhost"),
-                        configuration.GetValue("MYSQL_PORT", "3306"),
-                        configuration.GetValue("MYSQL_USER", "root"),
-                        configuration.GetValue("MYSQL_PASSWORD", "root"),
-                        configuration.GetValue("MYSQL_DATABASE", "test")
-                    );
-                }
+                Console.WriteLine($"Using MySQL DSN: {dsn}");
 
                 var connection = new MySqlConnection(dsn);
                 connection.Open();
