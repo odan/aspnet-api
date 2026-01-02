@@ -9,9 +9,8 @@ on:
   pull_request:
     branches: [ "master" ]
 
-#env:
-  # Setting an environment variable with the value of a configuration variable
-  #CONNECTIONSTRINGS__DEFAULT: "Server=localhost;Port=3306;User ID=root;Password=root;Database=test"
+env:
+  ASPNETCORE_ENVIRONMENT: "CI"
 
 jobs:
   build:
@@ -61,7 +60,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
-        CONNECTIONSTRINGS__DEFAULT: ${{ vars.DSN }}
+        CONNECTIONSTRINGS__DEFAULT: ${{ env.DSN }}
 
     #- name: Codecov
     #  uses: codecov/codecov-action@v3
