@@ -34,10 +34,6 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Show env vars
-      run: |
-        echo "CONNECTIONSTRINGS__DEFAULT is set: ${CONNECTIONSTRINGS__DEFAULT:+YES}"
-
     - name: Check MySQL version
       run: mysql -V
 
@@ -65,7 +61,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
       env:
-        CONNECTIONSTRINGS__DEFAULT: "Server=localhost;Port=3306;User ID=root;Password=root;Database=test"
+        CONNECTIONSTRINGS__DEFAULT: ${{ vars.DSN }}
 
     #- name: Codecov
     #  uses: codecov/codecov-action@v3
