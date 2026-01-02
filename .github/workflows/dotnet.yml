@@ -11,7 +11,7 @@ on:
 
 env:
   # Setting an environment variable with the value of a configuration variable
-  CONNECTIONSTRINGS__DEFAULT: "test ${{ vars.CONNECTIONSTRINGS__DEFAULT }}"
+  CONNECTIONSTRINGS__DEFAULT: "${{ env.CONNECTIONSTRINGS__DEFAULT }}"
   TEST123: "Hello World 2"
 
 jobs:
