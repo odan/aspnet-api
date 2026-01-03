@@ -1,12 +1,12 @@
-namespace MyApi.Shared.Support;
+namespace MyApi.Infrastruture;
 
-using MyApi.Shared.Exceptions;
 using System;
+using System.Globalization;
 
 public sealed class Chronos
 {
 
-    private static DateTime? _dateTime;
+    private static DateTime? s_dateTime;
 
     public static DateTime ParseIsoDate(string? input)
     {
@@ -20,19 +20,22 @@ public sealed class Chronos
 
     public static DateTime Parse(string? input, string format)
     {
-        if (DateTime.TryParseExact(
-            input,
-            format,
-            System.Globalization.CultureInfo.InvariantCulture,
-            System.Globalization.DateTimeStyles.AssumeUniversal,
-            out var result
-        ))
+        if (input is null)
         {
-            return result;
+            throw new ArgumentNullException(nameof(input));
         }
-        ;
 
-        throw new UnexpectedValueException("Invalid date");
+        if (!DateTime.TryParseExact(
+                input,
+                format,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var result))
+        {
+            throw new FormatException($"Invalid date: '{input}'");
+        }
+
+        return result;
     }
 
     public static int GetAge(DateTime birthDate)
@@ -51,8 +54,8 @@ public sealed class Chronos
 
     public static void SetTestNow(DateTime dateTime)
     {
-        _dateTime = dateTime;
+        s_dateTime = dateTime;
     }
 
-    public static DateTime Now => _dateTime ?? DateTime.Now;
+    public static DateTime Now => s_dateTime ?? DateTime.Now;
 }

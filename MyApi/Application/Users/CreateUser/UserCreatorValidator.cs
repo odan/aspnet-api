@@ -3,7 +3,7 @@ namespace MyApi.Application.Users.CreateUser;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using MyApi.Controllers.Users.CreateUser;
-using MyApi.Shared.Support;
+using MyApi.Infrastruture;
 using System.Reflection;
 using System.Text.Json.Serialization;
 

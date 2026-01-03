@@ -1,4 +1,4 @@
-namespace MyApi.Shared.Support;
+namespace MyApi.Infrastruture;
 
 using Microsoft.Extensions.Localization;
 

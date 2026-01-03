@@ -5,7 +5,7 @@ namespace MyApi.Endpoints;
 // Extension
 public static class HomeEndpoints
 {
-    public static IEndpointRouteBuilder MapHomeRoutes(this IEndpointRouteBuilder route)
+    public static IEndpointRouteBuilder MapHomeEndpoints(this IEndpointRouteBuilder route)
     {
         route.MapGet("/", HomeController.Handle).WithTags("Home");
 

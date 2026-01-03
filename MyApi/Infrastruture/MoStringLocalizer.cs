@@ -1,4 +1,4 @@
-namespace MyApi.Shared.Support;
+namespace MyApi.Infrastruture;
 
 using Microsoft.Extensions.Localization;
 using NGettext;
@@ -58,7 +58,7 @@ public sealed class MoStringLocalizer : IStringLocalizer
 
     private void LoadCatalog()
     {
-        var cultureName = Thread.CurrentThread.CurrentCulture.Name;
+        var cultureName = CultureInfo.CurrentCulture.Name;
 
         // Check if catalog for the current language is already loaded
         if (cultureName == _cultureName)
@@ -68,7 +68,7 @@ public sealed class MoStringLocalizer : IStringLocalizer
 
         _cultureName = cultureName;
 
-        var moFile = $"Resources/{cultureName}.mo";
+        var moFile = $"Resources/Translation/{cultureName}.mo";
 
         if (!File.Exists(moFile))
         {
@@ -77,12 +77,7 @@ public sealed class MoStringLocalizer : IStringLocalizer
             return;
         }
 
-        using (Stream moFileStream = File.OpenRead(moFile))
-        {
-            _catalog = new Catalog(
-                moFileStream,
-                CultureInfo.GetCultureInfo(cultureName)
-            );
-        }
+        using Stream moFileStream = File.OpenRead(moFile);
+        _catalog = new Catalog(moFileStream, CultureInfo.GetCultureInfo(cultureName));
     }
 }

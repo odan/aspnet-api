@@ -7,7 +7,7 @@ using MyApi.Controllers.Users.SearchUsers;
 // Extension
 public static class UserEndpoints
 {
-    public static IEndpointRouteBuilder MapApiUserRoutes(this IEndpointRouteBuilder route)
+    public static IEndpointRouteBuilder MapApiUserEndpoints(this IEndpointRouteBuilder route)
     {
         var group = route.MapGroup("/users").WithTags("Users");
 

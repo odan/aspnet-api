@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MyApi.Shared.Extensions;
 
-public static class ServiceCollectionFluentValidationExtensions
+public static class FluentValidationExtensions
 {
     public static IServiceCollection AddFluentValidationJsonPropertyNames(
            this IServiceCollection services)
