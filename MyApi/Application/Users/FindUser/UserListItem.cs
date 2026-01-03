@@ -1,6 +1,6 @@
 ﻿namespace MyApi.Application.Users.FindUser;
 
-// Read Model / DTO
+// Read Model (DTO)
 public sealed class UserListItem
 {
     public int Id { get; set; }

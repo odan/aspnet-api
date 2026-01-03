@@ -9,14 +9,18 @@ public static class SearchUserController
         var users = await userFinder.FindAllUsers();
 
         // Map domain objects to (strongly typed) view model
-        return new SearchUsersResponse
+        var result = new List<SearchUsersResponseUser>(users.Count);
+
+        foreach (var user in users)
         {
-            Users = users.Select(user => new SearchUsersResponseUser
+            result.Add(new SearchUsersResponseUser
             {
                 Id = user.Id,
                 Username = user.Username,
                 Email = user.Email,
-            }).ToList()
-        };
+            });
+        }
+
+        return new SearchUsersResponse { Users = result };
     }
 }

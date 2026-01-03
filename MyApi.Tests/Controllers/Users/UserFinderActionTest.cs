@@ -1,5 +1,5 @@
 using MyApi.Controllers.Users.SearchUsers;
-using MyApi.Infrastruture;
+using MyApi.Infrastructure;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;

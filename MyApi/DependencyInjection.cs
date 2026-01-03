@@ -3,7 +3,7 @@ using Microsoft.Extensions.Localization;
 using MyApi.Application.Users.CreateUser;
 using MyApi.Application.Users.FindUser;
 using MyApi.Application.Users.GetUser;
-using MyApi.Infrastruture;
+using MyApi.Infrastructure;
 using MyApi.Middleware;
 using MyApi.Shared.Extensions;
 using MySql.Data.MySqlClient;
@@ -18,7 +18,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
         // FluentValidation JSON property-name mapping
-        services.AddFluentValidationJsonPropertyNames();
+        services.AddFluentValidation();
 
         // Middleware (IMiddleware pattern -> Transient passt, sofern stateless)
         services.AddTransient<ExceptionHandlerMiddleware>();
@@ -96,7 +96,7 @@ public static class DependencyInjection
         });
 
         // Transactions
-        services.AddScoped<ITransaction, Transaction>();
+        services.AddScoped<ITransaction, Infrastructure.MySqlTransaction>();
 
         return services;
     }

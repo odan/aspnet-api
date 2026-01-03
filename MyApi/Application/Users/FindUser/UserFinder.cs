@@ -1,7 +1,5 @@
 namespace MyApi.Application.Users.FindUser;
 
-using MyApi.Application.Users.GetUser;
-
 public sealed class UserFinder(UserFinderRepository repository)
 {
     private readonly UserFinderRepository _repository = repository;

@@ -6,22 +6,20 @@ public sealed class UserCreatorRepository(QueryFactory db)
 {
     private readonly QueryFactory _db = db;
 
-    public bool ExistsUsername(string username)
+    public async Task<bool> ExistsUsername(string username, CancellationToken ct = default)
     {
-        var row = _db.Query("users")
+        var row = await _db.Query("users")
+            .SelectRaw("1")
             .Where("username", username)
-            .FirstOrDefault();
+            .Limit(1)
+            .FirstOrDefaultAsync<int?>(cancellationToken: ct);
 
         return row != null;
     }
 
-    public async Task<int> InsertUser(string username)
+    public async Task<int> InsertUser(string username, CancellationToken ct = default)
     {
-        var userId = await _db.Query("users").InsertGetIdAsync<int>(new
-        {
-            username,
-        });
-
-        return userId;
+        return await _db.Query("users")
+            .InsertGetIdAsync<int>(new { username }, cancellationToken: ct);
     }
 }

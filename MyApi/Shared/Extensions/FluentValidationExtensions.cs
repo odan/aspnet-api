@@ -6,9 +6,12 @@ namespace MyApi.Shared.Extensions;
 
 public static class FluentValidationExtensions
 {
-    public static IServiceCollection AddFluentValidationJsonPropertyNames(
+    public static IServiceCollection AddFluentValidation(
            this IServiceCollection services)
     {
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
+
+        // Add mapping of JsonPropertyNames
         var defaultResolver = ValidatorOptions.Global.PropertyNameResolver;
 
         ValidatorOptions.Global.PropertyNameResolver = (type, memberInfo, expression) =>

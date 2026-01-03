@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-01-02 20:08+0100\n"
+"POT-Creation-Date: 2026-01-03 19:40+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,43 +10,45 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
-"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-KeywordsList: ;_localizer.GetString\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: MyApi\n"
 
-#: Domain/Customer/Service/CustomerCreatorFormMapper.cs:38
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:26
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:21
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:30
 msgid "Input required"
 msgstr "Eingabe erforderlich"
 
-#: Domain/Customer/Service/CustomerCreatorFormMapper.cs:46
-msgid "Input validation failed"
-msgstr "Eingabeüberprüfung fehlgeschlagen"
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:22
+msgid "Too short"
+msgstr "Zu kurz"
 
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:27
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:23
 msgid "Too long"
 msgstr "Zu lang"
 
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:28
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:24
 msgid "Invalid value"
 msgstr "Ungültiger Wert"
 
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:29
-msgid "Username already exists"
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:26
+msgid "Username already taken"
 msgstr "Benutzername existiert bereits"
 
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:34
-msgid "Invalid date format"
-msgstr "Ungültiges Datumsformat"
-
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:35
-msgid "Invalid date"
-msgstr "Ungültiges Datum"
-
-#: Domain/Customer/Service/CustomerCreatorValidator.cs:36
+#: MyApi/Application/Users/CreateUser/UserCreatorValidator.cs:32
 msgid "Invalid age"
 msgstr "Ungültiges Alter"
+
+#~ msgid "Input validation failed"
+#~ msgstr "Eingabeüberprüfung fehlgeschlagen"
+
+#~ msgid "Invalid date format"
+#~ msgstr "Ungültiges Datumsformat"
+
+#~ msgid "Invalid date"
+#~ msgstr "Ungültiges Datum"
 
 #, csharp-format
 #~ msgid "The user {0} logged in"

@@ -1,4 +1,4 @@
-namespace MyApi.Infrastruture;
+namespace MyApi.Infrastructure;
 
 public interface ITransaction
 {

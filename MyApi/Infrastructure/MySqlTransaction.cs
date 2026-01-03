@@ -1,8 +1,8 @@
-namespace MyApi.Infrastruture;
+namespace MyApi.Infrastructure;
 
 using MySql.Data.MySqlClient;
 
-public sealed class Transaction(MySqlConnection connection) : ITransaction
+public sealed class MySqlTransaction(MySqlConnection connection) : ITransaction
 {
     private readonly MySqlConnection _connection = connection;
 

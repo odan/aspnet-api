@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +29,6 @@
   <ItemGroup>
     <Folder Include="Logs\" />
   </ItemGroup>
-
 
   <Target Name="Build">
     <Csc Sources="@(Compile)" />

@@ -1,8 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using MyApi.Controllers.Users.CreateUser;
-using MyApi.Infrastruture;
-using MyApi.Shared.Extensions;
+using MyApi.Infrastructure;
 
 namespace MyApi.Application.Users.CreateUser;
 
@@ -11,31 +9,26 @@ public sealed class UserCreator(
     IStringLocalizer<UserCreator> localizer,
     UserCreatorRepository repository,
     ITransaction transaction,
-    ILoggerFactory factory
-)
+    ILogger<UserCreator> logger)
 {
     private readonly UserCreatorValidator _validator = validator;
-
     private readonly IStringLocalizer<UserCreator> _localizer = localizer;
-
     private readonly UserCreatorRepository _repository = repository;
-
     private readonly ITransaction _transaction = transaction;
+    private readonly ILogger<UserCreator> _logger = logger;
 
-    private readonly ILogger<UserCreator> _logger = factory.CreateLogger<UserCreator>();
-
-    public async Task<int> CreateUser(CreateUserRequest request)
+    public async Task<int> CreateUser(CreateUserCommand command, CancellationToken ct = default)
     {
-        _logger.LogInformation("Create new user {request}", request);
+        _logger.LogInformation("Create new user {request}", command);
 
         // Input validation
-        Validate(request);
+        await Validate(command, ct);
 
         _transaction.Begin();
 
         try
         {
-            var userId = await _repository.InsertUser(request.Username);
+            var userId = await _repository.InsertUser(command.Username, ct);
 
             _transaction.Commit();
 
@@ -48,20 +41,21 @@ public sealed class UserCreator(
         {
             _transaction.Rollback();
 
-            _logger.LogError(exception.Message);
+            _logger.LogError(exception, "Failed to create user");
 
             throw;
         }
     }
 
-    private void Validate(CreateUserRequest request)
+    private async Task Validate(CreateUserCommand command, CancellationToken ct)
     {
-        var results = _validator.Validate(request);
+        var results = await _validator.ValidateAsync(command, ct);
 
         if (!results.IsValid)
         {
             throw new ValidationException(
-                _localizer.GetString("Input validation failed"), results.Errors
+                _localizer.GetString("Input validation failed"),
+                results.Errors
             );
         }
     }

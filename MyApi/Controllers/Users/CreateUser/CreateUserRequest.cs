@@ -12,17 +12,17 @@ public sealed class CreateUserRequest
 
     [EmailAddress]
     [Required]
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     [MinLength(8)]
     [Required]
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
     [Required]
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
 
     [Required]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     [JsonPropertyName("dateOfBirth")]
     public DateTime? DateOfBirth { get; set; }
