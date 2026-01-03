@@ -10,7 +10,7 @@ A minimal ASP.NET Core API
 ## Features
 
 * OpenAPI
-* Dependency injection container (with autowiring)
+* Dependency injection container
 * Single Action Controllers, Services and Repositories
 * Environment specific configuration
 * 12-Factor `.env` configuration loader (for sensitive data)
@@ -225,7 +225,7 @@ CREATE DATABASE `my_api_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 Create a `.env` file in the `MyApi.Tests` directory:
 
 ```env
-ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api_test_
+ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api_test
 ```
 
 Modify the database and credentials accordingly.
