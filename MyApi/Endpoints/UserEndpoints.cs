@@ -1,11 +1,11 @@
-namespace MyApi.Routes;
+namespace MyApi.Endpoints;
 
 using MyApi.Controllers.Users.CreateUser;
 using MyApi.Controllers.Users.GetUser;
 using MyApi.Controllers.Users.SearchUsers;
 
 // Extension
-public static class UserRoutes
+public static class UserEndpoints
 {
     public static IEndpointRouteBuilder MapApiUserRoutes(this IEndpointRouteBuilder route)
     {

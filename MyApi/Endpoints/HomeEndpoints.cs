@@ -1,9 +1,9 @@
 using MyApi.Controllers.Home;
 
-namespace MyApi.Routes;
+namespace MyApi.Endpoints;
 
 // Extension
-public static class HomeRoutes
+public static class HomeEndpoints
 {
     public static IEndpointRouteBuilder MapHomeRoutes(this IEndpointRouteBuilder route)
     {
