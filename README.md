@@ -60,11 +60,7 @@ Modify the database name accordingly.
 Create a `.env` file in the `MyApi` directory:
 
 ```env
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=
-MYSQL_DATABASE=my_api
+ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api
 ```
 
 Modify the database and credentials accordingly.
@@ -229,11 +225,7 @@ CREATE DATABASE `my_api_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 Create a `.env` file in the `MyApi.Tests` directory:
 
 ```env
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=
-MYSQL_DATABASE=my_api_test
+ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api_test_
 ```
 
 Modify the database and credentials accordingly.
