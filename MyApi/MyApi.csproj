@@ -26,10 +26,6 @@
     <MyResources Include="$(ProjectDir)/Resources/**/*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-
   <Target Name="Build">
     <Csc Sources="@(Compile)" />
   </Target>

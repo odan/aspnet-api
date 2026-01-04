@@ -1,10 +1,7 @@
 using DotNetEnv;
 using DotNetEnv.Configuration;
-using Microsoft.Extensions.Options;
 using MyApi;
 using MyApi.Endpoints;
-using MyApi.Middleware;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,15 +12,14 @@ if (builder.Environment.IsDevelopment())
 }
 
 // Services
-builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 builder.Services.AddApi();
 
 var app = builder.Build();
 
 // Middleware
-app.UseMiddleware<ExceptionHandlerMiddleware>();
-app.UseMiddleware<ValidationExceptionMiddleware>();
+app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseRequestLocalization();

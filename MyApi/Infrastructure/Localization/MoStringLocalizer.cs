@@ -1,4 +1,4 @@
-namespace MyApi.Infrastructure;
+namespace MyApi.Infrastructure.Localization;
 
 using Microsoft.Extensions.Localization;
 using NGettext;

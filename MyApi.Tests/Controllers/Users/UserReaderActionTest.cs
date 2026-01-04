@@ -1,5 +1,5 @@
 using MyApi.Controllers.Users.GetUser;
-using MyApi.Infrastructure;
+using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;

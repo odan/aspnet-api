@@ -1,6 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using MyApi.Infrastructure;
+using MyApi.Infrastructure.Database;
 
 namespace MyApi.Application.Users.CreateUser;
 

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-namespace MyApi.Shared.Extensions;
+namespace MyApi.Infrastructure.Validation;
 
 public static class FluentValidationExtensions
 {

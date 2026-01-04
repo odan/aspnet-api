@@ -1,4 +1,4 @@
-namespace MyApi.Infrastructure;
+namespace MyApi.Infrastructure.Clock;
 
 using System;
 using System.Globalization;
@@ -50,7 +50,6 @@ public sealed class Chronos
 
         return age;
     }
-
 
     public static void SetTestNow(DateTime dateTime)
     {

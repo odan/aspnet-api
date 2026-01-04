@@ -1,7 +1,6 @@
-using AwesomeAssertions;
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Controllers.Users.CreateUser;
-using MyApi.Infrastructure;
+using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;
@@ -64,7 +63,6 @@ public class UserCreatorActionTest(
 
         var expectedResponse = new ValidationProblemDetails
         {
-            Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
             Title = "Input validation failed",
             Status = 400,
             Errors =

@@ -1,4 +1,4 @@
-namespace MyApi.Infrastructure;
+namespace MyApi.Infrastructure.Database;
 
 using MySql.Data.MySqlClient;
 

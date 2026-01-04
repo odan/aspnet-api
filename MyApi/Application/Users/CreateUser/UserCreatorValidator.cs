@@ -2,7 +2,7 @@ namespace MyApi.Application.Users.CreateUser;
 
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using MyApi.Infrastructure;
+using MyApi.Infrastructure.Clock;
 
 public sealed class UserCreatorValidator : AbstractValidator<CreateUserCommand>
 {
