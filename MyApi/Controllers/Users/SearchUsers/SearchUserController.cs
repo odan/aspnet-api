@@ -4,7 +4,7 @@ using MyApi.Application.Users.FindUser;
 
 public static class SearchUserController
 {
-    public static async Task<SearchUsersResponse> Handle(UserFinder userFinder)
+    public static async Task<SearchUsersResponse> Handle(FindUsersQueryHandler userFinder)
     {
         var users = await userFinder.FindAllUsers();
 

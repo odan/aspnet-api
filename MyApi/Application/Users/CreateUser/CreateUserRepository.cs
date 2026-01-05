@@ -2,7 +2,7 @@ namespace MyApi.Application.Users.CreateUser;
 
 using SqlKata.Execution;
 
-public sealed class UserCreatorRepository(QueryFactory db)
+public sealed class CreateUserRepository(QueryFactory db)
 {
     private readonly QueryFactory _db = db;
 

@@ -13,10 +13,6 @@ public sealed class GlobalExceptionHandler(
         Exception exception,
         CancellationToken cancellationToken)
     {
-        // Wichtig: ValidationException NICHT hier loggen
-        if (exception is FluentValidation.ValidationException)
-            return false;
-
         _logger.LogError(
            exception,
            "Unhandled exception for request {Method} {Path}",

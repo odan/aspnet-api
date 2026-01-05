@@ -3,7 +3,7 @@ namespace MyApi.Application.Users.GetUser;
 using SqlKata.Execution;
 using System.Threading;
 
-public sealed class UserRepository(QueryFactory db)
+public sealed class GetUserRepository(QueryFactory db)
 {
     private readonly QueryFactory _db = db;
 

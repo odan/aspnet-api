@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using MyApi.Application.Users.CreateUser;
 using MyApi.Application.Users.FindUser;
@@ -7,7 +6,6 @@ using MyApi.Application.Users.GetUser;
 using MyApi.Infrastructure.Database;
 using MyApi.Infrastructure.ExceptionHandling;
 using MyApi.Infrastructure.Localization;
-using MyApi.Infrastructure.Validation;
 using MySql.Data.MySqlClient;
 using Serilog;
 using SqlKata.Compilers;
@@ -56,27 +54,22 @@ public static class DependencyInjection
 
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // Validators
-        services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
-
         // Application Services
-        services.AddScoped<UserFinder>();
-        services.AddScoped<UserFinderRepository>();
+        services.AddScoped<FindUsersQueryHandler>();
+        services.AddScoped<FindUsersRepository>();
 
-        services.AddScoped<UserReader>();
-        services.AddScoped<UserRepository>();
+        services.AddScoped<GetUserCommandHandler>();
+        services.AddScoped<GetUserRepository>();
 
-        services.AddScoped<UserCreator>();
-        services.AddScoped<UserCreatorRepository>();
+        services.AddScoped<CreateUserCommandHandler>();
+        services.AddScoped<CreateUserRepository>();
+        services.AddScoped<CreateUserValidator>();
 
         return services;
     }
 
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
-        // FluentValidation JSON property-name mapping
-        services.AddFluentValidation();
-
         // Exception Handlers
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();

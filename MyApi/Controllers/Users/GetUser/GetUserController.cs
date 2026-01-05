@@ -4,7 +4,7 @@ using MyApi.Application.Users.GetUser;
 
 public static class GetUserController
 {
-    public static async Task<GetUserResponse> Handle(UserReader userReader, int id)
+    public static async Task<GetUserResponse> Handle(GetUserCommandHandler userReader, int id)
     {
         var user = await userReader.GetUser(id);
 

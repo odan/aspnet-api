@@ -3,7 +3,7 @@
 using SqlKata.Execution;
 using System.Threading;
 
-public sealed class UserFinderRepository(QueryFactory db)
+public sealed class FindUsersRepository(QueryFactory db)
 {
     private readonly QueryFactory _db = db;
 

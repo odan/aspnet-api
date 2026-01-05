@@ -1,8 +1,8 @@
 namespace MyApi.Application.Users.FindUser;
 
-public sealed class UserFinder(UserFinderRepository repository)
+public sealed class FindUsersQueryHandler(FindUsersRepository repository)
 {
-    private readonly UserFinderRepository _repository = repository;
+    private readonly FindUsersRepository _repository = repository;
 
     public async Task<List<UserListItem>> FindAllUsers()
     {

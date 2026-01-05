@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="GetText.NET" Version="8.0.5" />
     <PackageReference Include="MySql.Data" Version="9.5.0" />
     <PackageReference Include="NGettext" Version="0.6.7" />
@@ -24,6 +23,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
     <EnvFile Include="$(ProjectDir)/.env" />
     <MyResources Include="$(ProjectDir)/Resources/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Validation\" />
   </ItemGroup>
 
   <Target Name="Build">

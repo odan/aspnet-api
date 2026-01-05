@@ -1,8 +1,8 @@
 namespace MyApi.Application.Users.GetUser;
 
-public sealed class UserReader(UserRepository repository)
+public sealed class GetUserCommandHandler(GetUserRepository repository)
 {
-    private readonly UserRepository _repository = repository;
+    private readonly GetUserRepository _repository = repository;
 
     public async Task<UserDto> GetUser(int userId)
     {

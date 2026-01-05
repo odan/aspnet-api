@@ -17,7 +17,7 @@ A minimal ASP.NET Core API
 * MySQL database connection
 * SQL QueryBuilder (SqlKata)
 * Database transaction handling
-* Input validation (FluentValidation)
+* Input validation (Attribute based and custom validators)
 * ValidationException middleware
 * Localization (NGettext)
 * Context specific logging (Serilog)
