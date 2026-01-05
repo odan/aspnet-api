@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Application.Users.CreateUser;
 using MyApi.Controllers.Users.CreateUser;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
@@ -22,9 +23,13 @@ public class UserCreatorActionTest(
 
         var client = _factory.CreateClient();
 
-        var content = new CreateUserRequest
+        var content = new CreateUserCommand
         {
             Username = "john",
+            Email = "john@example.com",
+            Password = "securePassword123",
+            FirstName = "John",
+            LastName = "Doe",
             DateOfBirth = new DateTime(1982, 03, 28),
         }.ToJsonContent();
         var response = await client.PostAsync("/users", content);
@@ -63,13 +68,19 @@ public class UserCreatorActionTest(
 
         var expectedResponse = new ValidationProblemDetails
         {
-            Title = "Input validation failed",
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Title = "One or more validation errors occurred.",
             Status = 400,
+            Instance = "/users",
             Errors =
             {
-                ["username"] = ["Invalid value"]
+                ["email"] = ["E-Mail is required."],
+                ["password"] = ["Password is required."],
+                ["firstName"] = ["First name is required."],
+                ["lastName"] = ["Last name is required."]
             }
         };
+
 
         actualResponse.Should().BeEquivalentTo(expectedResponse);
     }

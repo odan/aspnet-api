@@ -1,3 +1,5 @@
+using MyApi.Application.Users.CreateUser;
+using MyApi.Controllers.Users.CreateUser;
 using MyApi.Controllers.Users.SearchUsers;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
@@ -35,10 +37,26 @@ public class UserFinderActionTest(
 
         var client = _factory.CreateClient();
 
-        var content = new { username = "john", dateOfBirth = "1982-03-28" }.ToJsonContent();
+        var content = new CreateUserCommand
+        {
+            Username = "john",
+            Email = "john@example.com",
+            Password = "securePassword123",
+            FirstName = "John",
+            LastName = "Doe",
+            DateOfBirth = new DateTime(1982, 03, 28),
+        }.ToJsonContent();
         await client.PostAsync("/users", content);
 
-        var content2 = new { username = "sally", dateOfBirth = "2000-01-31" }.ToJsonContent();
+        var content2 = new CreateUserCommand
+        {
+            Username = "sally",
+            Email = "sally@example.com",
+            Password = "securePassword123",
+            FirstName = "Sally",
+            LastName = "Doe",
+            DateOfBirth = new DateTime(1980, 01, 31),
+        }.ToJsonContent();
         await client.PostAsync("/users", content2);
 
         var response = await client.GetAsync("/users");

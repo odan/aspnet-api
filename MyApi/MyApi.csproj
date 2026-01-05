@@ -25,10 +25,6 @@
     <MyResources Include="$(ProjectDir)/Resources/**/*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\Validation\" />
-  </ItemGroup>
-
   <Target Name="Build">
     <Csc Sources="@(Compile)" />
   </Target>

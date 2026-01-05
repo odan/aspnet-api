@@ -2,7 +2,7 @@
 
 namespace MyApi.Controllers.Users.CreateUser;
 
-public record CreateUserResponse
+public sealed class CreateUserResponse
 {
     [JsonPropertyName("userId")]
     public int UserId { get; set; }

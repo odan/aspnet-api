@@ -29,7 +29,7 @@ public sealed class CreateUserCommandHandler(
 
         try
         {
-            var userId = await _repository.InsertUser("command.Username", ct);
+            var userId = await _repository.InsertUser(command.Username ?? "", ct);
 
             _transaction.Commit();
 

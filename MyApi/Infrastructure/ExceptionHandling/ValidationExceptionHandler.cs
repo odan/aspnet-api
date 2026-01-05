@@ -47,7 +47,8 @@ public sealed class ValidationExceptionHandler(
                 : inputValidationException.Message,
         };
 
-        problem.Extensions["traceId"] = context.TraceIdentifier;
+        // Optionally add trace ID or other extensions
+        // problem.Extensions["traceId"] = context.TraceIdentifier;
 
         await context.Response.WriteAsJsonAsync(problem, cancellationToken);
 
