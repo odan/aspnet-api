@@ -11,13 +11,13 @@ public static class CreateUserController
     )
     {
         // Execute use case
-        var userId = await handler.Handle(command);
+        var result = await handler.Handle(command);
 
         // Return response
         return Results.CreatedAtRoute(
-            "GetUserById",
-            new { id = userId },
-            new CreateUserResult { UserId = userId }
+            nameof(GetUserController),
+            new { id = result.UserId },
+            result
         );
     }
 

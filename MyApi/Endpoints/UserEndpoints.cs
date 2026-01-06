@@ -14,7 +14,8 @@ public static class UserEndpoints
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
-        group.MapGet("/{id}", GetUserController.Handle).WithName("GetUserById")
+        group.MapGet("/{id}", GetUserController.Handle)
+            .WithName(nameof(GetUserController))
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 

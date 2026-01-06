@@ -18,7 +18,7 @@ public sealed class CreateUserHandler(
     private readonly ITransaction _transaction = transaction;
     private readonly ILogger<CreateUserHandler> _logger = logger;
 
-    public async Task<int> Handle(CreateUserCommand command, CancellationToken ct = default)
+    public async Task<CreateUserResult> Handle(CreateUserCommand command, CancellationToken ct = default)
     {
         _logger.LogInformation("Create new user {request}", command);
 
@@ -29,6 +29,7 @@ public sealed class CreateUserHandler(
 
         try
         {
+            // Todo: Map command to repository parameter object
             var userId = await _repository.InsertUser(command.Username ?? "", ct);
 
             _transaction.Commit();
@@ -36,7 +37,7 @@ public sealed class CreateUserHandler(
             // Logging
             _logger.LogInformation("User created. User-ID: {userId}", userId);
 
-            return userId;
+            return new CreateUserResult { UserId = userId };
         }
         catch (Exception exception)
         {
