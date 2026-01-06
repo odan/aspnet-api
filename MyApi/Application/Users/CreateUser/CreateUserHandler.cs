@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Localization;
-using MyApi.Application.Common.Validation;
 using MyApi.Infrastructure.Database;
-using System.ComponentModel.DataAnnotations;
 
 namespace MyApi.Application.Users.CreateUser;
 
@@ -41,8 +39,10 @@ public sealed class CreateUserHandler(
         }
         catch (Exception exception)
         {
+            // Rollback all changes on error
             _transaction.Rollback();
 
+            // Log error
             _logger.LogError(exception, "Failed to create user");
 
             throw;

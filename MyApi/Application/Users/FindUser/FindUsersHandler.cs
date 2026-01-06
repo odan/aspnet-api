@@ -8,9 +8,18 @@ public sealed class FindUsersHandler(FindUsersRepository repository)
     {
         var users = await _repository.FindUsers();
 
-        // Custom logic...
+        // Custom logic
+        // ...
 
-        return new FindUsersResult { Users = users };
+        return new FindUsersResult
+        {
+            Users = users.Select(user => new UserSummary
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+            }).ToList()
+        };
 
     }
 }

@@ -8,8 +8,6 @@ public static class SearchUserController
     {
         var result = await userFinder.FindAllUsers();
 
-        // ....
-
         return result;
     }
 }

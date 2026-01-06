@@ -23,8 +23,8 @@ public class FinderUserControllerTest(
         var response = await client.GetAsync("/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResult>();
-        actual.Should().BeEquivalentTo(new SearchUsersResult());
+        var actual = await response.Content.ReadFromJsonAsync<FindUsersResult>();
+        actual.Should().BeEquivalentTo(new FindUsersResult());
     }
 
     [Fact]
@@ -61,9 +61,9 @@ public class FinderUserControllerTest(
         var response = await client.GetAsync("/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResult>();
+        var actual = await response.Content.ReadFromJsonAsync<FindUsersResult>();
 
-        actual.Should().BeEquivalentTo(new SearchUsersResult
+        actual.Should().BeEquivalentTo(new FindUsersResult
         {
             Users = [
                 new() { Id = 1, Username = "john", Email = null },
