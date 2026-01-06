@@ -1,6 +1,6 @@
-﻿namespace MyApi.Controllers.Users.GetUser;
+﻿namespace MyApi.Application.Users.GetUser;
 
-public sealed class GetUserResponse
+public sealed class GetUserResult
 {
     public int UserId { get; set; }
 

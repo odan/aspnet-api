@@ -1,6 +1,6 @@
 namespace MyApi.Application.Users.GetUser;
 
-public sealed class GetUserCommandHandler(GetUserRepository repository)
+public sealed class GetUserHandler(GetUserRepository repository)
 {
     private readonly GetUserRepository _repository = repository;
 

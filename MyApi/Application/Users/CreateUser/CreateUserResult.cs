@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyApi.Controllers.Users.CreateUser;
+namespace MyApi.Application.Users.CreateUser;
 
-public sealed class CreateUserResponse
+public sealed class CreateUserResult
 {
     [JsonPropertyName("userId")]
     public int UserId { get; set; }

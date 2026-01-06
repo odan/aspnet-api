@@ -1,4 +1,4 @@
-namespace MyApi.Controllers.Users.CreateUser;
+namespace MyApi.Controllers.Users;
 
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Application.Users.CreateUser;
@@ -6,7 +6,7 @@ using MyApi.Application.Users.CreateUser;
 public static class CreateUserController
 {
     public static async Task<IResult> Handle(
-        CreateUserCommandHandler handler,
+        CreateUserHandler handler,
         [FromBody] CreateUserCommand command
     )
     {
@@ -17,7 +17,7 @@ public static class CreateUserController
         return Results.CreatedAtRoute(
             "GetUserById",
             new { id = userId },
-            new CreateUserResponse { UserId = userId }
+            new CreateUserResult { UserId = userId }
         );
     }
 

@@ -7,11 +7,11 @@ public sealed class FindUsersRepository(QueryFactory db)
 {
     private readonly QueryFactory _db = db;
 
-    public async Task<List<UserListItem>> FindUsers(CancellationToken ct = default)
+    public async Task<List<UsersDto>> FindUsers(CancellationToken ct = default)
     {
         var users = await _db
                .Query("users")
-               .GetAsync<UserListItem>(cancellationToken: ct);
+               .GetAsync<UsersDto>(cancellationToken: ct);
 
         return users.ToList();
     }

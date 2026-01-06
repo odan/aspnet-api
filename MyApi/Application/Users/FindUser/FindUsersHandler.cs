@@ -1,15 +1,16 @@
 namespace MyApi.Application.Users.FindUser;
 
-public sealed class FindUsersQueryHandler(FindUsersRepository repository)
+public sealed class FindUsersHandler(FindUsersRepository repository)
 {
     private readonly FindUsersRepository _repository = repository;
 
-    public async Task<List<UserListItem>> FindAllUsers()
+    public async Task<FindUsersResult> FindAllUsers()
     {
         var users = await _repository.FindUsers();
 
         // Custom logic...
 
-        return users;
+        return new FindUsersResult { Users = users };
+
     }
 }

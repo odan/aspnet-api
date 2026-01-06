@@ -1,6 +1,7 @@
 namespace MyApi.Application.Users.GetUser;
 
-public class UserDto
+// Read model (DTO)
+public sealed class UserDto
 {
     public int Id { get; set; }
 

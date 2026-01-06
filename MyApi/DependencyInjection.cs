@@ -55,13 +55,13 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         // Application Services
-        services.AddScoped<FindUsersQueryHandler>();
+        services.AddScoped<FindUsersHandler>();
         services.AddScoped<FindUsersRepository>();
 
-        services.AddScoped<GetUserCommandHandler>();
+        services.AddScoped<GetUserHandler>();
         services.AddScoped<GetUserRepository>();
 
-        services.AddScoped<CreateUserCommandHandler>();
+        services.AddScoped<CreateUserHandler>();
         services.AddScoped<CreateUserRepository>();
         services.AddScoped<CreateUserValidator>();
 

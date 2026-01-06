@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Application.Users.CreateUser;
-using MyApi.Controllers.Users.CreateUser;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;
 
-public class UserCreatorActionTest(
+public class CreateUserControllerTests(
     ApplicationFactory factory,
     TestDatabase database)
 {
@@ -36,9 +35,9 @@ public class UserCreatorActionTest(
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        var result = await response.Content.ReadFromJsonAsync<CreateUserResponse>();
+        var result = await response.Content.ReadFromJsonAsync<CreateUserResult>();
 
-        result.Should().BeEquivalentTo(new CreateUserResponse
+        result.Should().BeEquivalentTo(new CreateUserResult
         {
             UserId = 1,
         });

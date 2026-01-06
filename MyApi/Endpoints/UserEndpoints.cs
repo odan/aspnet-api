@@ -1,8 +1,7 @@
 namespace MyApi.Endpoints;
 
-using MyApi.Controllers.Users.CreateUser;
-using MyApi.Controllers.Users.GetUser;
-using MyApi.Controllers.Users.SearchUsers;
+using MyApi.Application.Users.CreateUser;
+using MyApi.Controllers.Users;
 
 // Extension
 public static class UserEndpoints
@@ -20,7 +19,7 @@ public static class UserEndpoints
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
         group.MapPost("/", CreateUserController.Handle)
-            .Produces<CreateUserResponse>(StatusCodes.Status201Created)
+            .Produces<CreateUserResult>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 

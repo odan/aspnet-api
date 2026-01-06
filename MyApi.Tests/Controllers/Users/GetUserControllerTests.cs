@@ -1,10 +1,10 @@
-using MyApi.Controllers.Users.GetUser;
+using MyApi.Application.Users.GetUser;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;
 
-public class UserReaderActionTest(
+public class GetUserControllerTests(
     ApplicationFactory factory,
     TestDatabase database)
 {
@@ -24,8 +24,8 @@ public class UserReaderActionTest(
         var response = await _factory.CreateClient().GetAsync("/users/1");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actual = await response.Content.ReadFromJsonAsync<GetUserResponse>();
-        actual.Should().BeEquivalentTo(new GetUserResponse
+        var actual = await response.Content.ReadFromJsonAsync<GetUserResult>();
+        actual.Should().BeEquivalentTo(new GetUserResult
         {
             UserId = 1,
             UserName = "max",

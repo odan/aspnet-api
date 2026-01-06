@@ -1,12 +1,11 @@
 using MyApi.Application.Users.CreateUser;
-using MyApi.Controllers.Users.CreateUser;
-using MyApi.Controllers.Users.SearchUsers;
+using MyApi.Application.Users.FindUser;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace MyApi.Tests.Controllers.Users;
 
-public class UserFinderActionTest(
+public class FinderUserControllerTest(
     ApplicationFactory factory,
     TestDatabase database)
 {
@@ -24,8 +23,8 @@ public class UserFinderActionTest(
         var response = await client.GetAsync("/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResponse>();
-        actual.Should().BeEquivalentTo(new SearchUsersResponse());
+        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResult>();
+        actual.Should().BeEquivalentTo(new SearchUsersResult());
     }
 
     [Fact]
@@ -62,14 +61,14 @@ public class UserFinderActionTest(
         var response = await client.GetAsync("/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResponse>();
+        var actual = await response.Content.ReadFromJsonAsync<SearchUsersResult>();
 
-        actual.Should().BeEquivalentTo(new SearchUsersResponse
+        actual.Should().BeEquivalentTo(new SearchUsersResult
         {
             Users = [
                 new() { Id = 1, Username = "john", Email = null },
-                new() { Id = 2, Username = "sally", Email = null }
-                ]
+                new() { Id = 2, Username = "sally", Email = null },
+            ]
         });
     }
 }

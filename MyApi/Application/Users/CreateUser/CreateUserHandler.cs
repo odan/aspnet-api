@@ -5,18 +5,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyApi.Application.Users.CreateUser;
 
-public sealed class CreateUserCommandHandler(
+public sealed class CreateUserHandler(
     CreateUserValidator validator,
-    IStringLocalizer<CreateUserCommandHandler> localizer,
+    IStringLocalizer<CreateUserHandler> localizer,
     CreateUserRepository repository,
     ITransaction transaction,
-    ILogger<CreateUserCommandHandler> logger)
+    ILogger<CreateUserHandler> logger)
 {
     private readonly CreateUserValidator _validator = validator;
-    private readonly IStringLocalizer<CreateUserCommandHandler> _localizer = localizer;
+    private readonly IStringLocalizer<CreateUserHandler> _localizer = localizer;
     private readonly CreateUserRepository _repository = repository;
     private readonly ITransaction _transaction = transaction;
-    private readonly ILogger<CreateUserCommandHandler> _logger = logger;
+    private readonly ILogger<CreateUserHandler> _logger = logger;
 
     public async Task<int> Handle(CreateUserCommand command, CancellationToken ct = default)
     {
