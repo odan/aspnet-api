@@ -1,10 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 namespace MyApi.Application.Common.Validation;
 
 public static class ValidationExtensions
 {
-    public static IList<ValidationResult> Validate(this object model)
+    /// <summary>
+    /// Validates the object using DataAnnotations and returns validation results.
+    /// Returns empty collection when model is valid.
+    /// </summary>
+    /// <param name="model">Object to validate</param>
+    /// <returns>List of validation errors (empty when valid)</returns>
+    /// <exception cref="ArgumentNullException">When model is null</exception>
+    public static IList<ValidationResult> Validate([NotNull] this object model)
     {
         ArgumentNullException.ThrowIfNull(model);
 
@@ -21,24 +30,50 @@ public static class ValidationExtensions
         return results;
     }
 
-    public static void ValidateOrThrow(this object model)
+    /// <summary>
+    /// Adds a validation error to the collection with the specified error message and member name.
+    /// </summary>
+    /// <remarks>
+    /// <para>Example usage:</para>
+    /// <code>
+    /// errors.Add("Username already taken", nameof(command.Username));
+    /// </code>
+    /// </remarks>
+    public static void Add([NotNull] this IList<ValidationResult> errors, string? errorMessage, string memberName)
     {
-        var results = Validate(model);
-
-        if (results.Count == 0)
-            return;
-
-        throw new InputValidationException(
-            results,
-            model.GetType()
-        );
+        errors.Add(new ValidationResult(errorMessage, [memberName]));
     }
 
-    public static void ThrowIfInvalid(this IList<ValidationResult> results, object model)
+    /// <summary>
+    /// Throws validation exception if there are any validation errors.
+    /// </summary>
+    /// <param name="errors">Validation errors (can be null)</param>
+    /// <param name="modelType">Type of the validated model (for better error messages)</param>
+    /// <exception cref="InputValidationException">When results contain errors</exception>
+    public static void ThrowIfAny(
+        this IList<ValidationResult>? errors,
+        object? model = null
+    )
     {
-        if (results.Count == 0)
+        if (errors is null || errors.Count == 0)
             return;
 
-        throw new InputValidationException(results, model.GetType());
+        throw new InputValidationException(errors, model?.GetType());
+    }
+
+    public static void ThrowIfAny(this IList<ValidationResult>? errors, object model, string message)
+    {
+        if (errors is null || errors.Count == 0)
+            return;
+
+        throw new InputValidationException(errors, model?.GetType(), message);
+    }
+
+    public static void ThrowIfAny(this IList<ValidationResult>? errors, string message)
+    {
+        if (errors is null || errors.Count == 0)
+            return;
+
+        throw new InputValidationException(errors, message);
     }
 }

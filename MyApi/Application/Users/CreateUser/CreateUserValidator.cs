@@ -2,7 +2,6 @@ namespace MyApi.Application.Users.CreateUser;
 
 using MyApi.Application.Common.Validation;
 using MyApi.Infrastructure.Clock;
-using System.ComponentModel.DataAnnotations;
 
 public sealed class CreateUserValidator(CreateUserRepository repository)
 {
@@ -10,24 +9,31 @@ public sealed class CreateUserValidator(CreateUserRepository repository)
 
     public async Task Validate(CreateUserCommand command, CancellationToken ct)
     {
-        var results = command.Validate();
+        // Cheap validations first -> throw early -> expensive later
+        // Do all fast/cheap checks first (DataAnnotations, simple rules), throw immediately if they fail.
+        // Only run DB checks if the cheap ones passed.
 
-        // fail fast: avoids database call
-        results.ThrowIfInvalid(command);
+        // DataAnnotations validation
+        var errors = command.Validate();
 
+        // Throws InputValidationException if there are any validation errors
+        errors.ThrowIfAny(command);
+
+        // Only if still valid -> run DB checks one by one and collect errors
         var username = command.Username?.Trim();
         if (!string.IsNullOrWhiteSpace(username) &&
             await _repository.ExistsUsername(username, ct))
         {
-            results.Add(new ValidationResult("Username already taken", [nameof(command.Username)]));
+            errors.Add("Username already taken", nameof(command.Username));
         }
 
         if (command.DateOfBirth is DateTime dob && Chronos.GetAge(dob) < 18)
         {
-            results.Add(new ValidationResult("Must be over 18 years old", [nameof(command.DateOfBirth)]));
+            errors.Add("Must be over 18 years old", nameof(command.DateOfBirth));
         }
 
-        results.ThrowIfInvalid(command);
+        // Throws InputValidationException if there are any validation errors
+        errors.ThrowIfAny(command);
     }
 
 }
