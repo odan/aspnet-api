@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 
 namespace MyApi.Application.Common.Validation;
 
