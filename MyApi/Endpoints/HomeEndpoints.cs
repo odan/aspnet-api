@@ -7,7 +7,7 @@ public static class HomeEndpoints
 {
     public static IEndpointRouteBuilder MapHomeEndpoints(this IEndpointRouteBuilder route)
     {
-        route.MapGet("/", HomeController.Handle).WithTags("Home");
+        route.MapGet("/", HomeController.Invoke).WithTags("Home");
 
         return route;
     }

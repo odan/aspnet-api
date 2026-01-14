@@ -5,7 +5,7 @@ using MyApi.Application.Users.CreateUser;
 
 public static class CreateUserController
 {
-    public static async Task<IResult> Handle(
+    public static async Task<IResult> Invoke(
         CreateUserHandler handler,
         [FromBody] CreateUserCommand command
     )

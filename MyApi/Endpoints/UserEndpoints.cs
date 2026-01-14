@@ -10,16 +10,16 @@ public static class UserEndpoints
     {
         var group = route.MapGroup("/users").WithTags("Users");
 
-        group.MapGet("/", SearchUserController.Handle)
+        group.MapGet("/", SearchUsersController.Invoke)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
-        group.MapGet("/{id}", GetUserController.Handle)
+        group.MapGet("/{id}", GetUserController.Invoke)
             .WithName(nameof(GetUserController))
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
-        group.MapPost("/", CreateUserController.Handle)
+        group.MapPost("/", CreateUserController.Invoke)
             .Produces<CreateUserResult>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

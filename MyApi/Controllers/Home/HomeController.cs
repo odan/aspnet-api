@@ -2,7 +2,7 @@ namespace MyApi.Controllers.Home;
 
 public sealed class HomeController
 {
-    public static string Handle(ILoggerFactory factory)
+    public static string Invoke(ILoggerFactory factory)
     {
         var logger = factory.CreateLogger<HomeController>();
 
