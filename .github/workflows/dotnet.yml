@@ -48,8 +48,8 @@ jobs:
     - name: Create database
       run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
-    - name: Create database tables
-      run: mysql -uroot -proot test --force < Schema/schema.sql
+    #- name: Create database tables
+    #  run: mysql -uroot -proot test --force < Schema/schema.sql
 
     - name: Restore dependencies
       run: dotnet restore
