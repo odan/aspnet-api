@@ -25,8 +25,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <EnvFile Include="$(ProjectDir)/.env" />
-    <SchemaSqlFile Include="$(ProjectDir)/../Schema/schema.sql" />
   </ItemGroup>
 
   <ItemGroup>
