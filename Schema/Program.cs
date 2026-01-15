@@ -1,6 +1,8 @@
 // CA1852 Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
 #pragma warning disable CA1852
 
+/*
+
 using DbUp;
 using MySql.Data.MySqlClient;
 using System.Data;
@@ -192,5 +194,6 @@ if (command == "create")
 Console.ForegroundColor = ConsoleColor.Red;
 Console.WriteLine("Unknown command");
 Console.ResetColor();
+*/
 
 return -1;

@@ -1,17 +1,16 @@
-using Microsoft.Extensions.Localization;
-using MyApi.Infrastructure.Database;
+using MyApi.Infrastructure.Persistence.Transactions;
 
 namespace MyApi.Application.Users.CreateUser;
 
 public sealed class CreateUserHandler(
     CreateUserValidator validator,
-    IStringLocalizer<CreateUserHandler> localizer,
+    //  IStringLocalizer<CreateUserHandler> localizer,
     CreateUserRepository repository,
     ITransaction transaction,
     ILogger<CreateUserHandler> logger)
 {
     private readonly CreateUserValidator _validator = validator;
-    private readonly IStringLocalizer<CreateUserHandler> _localizer = localizer;
+    //private readonly IStringLocalizer<CreateUserHandler> _localizer = localizer;
     private readonly CreateUserRepository _repository = repository;
     private readonly ITransaction _transaction = transaction;
     private readonly ILogger<CreateUserHandler> _logger = logger;

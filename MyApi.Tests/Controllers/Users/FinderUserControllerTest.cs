@@ -14,7 +14,7 @@ public class FinderUserControllerTest(
     private readonly TestDatabase _database = database;
 
     [Fact]
-    public async void TestEmptyResult()
+    public async Task TestEmptyResult()
     {
         _database.ClearTables();
 
@@ -28,7 +28,7 @@ public class FinderUserControllerTest(
     }
 
     [Fact]
-    public async void TestFindUsers()
+    public async Task TestFindUsers()
     {
         _database.ClearTables();
 

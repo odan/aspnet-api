@@ -1,4 +1,5 @@
 using MyApi.Application.Users.GetUser;
+using MyApi.Domain.Users;
 using MyApi.Infrastructure.Clock;
 using System.Net.Http.Json;
 
@@ -13,13 +14,18 @@ public class GetUserControllerTests(
     private readonly TestDatabase _database = database;
 
     [Fact]
-    public async void TestReadUser()
+    public async Task TestReadUser()
     {
         _database.ClearTables();
 
         Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
-        _database.InsertFixture("users", new { username = "max", email = "max@example.com" });
+        _database.Insert(new User
+        {
+            Username = "max",
+            Email = "max@example.com",
+            //  CreatedAt = DateTimeOffset.UtcNow
+        });
 
         var response = await _factory.CreateClient().GetAsync("/users/1");
         response.StatusCode.Should().Be(HttpStatusCode.OK);

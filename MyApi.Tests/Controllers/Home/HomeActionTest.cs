@@ -5,7 +5,7 @@ public class HomeActionTest(ApplicationFactory factory)
     private readonly ApplicationFactory _factory = factory;
 
     [Fact]
-    public async void TestGet()
+    public async Task TestGet()
     {
         var client = _factory.CreateClient();
         var response = await client.GetAsync("/");

@@ -1,75 +1,88 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using SqlKata.Execution;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MyApi.Infrastructure.Persistence;
 
 namespace MyApi.Tests;
 
-public class TestDatabase : IDisposable
+public sealed class TestDatabase : IDisposable
 {
     private readonly ApplicationFactory _factory;
 
-    public static bool IsDatabaseDeployed;
+    private static readonly object InitLock = new();
+    private static bool _isDatabaseDeployed;
 
     public TestDatabase(ApplicationFactory factory)
     {
         _factory = factory;
-
-        // You can also add common setup logic here that applies to all tests,
-        // such as database seeding, client initialization, etc.
         InitDatabase();
     }
 
     public void ClearTables()
     {
-        InitDatabase();
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        var db = _factory.Services.GetRequiredService<QueryFactory>();
+        // Disable FK checks
+        db.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 0;");
 
-        db.Statement("truncate table users");
+        var tableNames = db.Database
+            .SqlQueryRaw<string>(
+                "SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema = DATABASE();")
+            .ToList();
+
+        foreach (var name in tableNames)
+        {
+            // Avoid truncating EF migration history
+            if (string.Equals(name, "__EFMigrationsHistory", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            db.Database.ExecuteSql($"TRUNCATE TABLE `{name}`;");
+        }
+
+        // Re-enable FK checks
+        db.Database.ExecuteSqlRaw("SET FOREIGN_KEY_CHECKS = 1;");
+    }
+
+    public void Insert<TEntity>(TEntity entity) where TEntity : class
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        db.Set<TEntity>().Add(entity);
+        db.SaveChanges();
+    }
+
+    public void Insert<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        db.Set<TEntity>().AddRange(entities);
+        db.SaveChanges();
     }
 
     private void InitDatabase()
     {
-        if (IsDatabaseDeployed == true)
-        {
+        if (_isDatabaseDeployed)
             return;
-        }
 
-        IsDatabaseDeployed = true;
-
-        var db = _factory.Services.GetRequiredService<QueryFactory>();
-        db.Statement("SET unique_checks=0; SET foreign_key_checks=0;");
-
-        dynamic tables = db.Query("information_schema.tables")
-            .Select("TABLE_NAME")
-            .WhereRaw("table_schema = database()")
-            .Get<object>();
-
-
-        var dropStatements = new StringBuilder();
-        foreach (var table in tables)
+        lock (InitLock)
         {
-            dropStatements.AppendFormat("DROP TABLE `{0}`;", table.TABLE_NAME);
+            if (_isDatabaseDeployed)
+                return;
+
+            using var scope = _factory.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // Ensure database schema is up-to-date using EF migrations
+            db.Database.Migrate();
+
+            _isDatabaseDeployed = true;
         }
-        if (dropStatements.Length > 0)
-        {
-            db.Statement(dropStatements.ToString());
-
-        }
-
-        var sql = File.ReadAllText(Path.Combine("Resources", "schema.sql"));
-        db.Statement(sql);
-
-        db.Statement("SET unique_checks=1; SET foreign_key_checks=1;");
-    }
-
-    public void InsertFixture(string table, object data)
-    {
-        var db = _factory.Services.GetRequiredService<QueryFactory>();
-        db.Query(table).Insert(data);
     }
 
     public void Dispose()
     {
-
+        // Intentionally empty. Factory lifetime owns the container/DB.
     }
 }

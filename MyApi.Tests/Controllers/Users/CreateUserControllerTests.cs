@@ -14,7 +14,7 @@ public class CreateUserControllerTests(
     private readonly TestDatabase _database = database;
 
     [Fact]
-    public async void TestCreateUser()
+    public async Task TestCreateUser()
     {
         _database.ClearTables();
 
@@ -49,7 +49,7 @@ public class CreateUserControllerTests(
     }
 
     [Fact]
-    public async void TestCreateUserValidation()
+    public async Task TestCreateUserValidation()
     {
         _database.ClearTables();
 

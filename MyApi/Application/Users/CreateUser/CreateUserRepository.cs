@@ -1,25 +1,38 @@
 namespace MyApi.Application.Users.CreateUser;
 
-using SqlKata.Execution;
+using Microsoft.EntityFrameworkCore;
+using MyApi.Domain.Users;
+using MyApi.Infrastructure.Persistence;
 
-public sealed class CreateUserRepository(QueryFactory db)
+public sealed class CreateUserRepository
 {
-    private readonly QueryFactory _db = db;
+    private readonly AppDbContext _db;
 
-    public async Task<bool> ExistsUsername(string username, CancellationToken ct = default)
+    public CreateUserRepository(AppDbContext db) => _db = db;
+
+    public Task<bool> ExistsUsername(string username, CancellationToken ct = default)
     {
-        var row = await _db.Query("users")
-            .SelectRaw("1")
-            .Where("username", username)
-            .Limit(1)
-            .FirstOrDefaultAsync<int?>(cancellationToken: ct);
+        ArgumentException.ThrowIfNullOrWhiteSpace(username);
 
-        return row != null;
+        return _db.Users
+            .AsNoTracking()
+            .AnyAsync(u => u.Username == username, ct);
     }
 
     public async Task<int> InsertUser(string username, CancellationToken ct = default)
     {
-        return await _db.Query("users")
-            .InsertGetIdAsync<int>(new { username }, cancellationToken: ct);
+        ArgumentException.ThrowIfNullOrWhiteSpace(username);
+
+        var user = new User
+        {
+            Username = username
+            // add more (Email, CreatedAt, etc.)
+        };
+
+        _db.Users.Add(user);
+        await _db.SaveChangesAsync(ct);
+
+        // EF sets Id after SaveChanges
+        return user.Id;
     }
 }

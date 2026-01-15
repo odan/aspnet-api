@@ -1,19 +1,30 @@
 ﻿namespace MyApi.Application.Users.FindUser;
 
-using SqlKata.Execution;
-using System.Threading;
+using Microsoft.EntityFrameworkCore;
+using MyApi.Infrastructure.Persistence;
 
-public sealed class FindUsersRepository(QueryFactory db)
+public sealed class FindUsersRepository
 {
-    private readonly QueryFactory _db = db;
+    private readonly AppDbContext _db;
+
+    public FindUsersRepository(AppDbContext db)
+    {
+        _db = db;
+    }
 
     public async Task<List<UsersDto>> FindUsers(CancellationToken ct = default)
     {
-        var users = await _db
-               .Query("users")
-               .GetAsync<UsersDto>(cancellationToken: ct);
+        // Read-only query, no change tracking required
+        var users = await _db.Users
+            .AsNoTracking()
+            .Select(u => new UsersDto
+            {
+                Id = u.Id,
+                Username = u.Username,
+                Email = u.Email
+            })
+            .ToListAsync(ct);
 
-        return users.ToList();
+        return users;
     }
-
 }

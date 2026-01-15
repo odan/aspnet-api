@@ -6,9 +6,15 @@ public static class JsonExtensions
          this object data,
          JsonSerializerOptions? options = null)
     {
-        options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        var json = JsonSerializer.Serialize(data, options);
+        return new StringContent(ToJson(data, options), Encoding.UTF8, "application/json");
+    }
 
-        return new StringContent(json, Encoding.UTF8, "application/json");
+    public static string ToJson(
+       this object data,
+       JsonSerializerOptions? options = null)
+    {
+        options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
+        return JsonSerializer.Serialize(data, options);
     }
 }

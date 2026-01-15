@@ -14,8 +14,7 @@ A minimal ASP.NET Core API
 * Single Action Controllers, Services and Repositories
 * Environment specific configuration
 * 12-Factor `.env` configuration loader (for sensitive data)
-* MySQL database connection
-* SQL QueryBuilder (SqlKata)
+* EF Core + MySQL
 * Database transaction handling
 * Input validation (Attribute based and custom validators)
 * ValidationException middleware
@@ -65,14 +64,27 @@ ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api
 
 Modify the database and credentials accordingly.
 
-Import the [schema.sql](Schema/schema.sql) file manually or 
-run the following command:
+## Migrations
+
+Install EF tooling (once):
 
 ```
-npm run migration:migrate
+dotnet tool install --global dotnet-ef
 ```
 
-**Note:** This command requires [NPM](https://nodejs.org/en/download/).
+### Add migration
+
+Make table changes in MyApi.Infrastructure.Persistence.Configurations, then generate a new migration with:
+
+```
+dotnet ef migrations add MyMigrationName -p MyApi.Infrastructure -s MyApi.Api
+```
+
+###  Apply migration
+
+```
+dotnet ef database update -p MyApi.Infrastructure -s MyApi.Api
+```
 
 ## Commands
 
