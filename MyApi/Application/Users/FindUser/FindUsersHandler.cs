@@ -13,7 +13,7 @@ public sealed class FindUsersHandler(FindUsersRepository repository)
 
         return new FindUsersResult
         {
-            Users = users.Select(user => new UserSummary
+            Users = users.Select(user => new FindUsersItem
             {
                 Id = user.Id,
                 Username = user.Username,

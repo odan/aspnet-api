@@ -2,10 +2,10 @@
 
 public sealed class FindUsersResult
 {
-    public List<UserSummary> Users { get; init; } = [];
+    public List<FindUsersItem> Users { get; init; } = [];
 }
 
-public sealed class UserSummary
+public sealed class FindUsersItem
 {
     public int Id { get; set; }
 
