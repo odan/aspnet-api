@@ -9,7 +9,8 @@ public sealed class TestDatabase : IDisposable
     private readonly ApplicationFactory _factory;
 
     private static readonly object InitLock = new();
-    private static bool _isDatabaseDeployed;
+
+    private static bool _isDatabaseDeployed = false;
 
     public TestDatabase(ApplicationFactory factory)
     {
@@ -36,7 +37,7 @@ public sealed class TestDatabase : IDisposable
             if (string.Equals(name, "__EFMigrationsHistory", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            db.Database.ExecuteSql($"TRUNCATE TABLE `{name}`;");
+            db.Database.ExecuteSqlRaw($"TRUNCATE TABLE `{name}`;");
         }
 
         // Re-enable FK checks
