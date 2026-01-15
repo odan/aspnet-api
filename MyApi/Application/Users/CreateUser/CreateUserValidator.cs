@@ -25,12 +25,12 @@ public sealed class CreateUserValidator(CreateUserRepository repository)
         if (!string.IsNullOrWhiteSpace(username) &&
             await _repository.ExistsUsername(username, ct))
         {
-            errors.Add("Username already taken", nameof(command.Username));
+            errors.AddError("Username already taken", nameof(command.Username));
         }
 
         if (command.DateOfBirth is DateTime dob && Chronos.GetAge(dob) < 18)
         {
-            errors.Add("Must be over 18 years old", nameof(command.DateOfBirth));
+            errors.AddError("Must be over 18 years old", nameof(command.DateOfBirth));
         }
 
         // Throws InputValidationException if there are any validation errors
