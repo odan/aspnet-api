@@ -12,7 +12,7 @@ public class HomeActionTest(ApplicationFactory factory)
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var actual = await response.Content.ReadAsStringAsync();
-        actual.Should().Be("Hello, World!");
+        actual.Should().Be("\"Hello, World!\"");
 
         _factory.LoggerEvents
             .Should()
