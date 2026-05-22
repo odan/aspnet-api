@@ -1,7 +1,7 @@
-namespace MyApi.Application.Users.CreateUser;
+namespace Demo.Api.Application.Users.CreateUser;
 
-using MyApi.Application.Common.Validation;
-using MyApi.Infrastructure.Clock;
+using Demo.Api.Application.Common.Validation;
+using Demo.Infrastructure.Clock;
 
 public sealed class CreateUserValidator(CreateUserRepository repository)
 {

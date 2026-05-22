@@ -1,11 +1,11 @@
-using MyApi.Application.Users.CreateUser;
-using MyApi.Application.Users.FindUser;
-using MyApi.Infrastructure.Clock;
+using Demo.Api.Application.Users.CreateUser;
+using Demo.Api.Application.Users.FindUser;
+using Demo.Infrastructure.Clock;
 using System.Net.Http.Json;
 
-namespace MyApi.Tests.Controllers.Users;
+namespace Demo.Tests.Endpoints.Users;
 
-public class FinderUserControllerTest(
+public class FindUsersEndpointTests(
     ApplicationFactory factory,
     TestDatabase database)
 {

@@ -1,4 +1,4 @@
-namespace MyApi.Tests.Controllers.Home;
+namespace Demo.Tests.Endpoints.Home;
 
 public class HomeActionTest(ApplicationFactory factory)
 {

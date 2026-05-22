@@ -1,4 +1,4 @@
-﻿namespace MyApi.Application.Users.FindUser;
+﻿namespace Demo.Api.Application.Users.FindUser;
 
 // A result projection: a small read-side data shape 
 public sealed class FindUsersRow

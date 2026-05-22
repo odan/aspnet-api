@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
-using MyApi.Application.Users.CreateUser;
-using MyApi.Application.Users.FindUser;
-using MyApi.Application.Users.GetUser;
-using MyApi.Infrastructure.ExceptionHandling;
-using MyApi.Infrastructure.Localization;
+using Demo.Api.Application.Home;
+using Demo.Api.Application.Users.CreateUser;
+using Demo.Api.Application.Users.FindUser;
+using Demo.Api.Application.Users.GetUser;
+using Demo.Infrastructure.ExceptionHandling;
+using Demo.Infrastructure.Localization;
 using System.Globalization;
 
 namespace MyApi;
@@ -15,6 +16,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         // Application Services
+        services.AddScoped<HomeHandler>();
+
         services.AddScoped<FindUsersHandler>();
         services.AddScoped<FindUsersRepository>();
 

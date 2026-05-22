@@ -1,4 +1,4 @@
-﻿namespace MyApi.Application.Users.FindUser;
+﻿namespace Demo.Api.Application.Users.FindUser;
 
 public sealed class FindUsersResponse
 {

@@ -1,4 +1,4 @@
-namespace MyApi.Infrastructure.Localization;
+namespace Demo.Infrastructure.Localization;
 
 using Microsoft.Extensions.Localization;
 

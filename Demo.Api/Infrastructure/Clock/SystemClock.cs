@@ -1,4 +1,4 @@
-﻿namespace MyApi.Infrastructure.Clock;
+﻿namespace Demo.Infrastructure.Clock;
 
 public sealed class SystemClock : IClock
 {

@@ -1,4 +1,4 @@
-namespace MyApi.Tests;
+namespace Demo.Tests;
 
 using DotNetEnv;
 using DotNetEnv.Configuration;

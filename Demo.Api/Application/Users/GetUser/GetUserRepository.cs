@@ -1,4 +1,4 @@
-namespace MyApi.Application.Users.GetUser;
+namespace Demo.Api.Application.Users.GetUser;
 
 using System.Threading;
 using SqlKata.Execution;

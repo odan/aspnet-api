@@ -1,9 +1,9 @@
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
-using MyApi.Infrastructure.Persistence;
+using Demo.Infrastructure.Persistence;
 using SqlKata.Execution;
 
-namespace MyApi.Tests;
+namespace Demo.Tests;
 
 public sealed class TestDatabase : IDisposable
 {

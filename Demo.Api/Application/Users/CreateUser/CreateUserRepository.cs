@@ -1,4 +1,4 @@
-namespace MyApi.Application.Users.CreateUser;
+namespace Demo.Api.Application.Users.CreateUser;
 
 using SqlKata.Execution;
 

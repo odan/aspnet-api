@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyApi.Application.Users.CreateUser;
+namespace Demo.Api.Application.Users.CreateUser;
 
 public sealed class CreateUserResponse
 {

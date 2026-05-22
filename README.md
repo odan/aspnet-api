@@ -11,7 +11,7 @@ A minimal ASP.NET Core API
 
 * OpenAPI
 * Dependency injection container
-* Single Action Controllers, Services and Repositories
+* Minimal API endpoints, handlers and repositories
 * Environment specific configuration
 * 12-Factor `.env` configuration loader (for sensitive data)
 * SqlKata + PostgreSQL

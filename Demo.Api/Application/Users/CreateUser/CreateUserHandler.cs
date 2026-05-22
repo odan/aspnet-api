@@ -1,4 +1,4 @@
-namespace MyApi.Application.Users.CreateUser;
+namespace Demo.Api.Application.Users.CreateUser;
 
 public sealed class CreateUserHandler(
     CreateUserValidator validator,
@@ -10,6 +10,16 @@ public sealed class CreateUserHandler(
     //private readonly IStringLocalizer<CreateUserHandler> _localizer = localizer;
     private readonly CreateUserRepository _repository = repository;
     private readonly ILogger<CreateUserHandler> _logger = logger;
+
+    public async Task<IResult> Invoke(CreateUserRequest request, CancellationToken ct = default)
+    {
+        var result = await Handle(request, ct);
+
+        return Results.CreatedAtRoute(
+            GetUser.GetUserHandler.RouteName,
+            new { id = result.UserId },
+            result);
+    }
 
     public async Task<CreateUserResponse> Handle(CreateUserRequest request, CancellationToken ct = default)
     {

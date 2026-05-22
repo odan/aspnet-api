@@ -1,4 +1,4 @@
-namespace MyApi.Application.Users.FindUser;
+namespace Demo.Api.Application.Users.FindUser;
 
 using SqlKata.Execution;
 

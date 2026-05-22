@@ -1,7 +1,8 @@
-namespace MyApi.Endpoints;
+namespace Demo.Endpoints;
 
-using MyApi.Application.Users.CreateUser;
-using MyApi.Controllers.Users;
+using Demo.Api.Application.Users.CreateUser;
+using Demo.Api.Application.Users.FindUser;
+using Demo.Api.Application.Users.GetUser;
 
 // Extension
 public static class UserEndpoints
@@ -10,16 +11,19 @@ public static class UserEndpoints
     {
         var group = route.MapGroup("/users").WithTags("Users");
 
-        group.MapGet("/", FindUsersController.Invoke)
+        group.MapGet("/", async (FindUsersHandler handler) =>
+            await handler.Invoke())
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
-        group.MapGet("/{id}", GetUserController.Invoke)
-            .WithName(nameof(GetUserController))
+        group.MapGet("/{id}", async (GetUserHandler handler, int id) =>
+            await handler.Invoke(id))
+            .WithName(GetUserHandler.RouteName)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 
-        group.MapPost("/", CreateUserController.Invoke)
+        group.MapPost("/", async (CreateUserHandler handler, CreateUserRequest request) =>
+            await handler.Invoke(request))
             .Produces<CreateUserResponse>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

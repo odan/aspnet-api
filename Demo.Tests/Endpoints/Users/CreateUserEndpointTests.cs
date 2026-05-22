@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Application.Users.CreateUser;
-using MyApi.Infrastructure.Clock;
+using Demo.Api.Application.Users.CreateUser;
+using Demo.Infrastructure.Clock;
 using System.Net.Http.Json;
 
-namespace MyApi.Tests.Controllers.Users;
+namespace Demo.Tests.Endpoints.Users;
 
-public class CreateUserControllerTests(
+public class CreateUserEndpointTests(
     ApplicationFactory factory,
     TestDatabase database)
 {

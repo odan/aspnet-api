@@ -1,10 +1,10 @@
-using MyApi.Application.Users.GetUser;
-using MyApi.Infrastructure.Clock;
+using Demo.Api.Application.Users.GetUser;
+using Demo.Infrastructure.Clock;
 using System.Net.Http.Json;
 
-namespace MyApi.Tests.Controllers.Users;
+namespace Demo.Tests.Endpoints.Users;
 
-public class GetUserControllerTests(
+public class GetUserEndpointTests(
     ApplicationFactory factory,
     TestDatabase database)
 {

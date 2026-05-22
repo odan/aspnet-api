@@ -1,8 +1,8 @@
-﻿namespace MyApi.Infrastructure.ExceptionHandling;
+﻿namespace Demo.Infrastructure.ExceptionHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MyApi.Application.Common.Validation;
+using Demo.Api.Application.Common.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.Json;

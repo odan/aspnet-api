@@ -1,4 +1,4 @@
-namespace MyApi.Infrastructure.Clock;
+namespace Demo.Infrastructure.Clock;
 
 using System;
 using System.Globalization;
