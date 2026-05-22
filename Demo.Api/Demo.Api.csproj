@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\00000000000000_Init.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Logs\" />
   </ItemGroup>
 

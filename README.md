@@ -65,15 +65,15 @@ Modify the database and credentials accordingly.
 
 ## Migrations
 
-Migrations are plain SQL files in `MyApi/Migrations` and are executed with DbUp.
+Migrations are plain SQL files in `Demo.Api/Migrations` and are executed with DbUp.
 
 ```
-dotnet run --project MyApi/Demo.Api.csproj -- --migrate
+dotnet run --project Demo.Api/Demo.Api.csproj -- --migrate
 ```
 
 ### Add migration
 
-Add a new SQL file to `MyApi/Migrations` using a sortable name, for example:
+Add a new SQL file to `Demo.Api/Migrations` using a sortable name, for example:
 
 ```
 002_AddExampleColumn.sql
@@ -82,7 +82,7 @@ Add a new SQL file to `MyApi/Migrations` using a sortable name, for example:
 ###  Apply migration
 
 ```
-dotnet run --project MyApi/Demo.Api.csproj -- --migrate
+dotnet run --project Demo.Api/Demo.Api.csproj -- --migrate
 ```
 
 ## Commands
@@ -233,7 +233,7 @@ Create a local **test** database for xUnit.
 CREATE DATABASE my_api_test;
 ```
 
-Create a `.env` file in the `MyApi.Tests` directory:
+Create a `.env` file in the `Demo.Tests` directory:
 
 ```env
 ConnectionStrings__Default=Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=my_api_test

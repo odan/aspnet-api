@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "migration:migrate": "dotnet run --project=MyApi/Demo.Api.csproj -- --migrate"
+    "migration:migrate": "dotnet run --project=Demo.Api/Demo.Api.csproj -- --migrate"
   }
 }
