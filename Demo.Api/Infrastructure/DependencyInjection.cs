@@ -1,7 +1,7 @@
-namespace Demo.Infrastructure;
+namespace Demo.Api.Infrastructure;
 
 using System.Data;
-using Demo.Infrastructure.Persistence;
+using Demo.Api.Infrastructure.Persistence;
 using Npgsql;
 using Serilog;
 using SqlKata.Compilers;

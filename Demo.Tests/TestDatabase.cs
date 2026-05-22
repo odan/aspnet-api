@@ -1,6 +1,6 @@
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
-using Demo.Infrastructure.Persistence;
+using Demo.Api.Infrastructure.Persistence;
 using SqlKata.Execution;
 
 namespace Demo.Tests;

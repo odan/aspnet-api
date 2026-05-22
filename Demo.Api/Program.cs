@@ -1,9 +1,9 @@
 using DotNetEnv;
 using DotNetEnv.Configuration;
 using MyApi;
-using Demo.Endpoints;
-using Demo.Infrastructure;
-using Demo.Infrastructure.Persistence;
+using Demo.Api.Endpoints;
+using Demo.Api.Infrastructure;
+using Demo.Api.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

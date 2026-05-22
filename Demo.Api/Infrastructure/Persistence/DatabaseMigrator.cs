@@ -1,4 +1,4 @@
-namespace Demo.Infrastructure.Persistence;
+namespace Demo.Api.Infrastructure.Persistence;
 
 using System.Reflection;
 using DbUp;

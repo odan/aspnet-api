@@ -1,6 +1,6 @@
 using Demo.Api.Application.Users.CreateUser;
 using Demo.Api.Application.Users.FindUser;
-using Demo.Infrastructure.Clock;
+using Demo.Api.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;

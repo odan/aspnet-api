@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Demo.Api.Application.Users.CreateUser;
-using Demo.Infrastructure.Clock;
+using Demo.Api.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;

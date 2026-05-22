@@ -1,4 +1,4 @@
-﻿namespace Demo.Infrastructure.ExceptionHandling;
+﻿namespace Demo.Api.Infrastructure.ExceptionHandling;
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-namespace Demo.Endpoints;
+namespace Demo.Api.Endpoints;
 
 using Demo.Api.Application.Home;
 

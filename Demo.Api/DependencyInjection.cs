@@ -4,8 +4,8 @@ using Demo.Api.Application.Home;
 using Demo.Api.Application.Users.CreateUser;
 using Demo.Api.Application.Users.FindUser;
 using Demo.Api.Application.Users.GetUser;
-using Demo.Infrastructure.ExceptionHandling;
-using Demo.Infrastructure.Localization;
+using Demo.Api.Infrastructure.ExceptionHandling;
+using Demo.Api.Infrastructure.Localization;
 using System.Globalization;
 
 namespace MyApi;

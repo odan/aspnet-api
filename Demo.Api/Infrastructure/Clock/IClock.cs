@@ -1,4 +1,4 @@
-﻿namespace Demo.Infrastructure.Clock;
+﻿namespace Demo.Api.Infrastructure.Clock;
 
 public interface IClock
 {

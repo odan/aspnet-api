@@ -1,4 +1,4 @@
-namespace Demo.Infrastructure.Localization;
+namespace Demo.Api.Infrastructure.Localization;
 
 using Microsoft.Extensions.Localization;
 using NGettext;
