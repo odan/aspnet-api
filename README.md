@@ -5,7 +5,7 @@ A minimal ASP.NET Core API
 ## Requirements
 
 * [.NET 10.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-* A MySQL database
+* A PostgreSQL database
 
 ## Features
 
@@ -14,8 +14,7 @@ A minimal ASP.NET Core API
 * Single Action Controllers, Services and Repositories
 * Environment specific configuration
 * 12-Factor `.env` configuration loader (for sensitive data)
-* EF Core + MySQL
-* Database transaction handling
+* SqlKata + PostgreSQL
 * Input validation (Attribute based and custom validators)
 * ValidationException middleware
 * Localization (NGettext)
@@ -48,10 +47,10 @@ cd {my-app-name}
 Replace `{my-app-name}` with the desired name for your project. 
 
 
-Create a new MySQL / MariaDB database.
+Create a new PostgreSQL database.
 
 ```sql
-CREATE DATABASE `my_api` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE my_api;
 ```
 
 Modify the database name accordingly.
@@ -59,31 +58,31 @@ Modify the database name accordingly.
 Create a `.env` file in the `MyApi` directory:
 
 ```env
-ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api
+ConnectionStrings__Default=Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=my_api
 ```
 
 Modify the database and credentials accordingly.
 
 ## Migrations
 
-Install EF tooling (once):
+Migrations are plain SQL files in `MyApi/Migrations` and are executed with DbUp.
 
 ```
-dotnet tool install --global dotnet-ef
+dotnet run --project MyApi/Demo.Api.csproj -- --migrate
 ```
 
 ### Add migration
 
-Make table changes in MyApi.Infrastructure.Persistence.Configurations, then generate a new migration with:
+Add a new SQL file to `MyApi/Migrations` using a sortable name, for example:
 
 ```
-dotnet ef migrations add MyMigrationName -p MyApi -s MyApi
+002_AddExampleColumn.sql
 ```
 
 ###  Apply migration
 
 ```
-dotnet ef database update -p MyApi -s MyApi
+dotnet run --project MyApi/Demo.Api.csproj -- --migrate
 ```
 
 ## Commands
@@ -231,13 +230,13 @@ CurrentCulture will be switched automatically.
 Create a local **test** database for xUnit.
 
 ```sql
-CREATE DATABASE `my_api_test` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
+CREATE DATABASE my_api_test;
 ```
 
 Create a `.env` file in the `MyApi.Tests` directory:
 
 ```env
-ConnectionStrings__Default=server=127.0.0.1;uid=root;pwd=;database=my_api_test
+ConnectionStrings__Default=Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=my_api_test
 ```
 
 Modify the database and credentials accordingly.
