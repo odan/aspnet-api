@@ -4,7 +4,7 @@ A minimal ASP.NET Core API
 
 ## Requirements
 
-* [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+* [.NET 10.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * A MySQL database
 
 ## Features
@@ -77,13 +77,13 @@ dotnet tool install --global dotnet-ef
 Make table changes in MyApi.Infrastructure.Persistence.Configurations, then generate a new migration with:
 
 ```
-dotnet ef migrations add MyMigrationName -p MyApi.Infrastructure -s MyApi.Api
+dotnet ef migrations add MyMigrationName -p MyApi -s MyApi
 ```
 
 ###  Apply migration
 
 ```
-dotnet ef database update -p MyApi.Infrastructure -s MyApi.Api
+dotnet ef database update -p MyApi -s MyApi
 ```
 
 ## Commands

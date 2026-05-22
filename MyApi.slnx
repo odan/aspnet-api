@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path="MyApi/.env" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="MyApi.Domain/MyApi.Domain.csproj" />
+  <Project Path="MyApi.Tests/Demo.Tests.csproj" />
+  <Project Path="MyApi/Demo.Api.csproj">
+    <BuildDependency Project="MyApi.Domain/MyApi.Domain.csproj" />
+  </Project>
+</Solution>

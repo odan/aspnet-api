@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(ProjectDir)/../MyApi/MyApi.csproj" />
+    <ProjectReference Include="..\MyApi\Demo.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
