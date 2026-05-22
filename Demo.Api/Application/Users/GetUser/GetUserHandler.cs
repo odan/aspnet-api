@@ -6,12 +6,7 @@ public sealed class GetUserHandler(GetUserRepository repository)
 
     private readonly GetUserRepository _repository = repository;
 
-    public Task<GetUserResponse> Invoke(int userId)
-    {
-        return GetUser(userId);
-    }
-
-    private async Task<GetUserResponse> GetUser(int userId)
+    public async Task<GetUserResponse> Invoke(int userId)
     {
         var user = await _repository.GetUserById(userId);
 
@@ -23,4 +18,5 @@ public sealed class GetUserHandler(GetUserRepository repository)
             UserName = user.Username,
         };
     }
+
 }

@@ -4,12 +4,7 @@ public sealed class FindUsersHandler(FindUsersRepository repository)
 {
     private readonly FindUsersRepository _repository = repository;
 
-    public Task<FindUsersResponse> Invoke()
-    {
-        return FindAllUsers();
-    }
-
-    private async Task<FindUsersResponse> FindAllUsers()
+    public async Task<FindUsersResponse> Invoke()
     {
         var users = await _repository.FindUsers();
 
@@ -25,6 +20,6 @@ public sealed class FindUsersHandler(FindUsersRepository repository)
                 Email = user.Email,
             }).ToList()
         };
-
     }
+
 }
