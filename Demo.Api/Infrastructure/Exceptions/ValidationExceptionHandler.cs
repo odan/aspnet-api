@@ -1,6 +1,6 @@
 namespace Demo.Api.Infrastructure.Exceptions;
 
-using Demo.Api.Application.Common.Validation;
+using Demo.Api.Application.Util.Validation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

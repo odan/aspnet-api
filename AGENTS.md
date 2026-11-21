@@ -3,7 +3,7 @@
 ## Layout
 
 - `Application/` — use cases as vertical slices. Keep handler, validation, data access, and request/response types in one folder.
-- `Application/Common/` — shared application helpers.
+- `Application/Util/` — shared application helpers.
 - `Infrastructure/` — technical adapters (persistence, security, logging, localization, exception mapping).
 - `Program.cs` — composition root only: configuration, DI, middleware, routes.
 

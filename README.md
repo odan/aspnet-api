@@ -57,7 +57,7 @@ See [Database transactions](docs/database-transactions.md) for how a handler sta
 Demo.Api/
 ├── Program.cs                                 # Composition root
 ├── Application/                               # Use cases (vertical slices)
-│   ├── Common/
+│   ├── Util/
 │   │   └── Validation/
 │   │       ├── InputValidationException.cs    # Thrown by validators
 │   │       └── ValidationExtensions.cs        # DataAnnotations helpers

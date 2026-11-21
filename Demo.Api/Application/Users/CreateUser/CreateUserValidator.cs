@@ -1,6 +1,6 @@
 namespace Demo.Api.Application.Users.CreateUser;
 
-using Demo.Api.Application.Common.Validation;
+using Demo.Api.Application.Util.Validation;
 using Demo.Api.Infrastructure.Clock;
 
 public sealed class CreateUserValidator(CreateUserRepository repository)

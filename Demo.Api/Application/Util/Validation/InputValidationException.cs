@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demo.Api.Application.Common.Validation;
+namespace Demo.Api.Application.Util.Validation;
 
 public sealed class InputValidationException : Exception
 {
