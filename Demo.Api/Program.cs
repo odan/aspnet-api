@@ -1,9 +1,14 @@
+using Demo.Api.Application.Home;
+using Demo.Api.Application.Users.CreateUser;
+using Demo.Api.Application.Users.FindUser;
+using Demo.Api.Application.Users.GetUser;
+using Demo.Api.Infrastructure.Logging;
+using Demo.Api.Infrastructure.Persistence;
+using Demo.Api.Infrastructure.Services;
 using DotNetEnv;
 using DotNetEnv.Configuration;
-using MyApi;
-using Demo.Api.Endpoints;
-using Demo.Api.Infrastructure;
-using Demo.Api.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,34 +18,59 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddDotNetEnv(".env", LoadOptions.TraversePath());
 }
 
+builder.Host.UseSerilog((context, services, loggerConfiguration) =>
+{
+    loggerConfiguration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext();
+});
+
 // Services
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
-builder.Services.AddApi();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || args.Contains("--migrate"))
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
-    var migrator = scope.ServiceProvider.GetRequiredService<DatabaseMigrator>();
-    migrator.Migrate();
-}
-
-if (args.Contains("--migrate"))
-{
-    return;
+    scope.ServiceProvider.GetRequiredService<DatabaseMigrator>().Migrate();
 }
 
 // Middleware
+// Apply forwarded host, scheme, and client IP before other middleware reads the request.
+app.UseForwardedHeaders();
 app.UseExceptionHandler();
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseMiddleware<HttpLoggingMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseRequestLocalization();
 
 // Endpoints
-app.MapHomeEndpoints();
-app.MapApiUserEndpoints();
+app.MapOpenApi();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/openapi/v1.json", "Demo API v1");
+});
+
+app.MapGet("/", HomeHandler.Handle)
+    .WithTags("Home");
+
+var api = app.MapGroup("/api")
+    .RequireAuthorization("ApiKey")
+    .WithMetadata(
+        new ProducesResponseTypeMetadata(StatusCodes.Status400BadRequest, typeof(HttpValidationProblemDetails), ["application/problem+json"]),
+        new ProducesResponseTypeMetadata(StatusCodes.Status500InternalServerError, typeof(ProblemDetails), ["application/problem+json"]));
+
+var users = api.MapGroup("/users")
+    .WithTags("Users");
+
+users.MapGet("/", FindUsersHandler.Handle);
+
+users.MapGet("/{id:int}", GetUserHandler.Handle)
+    .WithName(GetUserHandler.RouteName);
+
+users.MapPost("/", CreateUserHandler.Handle)
+    .Produces<CreateUserResponse>(StatusCodes.Status201Created);
 
 app.Run();
 

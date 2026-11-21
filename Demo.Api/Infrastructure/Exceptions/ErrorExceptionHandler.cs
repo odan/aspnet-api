@@ -1,17 +1,17 @@
-﻿namespace Demo.Api.Infrastructure.ExceptionHandling;
+namespace Demo.Api.Infrastructure.Exceptions;
 
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-public sealed class GlobalExceptionHandler(
-    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public sealed class ErrorExceptionHandler(
+    ILogger<ErrorExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger = logger;
+    private readonly ILogger<ErrorExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(
         HttpContext context,
         Exception exception,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         _logger.LogError(
            exception,
@@ -30,7 +30,7 @@ public sealed class GlobalExceptionHandler(
             Detail = "An unexpected error occurred"
         };
 
-        await context.Response.WriteAsJsonAsync(problem, cancellationToken);
+        await context.Response.WriteAsJsonAsync(problem, ct);
 
         return true;
     }

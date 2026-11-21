@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using Demo.Api.Application.Users.CreateUser;
 using Demo.Api.Infrastructure.Clock;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;
@@ -20,7 +20,7 @@ public class CreateUserEndpointTests(
 
         Chronos.SetTestNow(new DateTime(2023, 12, 31));
 
-        var client = _factory.CreateClient();
+        var client = _factory.CreateApiClient();
 
         var content = new CreateUserRequest
         {
@@ -31,7 +31,7 @@ public class CreateUserEndpointTests(
             LastName = "Doe",
             DateOfBirth = new DateTime(1982, 03, 28),
         }.ToJsonContent();
-        var response = await client.PostAsync("/users", content);
+        var response = await client.PostAsync("/api/users", content);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -42,10 +42,7 @@ public class CreateUserEndpointTests(
             UserId = 1,
         });
 
-        _factory.LoggerEvents
-            .Should()
-            .HaveMessage("User created. User-ID: {userId}")
-            .Appearing().Once();
+        _factory.LoggerEvents.ShouldHaveMessage("User created. User-ID: {userId}");
     }
 
     [Fact]
@@ -53,14 +50,14 @@ public class CreateUserEndpointTests(
     {
         _database.ClearTables();
 
-        var client = _factory.CreateClient();
+        var client = _factory.CreateApiClient();
         var content = new
         {
             username = "admin",
             dateOfBirth = "1982-03-28"
         }.ToJsonContent();
 
-        var response = await client.PostAsync("/users", content);
+        var response = await client.PostAsync("/api/users", content);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var actualResponse = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
@@ -70,7 +67,7 @@ public class CreateUserEndpointTests(
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
             Title = "One or more validation errors occurred.",
             Status = 400,
-            Instance = "/users",
+            Instance = "/api/users",
             Errors =
             {
                 ["email"] = ["E-Mail is required."],

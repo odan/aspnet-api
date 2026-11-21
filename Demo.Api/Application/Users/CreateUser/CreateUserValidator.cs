@@ -7,18 +7,15 @@ public sealed class CreateUserValidator(CreateUserRepository repository)
 {
     private readonly CreateUserRepository _repository = repository;
 
-    public async Task Validate(CreateUserRequest command, CancellationToken ct)
+    public async Task Validate(CreateUserRequest command, CancellationToken ct = default)
     {
-        // Cheap validations first -> throw early -> expensive later
+        // Quick validations first -> throw early -> detailed later
         // Do all fast/cheap checks first (DataAnnotations, simple rules), throw immediately if they fail.
-        // Only run DB checks if the cheap ones passed.
+        // Only run DB checks if the quick ones passed.
 
         // 1. Cheap & fast -> throw immediately (no DB hit)
         // DataAnnotations validation
-        var errors = command.Validate();
-
-        // Throws InputValidationException if there are any validation errors
-        errors.ThrowIfAny(command);
+        var errors = command.Validate().ThrowIfAny(command);
 
         // 2. Now safe to do business / DB validation
         var username = command.Username?.Trim();

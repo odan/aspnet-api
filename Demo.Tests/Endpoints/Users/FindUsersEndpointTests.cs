@@ -18,9 +18,9 @@ public class FindUsersEndpointTests(
     {
         _database.ClearTables();
 
-        var client = _factory.CreateClient();
+        var client = _factory.CreateApiClient();
 
-        var response = await client.GetAsync("/users");
+        var response = await client.GetAsync("/api/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var actual = await response.Content.ReadFromJsonAsync<FindUsersResponse>();
@@ -34,7 +34,7 @@ public class FindUsersEndpointTests(
 
         Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
-        var client = _factory.CreateClient();
+        var client = _factory.CreateApiClient();
 
         var content = new CreateUserRequest
         {
@@ -45,7 +45,7 @@ public class FindUsersEndpointTests(
             LastName = "Doe",
             DateOfBirth = new DateTime(1982, 03, 28),
         }.ToJsonContent();
-        await client.PostAsync("/users", content);
+        await client.PostAsync("/api/users", content);
 
         var content2 = new CreateUserRequest
         {
@@ -56,9 +56,9 @@ public class FindUsersEndpointTests(
             LastName = "Doe",
             DateOfBirth = new DateTime(1980, 01, 31),
         }.ToJsonContent();
-        await client.PostAsync("/users", content2);
+        await client.PostAsync("/api/users", content2);
 
-        var response = await client.GetAsync("/users");
+        var response = await client.GetAsync("/api/users");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var actual = await response.Content.ReadFromJsonAsync<FindUsersResponse>();
@@ -70,5 +70,13 @@ public class FindUsersEndpointTests(
                 new() { Id = 2, Username = "sally", Email = null },
             ]
         });
+    }
+
+    [Fact]
+    public async Task TestApiKeyRequired()
+    {
+        var response = await _factory.CreateClient().GetAsync("/api/users");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 }

@@ -14,9 +14,6 @@ public class HomeActionTest(ApplicationFactory factory)
         var actual = await response.Content.ReadAsStringAsync();
         actual.Should().Be("\"Hello, World!\"");
 
-        _factory.LoggerEvents
-            .Should()
-            .HaveMessage("Home action")
-            .Appearing().Once();
+        _factory.LoggerEvents.ShouldHaveMessage("Home action");
     }
 }

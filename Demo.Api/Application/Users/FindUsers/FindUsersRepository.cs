@@ -16,7 +16,7 @@ public sealed class FindUsersRepository
         var users = await _db.Query("users")
             .Select("id as Id", "username as Username", "email as Email")
             .OrderBy("id")
-            .GetAsync<FindUsersRow>();
+            .GetAsync<FindUsersRow>(cancellationToken: ct);
 
         return users.ToList();
     }

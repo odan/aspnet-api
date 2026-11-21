@@ -14,7 +14,7 @@ public sealed class CreateUserRepository
 
         return _db.Query("users")
             .Where("username", username)
-            .ExistsAsync();
+            .ExistsAsync(cancellationToken: ct);
     }
 
     public async Task<int> InsertUser(string username, CancellationToken ct = default)
@@ -24,6 +24,6 @@ public sealed class CreateUserRepository
         return await _db.Query("users").InsertGetIdAsync<int>(new
         {
             username
-        });
+        }, cancellationToken: ct);
     }
 }

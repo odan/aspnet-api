@@ -1,8 +1,8 @@
-﻿namespace Demo.Api.Infrastructure.ExceptionHandling;
+namespace Demo.Api.Infrastructure.Exceptions;
 
+using Demo.Api.Application.Common.Validation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Demo.Api.Application.Common.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.Json;
@@ -16,7 +16,7 @@ public sealed class ValidationExceptionHandler(
     public async ValueTask<bool> TryHandleAsync(
         HttpContext context,
         Exception exception,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         if (exception is not InputValidationException inputValidationException)
         {
@@ -50,7 +50,7 @@ public sealed class ValidationExceptionHandler(
         // Optionally add trace ID or other extensions
         // problem.Extensions["traceId"] = context.TraceIdentifier;
 
-        await context.Response.WriteAsJsonAsync(problem, cancellationToken);
+        await context.Response.WriteAsJsonAsync(problem, ct);
 
         return true;
     }

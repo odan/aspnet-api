@@ -1,7 +1,7 @@
 namespace Demo.Api.Application.Users.GetUser;
 
-using System.Threading;
 using SqlKata.Execution;
+using System.Threading;
 
 public sealed class GetUserRepository
 {
@@ -14,7 +14,7 @@ public sealed class GetUserRepository
         var user = await _db.Query("users")
             .Select("id as Id", "username as Username")
             .Where("id", id)
-            .FirstOrDefaultAsync<GetUserByIdRow>();
+            .FirstOrDefaultAsync<GetUserByIdRow>(cancellationToken: ct);
 
         return user ?? throw new InvalidDataException("User not found");
     }

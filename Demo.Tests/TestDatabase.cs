@@ -1,7 +1,7 @@
-using System.Data;
-using Microsoft.Extensions.DependencyInjection;
 using Demo.Api.Infrastructure.Persistence;
+using Microsoft.Extensions.DependencyInjection;
 using SqlKata.Execution;
+using System.Data;
 
 namespace Demo.Tests;
 

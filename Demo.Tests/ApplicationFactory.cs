@@ -5,6 +5,7 @@ using DotNetEnv.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
@@ -19,7 +20,16 @@ public class ApplicationFactory : ApplicationFactory<Program>
 
 public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
+    private const string TestApiKey = "test-api-key";
+
     public InMemorySink LoggerEvents { get; } = new();
+
+    public HttpClient CreateApiClient()
+    {
+        var client = CreateClient();
+        client.DefaultRequestHeaders.Add("X-API-Key", TestApiKey);
+        return client;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -51,23 +61,24 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false)
                 .AddEnvironmentVariables()
-                .AddDotNetEnv(".env", LoadOptions.TraversePath());
-        });
-
-        builder.ConfigureLogging(logging =>
-        {
-            logging.ClearProviders();
-
-            var serilog = new LoggerConfiguration()
-                .WriteTo.Sink(LoggerEvents)
-                .CreateLogger();
-
-            logging.AddProvider(new SerilogLoggerProvider(serilog, dispose: true));
+                .AddDotNetEnv(".env", LoadOptions.TraversePath())
+                .AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    ["API_KEY"] = TestApiKey
+                });
         });
 
         builder.ConfigureServices(services =>
         {
-            // you can override services here if needed
+            services.AddSingleton<ILoggerFactory>(_ =>
+            {
+                var logger = new LoggerConfiguration()
+                    .MinimumLevel.Information()
+                    .WriteTo.Sink(LoggerEvents)
+                    .CreateLogger();
+
+                return new SerilogLoggerFactory(logger, dispose: true);
+            });
         });
     }
 

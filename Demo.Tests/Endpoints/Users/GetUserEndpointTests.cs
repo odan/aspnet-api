@@ -21,7 +21,7 @@ public class GetUserEndpointTests(
 
         _database.InsertUser("max", "max@example.com");
 
-        var response = await _factory.CreateClient().GetAsync("/users/1");
+        var response = await _factory.CreateApiClient().GetAsync("/api/users/1");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var actual = await response.Content.ReadFromJsonAsync<GetUserResponse>();

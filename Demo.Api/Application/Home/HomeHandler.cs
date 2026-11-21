@@ -1,12 +1,11 @@
 namespace Demo.Api.Application.Home;
 
-public sealed class HomeHandler(ILogger<HomeHandler> logger)
+public static class HomeHandler
 {
-    private readonly ILogger<HomeHandler> _logger = logger;
-
-    public async Task<IResult> Invoke()
+    public static IResult Handle(ILoggerFactory loggerFactory)
     {
-        _logger.LogInformation("Home action");
+        var logger = loggerFactory.CreateLogger(nameof(HomeHandler));
+        logger.LogInformation("Home action");
 
         return Results.Ok("Hello, World!");
     }

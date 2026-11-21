@@ -1,12 +1,12 @@
 namespace Demo.Api.Application.Users.FindUser;
 
-public sealed class FindUsersHandler(FindUsersRepository repository)
+public static class FindUsersHandler
 {
-    private readonly FindUsersRepository _repository = repository;
-
-    public async Task<FindUsersResponse> Invoke()
+    public static async Task<FindUsersResponse> Handle(
+        FindUsersRepository repository,
+        CancellationToken ct = default)
     {
-        var users = await _repository.FindUsers();
+        var users = await repository.FindUsers(ct);
 
         // Custom logic
         // ...
@@ -21,5 +21,4 @@ public sealed class FindUsersHandler(FindUsersRepository repository)
             }).ToList()
         };
     }
-
 }

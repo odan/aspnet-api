@@ -1,7 +1,7 @@
 namespace Demo.Api.Infrastructure.Persistence;
 
-using System.Reflection;
 using DbUp;
+using System.Reflection;
 
 public sealed class DatabaseMigrator(
     IConfiguration configuration,

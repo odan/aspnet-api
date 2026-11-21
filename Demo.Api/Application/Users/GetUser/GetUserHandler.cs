@@ -1,14 +1,15 @@
 namespace Demo.Api.Application.Users.GetUser;
 
-public sealed class GetUserHandler(GetUserRepository repository)
+public static class GetUserHandler
 {
     public const string RouteName = "GetUser";
 
-    private readonly GetUserRepository _repository = repository;
-
-    public async Task<GetUserResponse> Invoke(int userId)
+    public static async Task<GetUserResponse> Handle(
+        GetUserRepository repository,
+        int id,
+        CancellationToken ct = default)
     {
-        var user = await _repository.GetUserById(userId);
+        var user = await repository.GetUserById(id, ct);
 
         // ...
 
@@ -18,5 +19,4 @@ public sealed class GetUserHandler(GetUserRepository repository)
             UserName = user.Username,
         };
     }
-
 }

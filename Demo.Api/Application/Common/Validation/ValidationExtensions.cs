@@ -47,13 +47,16 @@ public static class ValidationExtensions
     /// <summary>
     /// Throws validation exception if there are any validation errors.
     /// </summary>
-    public static void ThrowIfAny(this IList<ValidationResult>? errors, object? model = null)
+    public static IList<ValidationResult> ThrowIfAny(this IList<ValidationResult>? errors, object? model = null)
         => InputValidationException.ThrowIfAny(errors, model);
 
-    public static void ThrowIfAny(this IList<ValidationResult>? errors, object? model, string message)
+    public static IList<ValidationResult> ThrowIfAny(
+        this IList<ValidationResult>? errors,
+        object? model,
+        string message)
         => InputValidationException.ThrowIfAny(errors, model, message);
 
-    public static void ThrowIfAny(this IList<ValidationResult>? errors, string message)
+    public static IList<ValidationResult> ThrowIfAny(this IList<ValidationResult>? errors, string message)
         => InputValidationException.ThrowIfAny(errors, null, message);
 
     /// <summary>
@@ -65,11 +68,16 @@ public static class ValidationExtensions
     /// errors.Add("Username already taken", nameof(command.Username));
     /// </code>
     /// </remarks>
-    public static void AddError(this IList<ValidationResult> errors, string? errorMessage, string memberName)
+    public static IList<ValidationResult> AddError(
+        this IList<ValidationResult> errors,
+        string? errorMessage,
+        string memberName)
     {
         ArgumentNullException.ThrowIfNull(errors);
         ArgumentException.ThrowIfNullOrWhiteSpace(memberName);
 
         errors.Add(new ValidationResult(errorMessage, [memberName]));
+
+        return errors;
     }
 }
