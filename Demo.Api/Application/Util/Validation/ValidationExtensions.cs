@@ -30,7 +30,7 @@ public static class ValidationExtensions
     /// <summary>
     /// Throws an exception if the model is not valid.
     /// </summary>
-    public static void EnsureValid(this object model, string? message = null)
+    public static IList<ValidationResult> EnsureValid(this object model, string? message = null)
     {
         var errors = model.Validate();
 
@@ -42,6 +42,8 @@ public static class ValidationExtensions
         {
             errors.ThrowIfAny(model, message);
         }
+
+        return errors;
     }
 
     /// <summary>

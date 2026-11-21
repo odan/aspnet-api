@@ -13,11 +13,10 @@ public sealed class CreateUserValidator(CreateUserRepository repository)
         // Do all fast/cheap checks first (DataAnnotations, simple rules), throw immediately if they fail.
         // Only run DB checks if the quick ones passed.
 
-        // 1. Cheap & fast -> throw immediately (no DB hit)
         // DataAnnotations validation
         var errors = command.Validate().ThrowIfAny(command);
 
-        // 2. Now safe to do business / DB validation
+        // 2. Now safe to do business / database validation
         var username = command.Username?.Trim();
         if (!string.IsNullOrWhiteSpace(username) &&
             await _repository.ExistsUsername(username, ct))
