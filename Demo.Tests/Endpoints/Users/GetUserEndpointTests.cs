@@ -5,18 +5,19 @@ using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;
 
-public class GetUserEndpointTests(
-    ApplicationFactory factory,
-    TestDatabase database)
+public class GetUserEndpointTests : IClassFixture<ApplicationFactory<Program>>
 {
-    private readonly ApplicationFactory _factory = factory;
+    private readonly ApplicationFactory<Program> _factory;
 
-    private readonly TestDatabase _database = database;
+    public GetUserEndpointTests(ApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+    }
 
     [Fact]
     public async Task TestReadUser()
     {
-        _database.ClearTables();
+        _factory.Database.ClearTables();
 
         InsertUser("max", "max@example.com");
 

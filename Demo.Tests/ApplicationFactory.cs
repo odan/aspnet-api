@@ -16,17 +16,23 @@ using System;
 
 // https://github.com/dotnet/AspNetCore.Docs.Samples/blob/main/test/integration-tests/8.x/IntegrationTestsSample/tests/RazorPagesProject.Tests/CustomWebApplicationFactory.cs
 
-public class ApplicationFactory : ApplicationFactory<Program>
-{
-}
-
 public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
     private const string TestApiKey = "test-api-key";
 
-    public InMemorySink LoggerEvents { get; } = new();
+    private TestDatabase? _database;
+
+    public InMemorySink Logger { get; } = new();
 
     public FakeTimeProvider Time { get; } = new();
+
+    public TestDatabase Database
+    {
+        get
+        {
+            return _database ??= new TestDatabase((WebApplicationFactory<Program>)(object)this);
+        }
+    }
 
     public HttpClient CreateApiClient()
     {
@@ -81,7 +87,7 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
             {
                 var logger = new LoggerConfiguration()
                     .MinimumLevel.Information()
-                    .WriteTo.Sink(LoggerEvents)
+                    .WriteTo.Sink(Logger)
                     .CreateLogger();
 
                 return new SerilogLoggerFactory(logger, dispose: true);

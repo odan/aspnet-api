@@ -1,4 +1,5 @@
 using Demo.Api.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using SqlKata.Execution;
 
@@ -6,13 +7,13 @@ namespace Demo.Tests;
 
 public sealed class TestDatabase : IDisposable
 {
-    private readonly ApplicationFactory _factory;
+    private readonly WebApplicationFactory<Program> _factory;
 
     private static readonly object InitLock = new();
 
     private static bool _isDatabaseDeployed = false;
 
-    public TestDatabase(ApplicationFactory factory)
+    public TestDatabase(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
         InitDatabase();

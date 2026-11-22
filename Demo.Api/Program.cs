@@ -74,10 +74,7 @@ users.MapPost("/", CreateUserHandler.Handle)
 
 app.Run();
 
-namespace MyApi
+// This class is needed for the test project
+public partial class Program
 {
-    // This line is needed for the test project to work
-    public partial class Program
-    {
-    }
 }

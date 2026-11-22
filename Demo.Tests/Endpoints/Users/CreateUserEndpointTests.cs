@@ -4,18 +4,19 @@ using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;
 
-public class CreateUserEndpointTests(
-    ApplicationFactory factory,
-    TestDatabase database)
+public class CreateUserEndpointTests : IClassFixture<ApplicationFactory<Program>>
 {
-    private readonly ApplicationFactory _factory = factory;
+    private readonly ApplicationFactory<Program> _factory;
 
-    private readonly TestDatabase _database = database;
+    public CreateUserEndpointTests(ApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+    }
 
     [Fact]
     public async Task TestCreateUser()
     {
-        _database.ClearTables();
+        _factory.Database.ClearTables();
 
         _factory.Time.SetUtcNow(new DateTimeOffset(2023, 12, 31, 0, 0, 0, TimeSpan.Zero));
 
@@ -41,13 +42,13 @@ public class CreateUserEndpointTests(
             UserId = 1,
         });
 
-        _factory.LoggerEvents.ShouldHaveMessage("User created. User-ID: {userId}");
+        _factory.Logger.ShouldHaveMessage("User created. User-ID: {userId}");
     }
 
     [Fact]
     public async Task TestCreateUserValidation()
     {
-        _database.ClearTables();
+        _factory.Database.ClearTables();
 
         var client = _factory.CreateApiClient();
         var content = new

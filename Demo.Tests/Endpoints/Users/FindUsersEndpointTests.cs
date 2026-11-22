@@ -4,18 +4,19 @@ using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;
 
-public class FindUsersEndpointTests(
-    ApplicationFactory factory,
-    TestDatabase database)
+public class FindUsersEndpointTests : IClassFixture<ApplicationFactory<Program>>
 {
-    private readonly ApplicationFactory _factory = factory;
+    private readonly ApplicationFactory<Program> _factory;
 
-    private readonly TestDatabase _database = database;
+    public FindUsersEndpointTests(ApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+    }
 
     [Fact]
     public async Task TestEmptyResult()
     {
-        _database.ClearTables();
+        _factory.Database.ClearTables();
 
         var client = _factory.CreateApiClient();
 
@@ -29,7 +30,7 @@ public class FindUsersEndpointTests(
     [Fact]
     public async Task TestFindUsers()
     {
-        _database.ClearTables();
+        _factory.Database.ClearTables();
 
         _factory.Time.SetUtcNow(new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero));
 

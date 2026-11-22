@@ -1,8 +1,13 @@
 namespace Demo.Tests.Endpoints.Home;
 
-public class HomeActionTest(ApplicationFactory factory)
+public class HomeActionTest : IClassFixture<ApplicationFactory<Program>>
 {
-    private readonly ApplicationFactory _factory = factory;
+    private readonly ApplicationFactory<Program> _factory;
+
+    public HomeActionTest(ApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+    }
 
     [Fact]
     public async Task TestGet()
@@ -14,6 +19,6 @@ public class HomeActionTest(ApplicationFactory factory)
         var actual = await response.Content.ReadAsStringAsync();
         actual.Should().Be("\"Hello, World!\"");
 
-        _factory.LoggerEvents.ShouldHaveMessage("Home action");
+        _factory.Logger.ShouldHaveMessage("Home action");
     }
 }
