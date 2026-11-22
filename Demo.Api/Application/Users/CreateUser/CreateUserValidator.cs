@@ -1,11 +1,13 @@
 namespace Demo.Api.Application.Users.CreateUser;
 
 using Demo.Api.Application.Util.Validation;
-using Demo.Api.Infrastructure.Clock;
 
-public sealed class CreateUserValidator(CreateUserRepository repository)
+public sealed class CreateUserValidator(
+    CreateUserRepository repository,
+    TimeProvider time)
 {
     private readonly CreateUserRepository _repository = repository;
+    private readonly TimeProvider _time = time;
 
     public async Task Validate(CreateUserRequest command, CancellationToken ct = default)
     {
@@ -24,13 +26,26 @@ public sealed class CreateUserValidator(CreateUserRepository repository)
             errors.AddError("Username already taken", nameof(command.Username));
         }
 
-        if (command.DateOfBirth is DateTime dob && Chronos.GetAge(dob) < 18)
+        if (command.DateOfBirth is DateTime dob && GetAge(dob) < 18)
         {
             errors.AddError("Must be over 18 years old", nameof(command.DateOfBirth));
         }
 
         // Throws InputValidationException if there are any validation errors
         errors.ThrowIfAny(command);
+    }
+
+    private int GetAge(DateTime birthDate)
+    {
+        var today = _time.GetUtcNow().UtcDateTime;
+        var age = today.Year - birthDate.Year;
+
+        if (birthDate.AddYears(age) > today)
+        {
+            age--;
+        }
+
+        return age;
     }
 
 }

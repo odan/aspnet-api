@@ -46,6 +46,7 @@ public static class ServiceExtensions
             serviceProvider.GetRequiredService<PostgresCompiler>()));
         services.AddScoped<DatabaseMigrator>();
         services.AddScoped<ITransactionFactory, NpgsqlTransactionFactory>();
+        services.AddSingleton(TimeProvider.System);
 
         services
             .AddAuthentication("ApiKey")

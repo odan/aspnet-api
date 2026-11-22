@@ -1,5 +1,4 @@
 using Demo.Api.Application.Users.CreateUser;
-using Demo.Api.Infrastructure.Clock;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
 
@@ -18,7 +17,7 @@ public class CreateUserEndpointTests(
     {
         _database.ClearTables();
 
-        Chronos.SetTestNow(new DateTime(2023, 12, 31));
+        _factory.Time.SetUtcNow(new DateTimeOffset(2023, 12, 31, 0, 0, 0, TimeSpan.Zero));
 
         var client = _factory.CreateApiClient();
 

@@ -1,5 +1,4 @@
 using Demo.Api.Application.Users.GetUser;
-using Demo.Api.Infrastructure.Clock;
 using Microsoft.Extensions.DependencyInjection;
 using SqlKata.Execution;
 using System.Net.Http.Json;
@@ -18,8 +17,6 @@ public class GetUserEndpointTests(
     public async Task TestReadUser()
     {
         _database.ClearTables();
-
-        Chronos.SetTestNow(new DateTime(2023, 1, 1));
 
         InsertUser("max", "max@example.com");
 

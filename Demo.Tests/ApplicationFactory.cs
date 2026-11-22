@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Time.Testing;
 using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Sinks.InMemory;
@@ -23,6 +25,8 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
     private const string TestApiKey = "test-api-key";
 
     public InMemorySink LoggerEvents { get; } = new();
+
+    public FakeTimeProvider Time { get; } = new();
 
     public HttpClient CreateApiClient()
     {
@@ -70,6 +74,9 @@ public class ApplicationFactory<TProgram> : WebApplicationFactory<TProgram> wher
 
         builder.ConfigureServices(services =>
         {
+            services.RemoveAll<TimeProvider>();
+            services.AddSingleton<TimeProvider>(Time);
+
             services.AddSingleton<ILoggerFactory>(_ =>
             {
                 var logger = new LoggerConfiguration()

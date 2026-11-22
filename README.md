@@ -81,7 +81,6 @@ Demo.Api/
 │           ├── GetUserResponse.cs
 │           └── GetUserByIdRow.cs
 ├── Infrastructure/                            # Technical adapters
-│   ├── Clock/                                 # Time helpers
 │   ├── Exceptions/
 │   │   ├── ValidationExceptionHandler.cs      # 400 Problem Details
 │   │   └── ErrorExceptionHandler.cs           # 500 Problem Details

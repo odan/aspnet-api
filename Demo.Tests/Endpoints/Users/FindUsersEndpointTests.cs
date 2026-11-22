@@ -1,6 +1,5 @@
 using Demo.Api.Application.Users.CreateUser;
 using Demo.Api.Application.Users.FindUser;
-using Demo.Api.Infrastructure.Clock;
 using System.Net.Http.Json;
 
 namespace Demo.Tests.Endpoints.Users;
@@ -32,7 +31,7 @@ public class FindUsersEndpointTests(
     {
         _database.ClearTables();
 
-        Chronos.SetTestNow(new DateTime(2023, 1, 1));
+        _factory.Time.SetUtcNow(new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero));
 
         var client = _factory.CreateApiClient();
 
