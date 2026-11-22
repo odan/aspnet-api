@@ -4,7 +4,8 @@ namespace Demo.Infrastructure.Logging;
 
 public sealed class HttpLoggingMiddleware
 {
-    private const int MaximumBodyBytes = 64 * 1024;
+    private const int MaximumRequestBodyBytes = 64 * 1024;
+    private const int MaximumResponseBodyBytes = 1024;
 
     private readonly RequestDelegate _next;
     private readonly ILogger<HttpLoggingMiddleware> _logger;
@@ -71,8 +72,8 @@ public sealed class HttpLoggingMiddleware
 
         try
         {
-            var bytes = await ReadLimited(request.Body, ct);
-            return FormatBody(bytes, request.ContentType);
+            var bytes = await ReadLimited(request.Body, MaximumRequestBodyBytes, ct);
+            return FormatBody(bytes, request.ContentType, MaximumRequestBodyBytes);
         }
         finally
         {
@@ -86,14 +87,14 @@ public sealed class HttpLoggingMiddleware
         CancellationToken ct)
     {
         responseBuffer.Position = 0;
-        var bytes = await ReadLimited(responseBuffer, ct);
+        var bytes = await ReadLimited(responseBuffer, MaximumResponseBodyBytes, ct);
         responseBuffer.Position = 0;
-        return FormatBody(bytes, response.ContentType);
+        return FormatBody(bytes, response.ContentType, MaximumResponseBodyBytes);
     }
 
-    private static async Task<byte[]> ReadLimited(Stream stream, CancellationToken ct)
+    private static async Task<byte[]> ReadLimited(Stream stream, int maximumBodyBytes, CancellationToken ct)
     {
-        var buffer = new byte[MaximumBodyBytes + 1];
+        var buffer = new byte[maximumBodyBytes + 1];
         var totalRead = 0;
 
         while (totalRead < buffer.Length)
@@ -109,9 +110,9 @@ public sealed class HttpLoggingMiddleware
             totalRead += read;
         }
 
-        if (totalRead > MaximumBodyBytes)
+        if (totalRead > maximumBodyBytes)
         {
-            Array.Resize(ref buffer, MaximumBodyBytes);
+            Array.Resize(ref buffer, maximumBodyBytes);
         }
         else
         {
@@ -121,7 +122,7 @@ public sealed class HttpLoggingMiddleware
         return buffer;
     }
 
-    private static string FormatBody(byte[] bytes, string? contentType)
+    private static string FormatBody(byte[] bytes, string? contentType, int maximumBodyBytes)
     {
         if (bytes.Length == 0)
         {
@@ -130,14 +131,16 @@ public sealed class HttpLoggingMiddleware
 
         if (IsTextContent(contentType))
         {
-            return DecodeTextBody(bytes, contentType);
+            return DecodeTextBody(bytes, contentType, maximumBodyBytes);
         }
 
         var body = Convert.ToBase64String(bytes);
-        return bytes.Length == MaximumBodyBytes ? body + "… <truncated at 64 KiB>" : $"base64:{body}";
+        return bytes.Length == maximumBodyBytes
+            ? body + TruncatedSuffix(maximumBodyBytes)
+            : $"base64:{body}";
     }
 
-    private static string DecodeTextBody(byte[] bytes, string? contentType)
+    private static string DecodeTextBody(byte[] bytes, string? contentType, int maximumBodyBytes)
     {
         var charset = Microsoft.Net.Http.Headers.MediaTypeHeaderValue.TryParse(contentType, out var parsed)
             ? parsed.Charset.Value
@@ -154,7 +157,14 @@ public sealed class HttpLoggingMiddleware
         }
 
         var body = encoding.GetString(bytes);
-        return bytes.Length == MaximumBodyBytes ? body + "… <truncated at 64 KiB>" : body;
+        return bytes.Length == maximumBodyBytes
+            ? body + TruncatedSuffix(maximumBodyBytes)
+            : body;
+    }
+
+    private static string TruncatedSuffix(int maximumBodyBytes)
+    {
+        return $"… <truncated at {maximumBodyBytes} bytes>";
     }
 
     private static bool IsTextContent(string? contentType)

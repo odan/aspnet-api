@@ -3,10 +3,10 @@ namespace Demo.Infrastructure.Persistence;
 using System.Reflection;
 
 using DbUp;
-using DbUp.Engine;
 
 public sealed class DatabaseMigrator(
     IConfiguration configuration,
+    ILoggerFactory loggerFactory,
     ILogger<DatabaseMigrator> logger)
 {
     public void Migrate()
@@ -16,8 +16,9 @@ public sealed class DatabaseMigrator(
 
         var upgradeEngine = DeployChanges.To
             .PostgresqlDatabase(dsn)
-            .WithScripts(GetMigrationScripts())
-            .LogToConsole()
+            .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+            .LogTo(loggerFactory)
+            .LogScriptOutput()
             .Build();
 
         var result = upgradeEngine.PerformUpgrade();
@@ -28,33 +29,11 @@ public sealed class DatabaseMigrator(
             throw result.Error;
         }
 
-        logger.LogInformation("Database migration completed");
-    }
-
-    private static IEnumerable<SqlScript> GetMigrationScripts()
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        const string marker = ".Migrations.";
-        var scripts = new List<SqlScript>();
-
-        foreach (var resourceName in assembly.GetManifestResourceNames()
-            .Where(name => name.Contains(marker, StringComparison.Ordinal) &&
-                           name.EndsWith(".sql", StringComparison.Ordinal))
-            .OrderBy(name => name, StringComparer.Ordinal))
+        foreach (var script in result.Scripts)
         {
-            var scriptName = resourceName[
-                (resourceName.LastIndexOf(marker, StringComparison.Ordinal) + marker.Length)..];
-
-            using var stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream is null)
-            {
-                continue;
-            }
-
-            using var reader = new StreamReader(stream);
-            scripts.Add(new SqlScript(scriptName, reader.ReadToEnd()));
+            logger.LogInformation("Applied database script {Script}", script.Name);
         }
 
-        return scripts;
+        logger.LogInformation("Database migration completed");
     }
 }

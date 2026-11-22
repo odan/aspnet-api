@@ -23,7 +23,9 @@
     <PackageReference Include="SqlKata.Execution" Version="4.0.1" />
     <EnvFile Include="$(ProjectDir)/.env" />
     <MyResources Include="$(ProjectDir)/Resources/**/*.*" />
-    <EmbeddedResource Include="$(ProjectDir)/Infrastructure/Migrations/*.sql" />
+    <EmbeddedResource Include="$(ProjectDir)/Infrastructure/Migrations/*.sql">
+      <LogicalName>%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
