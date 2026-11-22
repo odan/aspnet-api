@@ -1,7 +1,6 @@
 using Demo.Api.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using SqlKata.Execution;
-using System.Data;
 
 namespace Demo.Tests;
 
@@ -22,49 +21,20 @@ public sealed class TestDatabase : IDisposable
     public void ClearTables()
     {
         using var scope = _factory.Services.CreateScope();
-        var connection = scope.ServiceProvider.GetRequiredService<IDbConnection>();
+        var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
 
-        if (connection.State != ConnectionState.Open)
-            connection.Open();
-
-        using var listCommand = connection.CreateCommand();
-        listCommand.CommandText =
-            """
-            SELECT table_name
-            FROM information_schema.tables
-            WHERE table_schema = 'public'
-              AND table_type = 'BASE TABLE'
-              AND table_name <> 'schemaversions'
-            """;
-
-        var tableNames = new List<string>();
-        using (var reader = listCommand.ExecuteReader())
-        {
-            while (reader.Read())
-            {
-                tableNames.Add(reader.GetString(0));
-            }
-        }
+        var tableNames = db.Query("information_schema.tables")
+            .Select("table_name")
+            .Where("table_schema", "public")
+            .Where("table_type", "BASE TABLE")
+            .Where("table_name", "<>", "schemaversions")
+            .Get<string>()
+            .ToList();
 
         foreach (var tableName in tableNames)
         {
-            using var command = connection.CreateCommand();
-            command.CommandText = $"TRUNCATE TABLE {QuoteIdentifier(tableName)} RESTART IDENTITY CASCADE;";
-            command.ExecuteNonQuery();
+            db.Statement($"TRUNCATE TABLE {db.Compiler.Wrap(tableName)} RESTART IDENTITY CASCADE");
         }
-    }
-
-    public void InsertUser(string username, string? email = null, DateTime? createdAt = null)
-    {
-        using var scope = _factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<QueryFactory>();
-
-        db.Query("users").Insert(new
-        {
-            username,
-            email,
-            created_at = createdAt
-        });
     }
 
     private void InitDatabase()
@@ -83,11 +53,6 @@ public sealed class TestDatabase : IDisposable
 
             _isDatabaseDeployed = true;
         }
-    }
-
-    private static string QuoteIdentifier(string identifier)
-    {
-        return "\"" + identifier.Replace("\"", "\"\"") + "\"";
     }
 
     public void Dispose()
