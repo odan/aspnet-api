@@ -1,7 +1,10 @@
 namespace Demo.Tests;
 
+using System;
+
 using DotNetEnv;
 using DotNetEnv.Configuration;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
+
 using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Sinks.InMemory;
-using System;
 
 // https://github.com/dotnet/AspNetCore.Docs.Samples/blob/main/test/integration-tests/8.x/IntegrationTestsSample/tests/RazorPagesProject.Tests/CustomWebApplicationFactory.cs
 

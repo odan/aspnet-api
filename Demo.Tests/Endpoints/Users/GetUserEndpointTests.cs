@@ -1,7 +1,10 @@
-using Demo.Api.Application.Users.GetUser;
-using Microsoft.Extensions.DependencyInjection;
-using SqlKata.Execution;
 using System.Net.Http.Json;
+
+using Demo.Application.Users.GetUser;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using SqlKata.Execution;
 
 namespace Demo.Tests.Endpoints.Users;
 

@@ -2,9 +2,9 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/workflows/dotnet.yml" />
-    <File Path="Demo.Api/.env" />
+    <File Path="Demo/.env" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="Demo.Api/Demo.Api.csproj" />
+  <Project Path="Demo/Demo.csproj" />
   <Project Path="Demo.Tests/Demo.Tests.csproj" />
 </Solution>

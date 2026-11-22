@@ -1,6 +1,8 @@
-using Demo.Api.Infrastructure.Persistence;
+using Demo.Infrastructure.Persistence;
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+
 using SqlKata.Execution;
 
 namespace Demo.Tests;

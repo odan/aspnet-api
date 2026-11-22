@@ -1,6 +1,8 @@
-using Demo.Api.Application.Users.CreateUser;
-using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
+
+using Demo.Application.Users.CreateUser;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Tests.Endpoints.Users;
 

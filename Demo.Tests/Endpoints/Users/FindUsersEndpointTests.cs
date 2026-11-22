@@ -1,6 +1,7 @@
-using Demo.Api.Application.Users.CreateUser;
-using Demo.Api.Application.Users.FindUser;
 using System.Net.Http.Json;
+
+using Demo.Application.Users.CreateUser;
+using Demo.Application.Users.FindUser;
 
 namespace Demo.Tests.Endpoints.Users;
 

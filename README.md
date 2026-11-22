@@ -9,7 +9,7 @@ A minimal ASP.NET Core API organized as vertical slices in a single project.
 
 ## Architecture
 
-`Demo.Api` is the composition root and the only runtime project. Use cases live under `Application`. Technical adapters live under `Infrastructure`. `Program.cs` wires configuration, dependency injection, middleware, and HTTP routes.
+`Demo` is the composition root and the only runtime project. Use cases live under `Application`. Technical adapters live under `Infrastructure`. `Program.cs` wires configuration, dependency injection, middleware, and HTTP routes.
 
 ### Request flow
 
@@ -54,7 +54,7 @@ See [Database transactions](docs/database-transactions.md) for how a handler sta
 ## Project Structure
 
 ```
-Demo.Api/
+Demo/
 ├── Program.cs                                 # Composition root
 ├── Application/                               # Use cases (vertical slices)
 │   ├── Util/
@@ -155,7 +155,7 @@ CREATE DATABASE my_api;
 
 Modify the database name accordingly.
 
-Create a `.env` file in the `Demo.Api` directory to override the local development connection string:
+Create a `.env` file in the `Demo` directory to override the local development connection string:
 
 ```env
 ConnectionStrings__Default=Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=my_api
@@ -165,7 +165,7 @@ Modify the database and credentials accordingly.
 
 In production, set the environment variable `ConnectionStrings__Default` to the connection string. The double underscore maps to the configuration key `ConnectionStrings:Default`.
 
-The `/api` routes require an API key in the `X-API-Key` request header. Set `API_KEY` to one accepted key, or set `API_KEYS` to a semicolon-separated list of accepted keys. Configure these as environment variables in production; for local development, add them to `Demo.Api/.env`.
+The `/api` routes require an API key in the `X-API-Key` request header. Set `API_KEY` to one accepted key, or set `API_KEYS` to a semicolon-separated list of accepted keys. Configure these as environment variables in production; for local development, add them to `Demo/.env`.
 
 ## Reverse proxy headers
 
@@ -185,11 +185,11 @@ The generated OpenAPI document is JSON at `/openapi/v1.json`. Swagger UI is avai
 
 ## Migrations
 
-Migrations are plain SQL files in `Demo.Api/Infrastructure/Migrations` and are executed with DbUp on startup. `Infrastructure/Schema/schema.sql` is the canonical current schema.
+Migrations are plain SQL files in `Demo/Infrastructure/Migrations` and are executed with DbUp on startup. `Infrastructure/Schema/schema.sql` is the canonical current schema.
 
 ### Add migration
 
-Add a new SQL file to `Demo.Api/Infrastructure/Migrations` using a sortable name, for example:
+Add a new SQL file to `Demo/Infrastructure/Migrations` using a sortable name, for example:
 
 ```
 002_AddExampleColumn.sql
@@ -202,19 +202,19 @@ Then run the application. DbUp applies pending scripts automatically.
 To build and run the application in debug mode, run:
 
 ```
-dotnet run --project Demo.Api/Demo.Api.csproj
+dotnet run --project Demo/Demo.csproj
 ```
 
 or
 
 ```
-dotnet watch run --project Demo.Api/Demo.Api.csproj
+dotnet watch run --project Demo/Demo.csproj
 ```
 
 Running a release build:
 
 ```
-dotnet run --project Demo.Api/Demo.Api.csproj --configuration Release
+dotnet run --project Demo/Demo.csproj --configuration Release
 ```
 
 Build a project and its dependencies:
@@ -303,7 +303,7 @@ string text2 = _localizer.GetString("The user {0} logged in", "sally");
 
 ### Creating a new translation file
 
-* Open Poedit and create a new PO translation file in `Demo.Api/Resources/Locale`.
+* Open Poedit and create a new PO translation file in `Demo/Resources/Locale`.
 * The filename must be the same as the culture name, e.g. `de-DE.po`.
 * Open the menu `Translations` > `Settings`
 * Change the PO language, e.g. `German`
