@@ -6,9 +6,6 @@ public sealed class CreateUserValidator(
     CreateUserRepository repository,
     TimeProvider time)
 {
-    private readonly CreateUserRepository _repository = repository;
-    private readonly TimeProvider _time = time;
-
     public async Task Validate(CreateUserRequest command, CancellationToken ct = default)
     {
         // Quick validations first -> throw early -> detailed later
@@ -21,7 +18,7 @@ public sealed class CreateUserValidator(
         // 2. Now safe to do business / database validation
         var username = command.Username?.Trim();
         if (!string.IsNullOrWhiteSpace(username) &&
-            await _repository.ExistsUsername(username, ct))
+            await repository.ExistsUsername(username, ct))
         {
             errors.AddError("Username already taken", nameof(command.Username));
         }
@@ -37,7 +34,7 @@ public sealed class CreateUserValidator(
 
     private int GetAge(DateTime birthDate)
     {
-        var today = _time.GetUtcNow().UtcDateTime;
+        var today = time.GetUtcNow().UtcDateTime;
         var age = today.Year - birthDate.Year;
 
         if (birthDate.AddYears(age) > today)

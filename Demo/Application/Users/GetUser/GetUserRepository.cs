@@ -1,20 +1,20 @@
 namespace Demo.Application.Users.GetUser;
 
-using System.Threading;
+using Demo.Infrastructure.Table;
 
 using SqlKata.Execution;
 
-public sealed class GetUserRepository
+public sealed class GetUserRepository(QueryFactory db)
 {
-    private readonly QueryFactory _db;
-
-    public GetUserRepository(QueryFactory db) => _db = db;
-
     public async Task<GetUserByIdRow> GetUserById(int id, CancellationToken ct = default)
     {
-        var user = await _db.Query("users")
-            .Select("id as Id", "username as Username")
-            .Where("id", id)
+        var users = new UsersTable();
+
+        var user = await db.Query(users)
+            .Select(
+                users.Id.As("Id"),
+                users.Username.As("Username"))
+            .Where(users.Id, id)
             .FirstOrDefaultAsync<GetUserByIdRow>(cancellationToken: ct);
 
         return user ?? throw new InvalidDataException("User not found");

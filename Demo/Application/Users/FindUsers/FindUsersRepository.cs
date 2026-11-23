@@ -1,23 +1,23 @@
 namespace Demo.Application.Users.FindUser;
 
+using Demo.Infrastructure.Table;
+
 using SqlKata.Execution;
 
-public sealed class FindUsersRepository
+public sealed class FindUsersRepository(QueryFactory db)
 {
-    private readonly QueryFactory _db;
-
-    public FindUsersRepository(QueryFactory db)
-    {
-        _db = db;
-    }
-
     public async Task<List<FindUsersRow>> FindUsers(CancellationToken ct = default)
     {
-        var users = await _db.Query("users")
-            .Select("id as Id", "username as Username", "email as Email")
-            .OrderBy("id")
+        var users = new UsersTable();
+
+        var rows = await db.Query(users)
+            .Select(
+                users.Id.As("Id"),
+                users.Username.As("Username"),
+                users.Email.As("Email"))
+            .OrderBy(users.Id)
             .GetAsync<FindUsersRow>(cancellationToken: ct);
 
-        return users.ToList();
+        return rows.ToList();
     }
 }

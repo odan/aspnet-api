@@ -1,19 +1,19 @@
 namespace Demo.Application.Users.CreateUser;
 
+using Demo.Infrastructure.Table;
+
 using SqlKata.Execution;
 
-public sealed class CreateUserRepository
+public sealed class CreateUserRepository(QueryFactory db)
 {
-    private readonly QueryFactory _db;
-
-    public CreateUserRepository(QueryFactory db) => _db = db;
-
     public Task<bool> ExistsUsername(string username, CancellationToken ct = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(username);
 
-        return _db.Query("users")
-            .Where("username", username)
+        var users = new UsersTable();
+
+        return db.Query(users)
+            .Where(users.Username, username)
             .ExistsAsync(cancellationToken: ct);
     }
 
@@ -21,7 +21,9 @@ public sealed class CreateUserRepository
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(username);
 
-        return await _db.Query("users").InsertGetIdAsync<int>(new
+        var users = new UsersTable();
+
+        return await db.Query(users).InsertGetIdAsync<int>(new
         {
             username
         }, cancellationToken: ct);

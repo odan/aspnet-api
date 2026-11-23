@@ -1,7 +1,9 @@
 using Demo.Application.Home;
 using Demo.Application.Users.CreateUser;
+using Demo.Application.Users.DeleteUser;
 using Demo.Application.Users.FindUser;
 using Demo.Application.Users.GetUser;
+using Demo.Application.Users.UpdateUser;
 using Demo.Infrastructure.Logging;
 using Demo.Infrastructure.Persistence;
 using Demo.Infrastructure.Services;
@@ -74,6 +76,10 @@ users.MapGet("/{id:int}", GetUserHandler.Handle)
 
 users.MapPost("/", CreateUserHandler.Handle)
     .Produces<CreateUserResponse>(StatusCodes.Status201Created);
+
+users.MapPut("/{id:int}", UpdateUserHandler.Handle);
+
+users.MapDelete("/{id:int}", DeleteUserHandler.Handle);
 
 app.Run();
 

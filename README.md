@@ -75,11 +75,19 @@ Demo/
 │       │   ├── FindUsersRepository.cs
 │       │   ├── FindUsersResponse.cs
 │       │   └── FindUsersRow.cs
-│       └── GetUser/
-│           ├── GetUserHandler.cs
-│           ├── GetUserRepository.cs
-│           ├── GetUserResponse.cs
-│           └── GetUserByIdRow.cs
+│       ├── GetUser/
+│       │   ├── GetUserHandler.cs
+│       │   ├── GetUserRepository.cs
+│       │   ├── GetUserResponse.cs
+│       │   └── GetUserByIdRow.cs
+│       ├── UpdateUser/
+│       │   ├── UpdateUserHandler.cs
+│       │   ├── UpdateUserValidator.cs
+│       │   ├── UpdateUserRepository.cs
+│       │   └── UpdateUserRequest.cs
+│       └── DeleteUser/
+│           ├── DeleteUserHandler.cs
+│           └── DeleteUserRepository.cs
 ├── Infrastructure/                            # Technical adapters
 │   ├── Exceptions/
 │   │   ├── ValidationExceptionHandler.cs      # 400 Problem Details
@@ -87,6 +95,10 @@ Demo/
 │   ├── Localization/                          # NGettext IStringLocalizer
 │   ├── Logging/
 │   │   └── HttpLoggingMiddleware.cs
+│   ├── Table/
+│   │   ├── Table.cs                           # Typed SqlKata table names/aliases
+│   │   ├── Column.cs                          # Typed SqlKata column identifiers
+│   │   └── UsersTable.cs                      # users table/column definitions
 │   ├── Persistence/
 │   │   ├── DatabaseMigrator.cs                # DbUp on startup
 │   │   ├── ITransactionFactory.cs

@@ -2,8 +2,10 @@ using System.Data;
 using System.Globalization;
 
 using Demo.Application.Users.CreateUser;
+using Demo.Application.Users.DeleteUser;
 using Demo.Application.Users.FindUser;
 using Demo.Application.Users.GetUser;
+using Demo.Application.Users.UpdateUser;
 using Demo.Infrastructure.Exceptions;
 using Demo.Infrastructure.Localization;
 using Demo.Infrastructure.Persistence;
@@ -30,6 +32,9 @@ public static class ServiceExtensions
         services.AddScoped<GetUserRepository>();
         services.AddScoped<CreateUserRepository>();
         services.AddScoped<CreateUserValidator>();
+        services.AddScoped<UpdateUserRepository>();
+        services.AddScoped<UpdateUserValidator>();
+        services.AddScoped<DeleteUserRepository>();
 
         return services;
     }
