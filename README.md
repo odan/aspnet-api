@@ -97,7 +97,7 @@ Demo/
 │   │   └── HttpLoggingMiddleware.cs
 │   ├── Table/
 │   │   ├── Table.cs                           # Typed SqlKata table names/aliases
-│   │   ├── Column.cs                          # Typed SqlKata column identifiers
+│   │   ├── Field.cs                           # Typed SqlKata column identifiers
 │   │   └── UsersTable.cs                      # users table/column definitions
 │   ├── Persistence/
 │   │   ├── DatabaseMigrator.cs                # DbUp on startup

@@ -1,6 +1,6 @@
 namespace Demo.Infrastructure.Table;
 
-public class Column<T>
+public class Field<T>
 {
     public Table Table { get; }
 
@@ -8,14 +8,14 @@ public class Column<T>
 
     public string? Alias { get; }
 
-    public Column(Table table, string name, string? alias = null)
+    public Field(Table table, string name, string? alias = null)
     {
         Table = table;
         Name = name;
         Alias = alias;
     }
 
-    public Column<T> As(string alias)
+    public Field<T> As(string alias)
         => new(Table, Name, alias);
 
     public override string ToString()
@@ -27,6 +27,6 @@ public class Column<T>
             : $"{identifier} AS {Alias}";
     }
 
-    public static implicit operator string(Column<T> column)
-        => column.ToString();
+    public static implicit operator string(Field<T> field)
+        => field.ToString();
 }

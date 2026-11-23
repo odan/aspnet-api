@@ -2,13 +2,13 @@ namespace Demo.Infrastructure.Table;
 
 public sealed class UsersTable : Table
 {
-    public Column<int> Id { get; }
+    public Field<int> Id { get; }
 
-    public Column<string> Username { get; }
+    public Field<string> Username { get; }
 
-    public Column<string?> Email { get; }
+    public Field<string?> Email { get; }
 
-    public Column<DateTime?> CreatedAt { get; }
+    public Field<DateTime?> CreatedAt { get; }
 
     public UsersTable(string? alias = null)
         : base("users", alias)
