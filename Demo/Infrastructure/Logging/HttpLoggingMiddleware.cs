@@ -164,7 +164,7 @@ public sealed class HttpLoggingMiddleware
 
     private static string TruncatedSuffix(int maximumBodyBytes)
     {
-        return $"… <truncated at {maximumBodyBytes} bytes>";
+        return $"... <truncated at {maximumBodyBytes} bytes>";
     }
 
     private static bool IsTextContent(string? contentType)

@@ -26,10 +26,10 @@ public sealed class UpdateUserRepository(QueryFactory db)
 
         return db.Query(users)
             .Where(users.Id, id)
-            .UpdateAsync(new
-            {
-                username,
-                email
-            }, cancellationToken: ct);
+            .UpdateAsync(
+                Values.Of(
+                    (users.Username, username),
+                    (users.Email, email)),
+                cancellationToken: ct);
     }
 }

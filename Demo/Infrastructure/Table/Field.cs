@@ -1,17 +1,21 @@
 namespace Demo.Infrastructure.Table;
 
-public class Field<T>
+public abstract class Field(string name)
+{
+
+    public string Name { get; } = name;
+}
+
+public class Field<T> : Field
 {
     public Table Table { get; }
-
-    public string Name { get; }
 
     public string? Alias { get; }
 
     public Field(Table table, string name, string? alias = null)
+        : base(name)
     {
         Table = table;
-        Name = name;
         Alias = alias;
     }
 

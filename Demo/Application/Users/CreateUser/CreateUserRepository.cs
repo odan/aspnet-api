@@ -23,9 +23,8 @@ public sealed class CreateUserRepository(QueryFactory db)
 
         var users = new UsersTable();
 
-        return await db.Query(users).InsertGetIdAsync<int>(new
-        {
-            username
-        }, cancellationToken: ct);
+        return await db.Query(users).InsertGetIdAsync<int>(
+            Values.Of((users.Username, username)),
+            cancellationToken: ct);
     }
 }

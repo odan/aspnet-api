@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 public sealed class ValidationExceptionHandler(
     ILogger<ValidationExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<ValidationExceptionHandler> _logger = logger;
-
     public async ValueTask<bool> TryHandleAsync(
         HttpContext context,
         Exception exception,
@@ -25,21 +23,17 @@ public sealed class ValidationExceptionHandler(
             return false;
         }
 
-        _logger.LogWarning(
+        logger.LogWarning(
             exception,
             "Validation failed for request {Method} {Path}",
             context.Request.Method,
-            context.Request.Path
-        );
+            context.Request.Path);
 
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        var errors = ToErrors(
+        var problem = new ValidationProblemDetails(ToErrors(
             inputValidationException.Results,
-            inputValidationException.ModelType
-        );
-
-        var problem = new ValidationProblemDetails(errors)
+            inputValidationException.ModelType))
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
             Status = StatusCodes.Status400BadRequest,
@@ -49,11 +43,7 @@ public sealed class ValidationExceptionHandler(
                 : inputValidationException.Message,
         };
 
-        // Optionally add trace ID or other extensions
-        // problem.Extensions["traceId"] = context.TraceIdentifier;
-
         await context.Response.WriteAsJsonAsync(problem, ct);
-
         return true;
     }
 
@@ -62,21 +52,18 @@ public sealed class ValidationExceptionHandler(
         Type? modelType)
     {
         var jsonNameMap = modelType is not null ? BuildJsonNameMap(modelType) : [];
-
         return results
-            .Select(r =>
+            .Select(result =>
             {
-                var member = r.MemberNames?.FirstOrDefault() ?? "general";
-                var message = r.ErrorMessage ?? "Invalid value.";
+                var member = result.MemberNames?.FirstOrDefault() ?? "general";
+                var message = result.ErrorMessage ?? "Invalid value.";
                 var key = jsonNameMap.TryGetValue(member, out var jsonName) ? jsonName : member;
-
                 return new { Key = key, Message = message };
             })
-            .GroupBy(x => x.Key)
+            .GroupBy(item => item.Key)
             .ToDictionary(
-                g => g.Key,
-                g => g.Select(x => x.Message).Distinct().ToArray()
-            );
+                group => group.Key,
+                group => group.Select(item => item.Message).Distinct().ToArray());
     }
 
     private static Dictionary<string, string> BuildJsonNameMap(Type modelType)
@@ -84,20 +71,16 @@ public sealed class ValidationExceptionHandler(
         return modelType
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .ToDictionary(
-                p => p.Name,
-                p =>
+                property => property.Name,
+                property =>
                 {
-                    var attr = p.GetCustomAttribute<JsonPropertyNameAttribute>();
-
-                    // Use JsonPropertyName if present
-                    if (attr is not null)
+                    var attribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
+                    if (attribute is not null)
                     {
-                        return attr.Name;
+                        return attribute.Name;
                     }
 
-                    // Fallback to API naming policy
-                    return JsonNamingPolicy.CamelCase.ConvertName(p.Name);
-                }
-            );
+                    return JsonNamingPolicy.CamelCase.ConvertName(property.Name);
+                });
     }
 }
